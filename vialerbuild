@@ -2,22 +2,22 @@
 set -e
 
 AVIALABLE_ARCHS=(
-    "armv7"
-    "armv7s"
+    # "armv7"
+    # "armv7s"
     "arm64"
-    "i386"
+    # "i386"
     "x86_64"
 )
 export BASE_DIR=`pwd -P`
 export MIN_IOS_VERSION="10.0"
-export IOS_SDK_VERSION="13.2"
+export IOS_SDK_VERSION="16.1"
 export AVIALABLE_ARCHS
 export USE_ARCHS=()
 
 export DOWNLOAD_PJSIP_SRC=true
 export CLEAN_PJSIP_SRC=true
 export SSL_SUPPORT=false
-export OPUS_SUPPORT=false
+export OPUS_SUPPORT=true
 export H264_SUPPORT=false
 export INDEPENDENT_WEBRTC=false
 export ENABLE_ZRTP=false
@@ -25,7 +25,7 @@ export HAS_BITCODE=true
 export HAS_IPV6=false
 export SHOW_HELP=false
 
-export PJSIP_VERSION="2.10"
+export PJSIP_VERSION="2.12.1"
 export PJSIP_BASE_URL="http://svn.pjsip.org/repos/pjproject"
 export PJSIP_DIR="$BASE_DIR/pjsip"
 export PJSIP_FINAL_LIB_DIR="$BASE_DIR/lib"
@@ -278,7 +278,11 @@ function build_ssl () {
     curl -LO $ssl_url
     tar zxf "master.tar.gz" --strip 1
     rm "master.tar.gz"
-    ./build-libssl.sh --version=1.1.1d --archs="${USE_ARCHS[*]// /\s}" || exit
+    ./build-libssl.sh --version=1.1.1d --archs="${USE_ARCHS[*]// /\s}" --targets="ios-sim-cross-x86_64 ios-cross-arm64" || exit
+    cd lib
+    lipo libcrypto-iOS-Sim.a libcrypto-iOS.a -create -output libcrypto.a
+    lipo libssl-iOS.a libssl-iOS-Sim.a -create -output libssl.a
+    cd ..
     mv include include2
     mkdir -p include
     mv include2/openssl include/openssl
@@ -529,14 +533,14 @@ function configure_i386 () {
     echo "Configure for i386"
     export DEVPATH=$XCODE_SIMULATOR_DEV_PATH
     export CFLAGS="-O2 -m32 -mios-simulator-version-min=$MIN_IOS_VERSION"
-    export LDFLAGS="-O2 -m32 -mios-simulator-version-min=$MIN_IOS_VERSION -Wl,-no_compact_unwind"
+    export LDFLAGS="-O2 -m32 -mios-simulator-version-min=$MIN_IOS_VERSION -Wl"
 }
 
 function configure_x86_64 () {
     echo "Configure for x86_64"
     export DEVPATH=$XCODE_SIMULATOR_DEV_PATH
     export CFLAGS="-O2 -m32 -mios-simulator-version-min=$MIN_IOS_VERSION"
-    export LDFLAGS="-O2 -m32 -mios-simulator-version-min=$MIN_IOS_VERSION -Wl,-no_compact_unwind"
+    export LDFLAGS="-O2 -m32 -mios-simulator-version-min=$MIN_IOS_VERSION -Wl"
 }
 
 function _build () {
@@ -771,7 +775,13 @@ function create_framework {
 
         i=$((i+1))
     done < <(find "${FRAMEWORK_LOCN}/Versions/A/Headers" -type f -name "*.h" -print0)
-    # echo "$i files processed"
+    echo "$i files processed"
+
+    # echo "revert ${FRAMEWORK_LOCN}/Versions/A/Headers/pj/compat"
+    echo "removing from ${FRAMEWORK_LOCN}/Versions/A/Headers/pj/compat "
+    echo "copying from ${PUBLIC_HEADERS_FOLDER_PATH}/pj/compat to ${FRAMEWORK_LOCN}/Versions/A/Headers/pj"
+    rm -rf "${FRAMEWORK_LOCN}/Versions/A/Headers/pj/compat"
+    cp -rpf "${PUBLIC_HEADERS_FOLDER_PATH}/pj/compat" "${FRAMEWORK_LOCN}/Versions/A/Headers/pj"
 
     echo "Done create framework $PRODUCT_NAME"
     echo "============================="
