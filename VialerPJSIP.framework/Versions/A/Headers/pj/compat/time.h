@@ -25,15 +25,15 @@
  */
 
 #if defined(PJ_HAS_TIME_H) && PJ_HAS_TIME_H != 0
-#  include <VialerPJSIP/time.h>
+#  include <time.h>
 #endif
 
 #if defined(PJ_HAS_SYS_TIME_H) && PJ_HAS_SYS_TIME_H != 0
-#  include <VialerPJSIP/sys/time.h>
+#  include <sys/time.h>
 #endif
 
 #if defined(PJ_HAS_SYS_TIMEB_H) && PJ_HAS_SYS_TIMEB_H != 0
-#  include <VialerPJSIP/sys/timeb.h>
+#  include <sys/timeb.h>
 #endif
 
 
