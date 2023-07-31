@@ -783,6 +783,8 @@ function create_framework {
     rm -rf "${FRAMEWORK_LOCN}/Versions/A/Headers/pj/compat"
     cp -rpf "${PUBLIC_HEADERS_FOLDER_PATH}/pj/compat" "${FRAMEWORK_LOCN}/Versions/A/Headers/pj"
 
+    sed -i -e "s/.*pj\/config\.h.*/#include <VialerPJSIP\/pj\/config\.h>/" "${FRAMEWORK_LOCN}/Versions/A/Headers/pj/compat/limits.h"
+
     echo "Done create framework $PRODUCT_NAME"
     echo "============================="
 }
