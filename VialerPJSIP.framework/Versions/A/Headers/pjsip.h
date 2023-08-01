@@ -48,6 +48,7 @@
 /* Authentication. */
 #include <VialerPJSIP/pjsip/sip_auth.h>
 #include <VialerPJSIP/pjsip/sip_auth_aka.h>
+#include <VialerPJSIP/pjsip/sip_auth_parser.h>
 
 /* Transaction layer. */
 #include <VialerPJSIP/pjsip/sip_transaction.h>

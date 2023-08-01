@@ -45,6 +45,34 @@
 #endif
 
 /**
+ * Initial memory block for media endpoint.
+ */
+#ifndef PJMEDIA_POOL_LEN_ENDPT
+#   define PJMEDIA_POOL_LEN_ENDPT		512
+#endif
+
+/**
+ * Memory increment for media endpoint.
+ */
+#ifndef PJMEDIA_POOL_INC_ENDPT
+#   define PJMEDIA_POOL_INC_ENDPT		512
+#endif
+
+/**
+ * Initial memory block for event manager.
+ */
+#ifndef PJMEDIA_POOL_LEN_EVTMGR
+#   define PJMEDIA_POOL_LEN_EVTMGR		500
+#endif
+
+/**
+ * Memory increment for evnt manager.
+ */
+#ifndef PJMEDIA_POOL_INC_EVTMGR
+#   define PJMEDIA_POOL_INC_EVTMGR		500
+#endif
+
+/**
  * Specify whether we prefer to use audio switch board rather than 
  * conference bridge.
  *
@@ -603,7 +631,7 @@
 #endif
 
 /**
- * Perform RTP payload type checking in the stream. Normally the peer
+ * Perform RTP payload type checking in the audio stream. Normally the peer
  * MUST send RTP with payload type as we specified in our SDP. Certain
  * agents may not be able to follow this hence the only way to have
  * communication is to disable this check.
@@ -864,6 +892,20 @@
 
 
 /**
+ * This macro declares whether PJMEDIA should generate multiple
+ * telephone-event formats in SDP offer, i.e: one for each audio codec
+ * clock rate (see also ticket #2088). If this macro is set to zero, only
+ * one telephone event format will be generated and it uses clock rate 8kHz
+ * (old behavior before ticket #2088).
+ *
+ * Default: 1 (yes)
+ */
+#ifndef PJMEDIA_TELEPHONE_EVENT_ALL_CLOCKRATES
+#   define PJMEDIA_TELEPHONE_EVENT_ALL_CLOCKRATES   1
+#endif
+
+
+/**
  * Maximum tones/digits that can be enqueued in the tone generator.
  */
 #ifndef PJMEDIA_TONEGEN_MAX_DIGITS
@@ -1095,6 +1137,28 @@
 
 
 /**
+ * Specify whether SRTP needs to handle condition that old packets with
+ * incorect RTP seq are still coming when SRTP is restarted.
+ *
+ * Default: enabled.
+ */
+#ifndef PJMEDIA_SRTP_CHECK_RTP_SEQ_ON_RESTART
+#   define PJMEDIA_SRTP_CHECK_RTP_SEQ_ON_RESTART    1
+#endif
+
+
+/**
+ * Specify whether SRTP needs to handle condition that remote may reset
+ * or maintain ROC when SRTP is restarted.
+ *
+ * Default: enabled.
+ */
+#ifndef PJMEDIA_SRTP_CHECK_ROC_ON_RESTART
+#   define PJMEDIA_SRTP_CHECK_ROC_ON_RESTART        1
+#endif
+
+
+/**
  * Let the library handle libsrtp initialization and deinitialization.
  * Application may want to disable this and manually perform libsrtp
  * initialization and deinitialization when it needs to use libsrtp
@@ -1152,7 +1216,7 @@
  * Maximum size in bytes of storage buffer of a transport specific info.
  */
 #ifndef PJMEDIA_TRANSPORT_SPECIFIC_INFO_MAXSIZE
-#   define PJMEDIA_TRANSPORT_SPECIFIC_INFO_MAXSIZE  (36*sizeof(long))
+#   define PJMEDIA_TRANSPORT_SPECIFIC_INFO_MAXSIZE  (50*sizeof(long))
 #endif
 
 
@@ -1216,6 +1280,30 @@
  */
 #ifndef PJMEDIA_STREAM_KA_INTERVAL
 #   define PJMEDIA_STREAM_KA_INTERVAL		    5
+#endif
+
+
+/**
+ * Specify the number of keep-alive needed to be sent after the stream is
+ * created.
+ *
+ * Setting this to 0 will disable it.
+ *
+ * Default : 2
+ */
+#ifndef PJMEDIA_STREAM_START_KA_CNT
+#   define PJMEDIA_STREAM_START_KA_CNT	2
+#endif
+
+
+/**
+ * Specify the interval to send keep-alive after the stream is created,
+ * in msec.
+ *
+ * Default : 1000
+ */
+#ifndef PJMEDIA_STREAM_START_KA_INTERVAL_MSEC
+#   define PJMEDIA_STREAM_START_KA_INTERVAL_MSEC  1000
 #endif
 
 
@@ -1428,6 +1516,24 @@
 
 
 /**
+ * Reset jitter buffer and return silent audio on stream playback start
+ * (first get_frame()). This is useful to avoid possible noise that may be
+ * introduced by discard algorithm and neutralize latency when audio device
+ * is started later than the stream.
+ *
+ * Set this to N>0 to allow N silent audio frames returned on stream playback
+ * start, this will allow about N frames to be buffered in the jitter buffer
+ * before the playback is started (prefetching effect).
+ * Set this to zero to disable this feature.
+ *
+ * Default: 1
+ */
+#ifndef PJMEDIA_STREAM_SOFT_START
+#   define PJMEDIA_STREAM_SOFT_START		    1
+#endif
+
+
+/**
  * Video stream will discard old picture from the jitter buffer as soon as
  * new picture is received, to reduce latency.
  *
@@ -1559,6 +1665,17 @@
 #endif
 
 
+/**
+ * Perform RTP payload type checking in the video stream. Normally the peer
+ * MUST send RTP with payload type as we specified in our SDP. Certain
+ * agents may not be able to follow this hence the only way to have
+ * communication is to disable this check.
+ *
+ * Default: PJMEDIA_STREAM_CHECK_RTP_PT (follow audio stream's setting)
+ */
+#ifndef PJMEDIA_VID_STREAM_CHECK_RTP_PT
+#   define PJMEDIA_VID_STREAM_CHECK_RTP_PT	PJMEDIA_STREAM_CHECK_RTP_PT
+#endif
 
 /**
  * @}

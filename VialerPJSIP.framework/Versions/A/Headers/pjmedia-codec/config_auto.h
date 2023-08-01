@@ -95,6 +95,11 @@
 #define PJMEDIA_HAS_BCG729 0
 #endif
 
+/* Android MediCodec codecs */
+#ifndef PJMEDIA_HAS_ANDROID_MEDIACODEC
+/* #undef PJMEDIA_HAS_ANDROID_MEDIACODEC */
+#endif
+
 #endif	/* __PJMEDIA_CODEC_CONFIG_AUTO_H_ */
 
 

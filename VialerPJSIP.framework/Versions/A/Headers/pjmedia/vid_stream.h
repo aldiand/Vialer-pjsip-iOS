@@ -152,6 +152,7 @@ typedef struct pjmedia_vid_stream_info
     pjmedia_type	type;	    /**< Media type (audio, video)	    */
     pjmedia_tp_proto	proto;	    /**< Transport protocol (RTP/AVP, etc.) */
     pjmedia_dir		dir;	    /**< Media direction.		    */
+    pj_sockaddr		local_addr; /**< Local RTP address		    */
     pj_sockaddr		rem_addr;   /**< Remote RTP address		    */
     pj_sockaddr		rem_rtcp;   /**< Optional remote RTCP address. If
 					 sin_family is zero, the RTP address
@@ -185,6 +186,8 @@ typedef struct pjmedia_vid_stream_info
     pj_bool_t		use_ka;	    /**< Stream keep-alive and NAT hole punch
 					 (see #PJMEDIA_STREAM_ENABLE_KA)
 					 is enabled?			    */
+    pjmedia_stream_ka_config ka_cfg;
+                                    /**< Stream send kep-alive settings.    */
 #endif
 
     pjmedia_vid_codec_info   codec_info;  /**< Incoming codec format info.  */
@@ -434,9 +437,9 @@ PJ_DECL(pj_status_t) pjmedia_vid_stream_send_keyframe(
 
 
 /**
- * Send RTCP SDES for the media stream.
+ * Send RTCP SDES for the video stream.
  *
- * @param stream	The media stream.
+ * @param stream	The video stream.
  *
  * @return		PJ_SUCCESS on success.
  */
@@ -445,14 +448,26 @@ PJ_DECL(pj_status_t) pjmedia_vid_stream_send_rtcp_sdes(
 
 
 /**
- * Send RTCP BYE for the media stream.
+ * Send RTCP BYE for the video stream.
  *
- * @param stream	The media stream.
+ * @param stream	The video stream.
  *
  * @return		PJ_SUCCESS on success.
  */
 PJ_DECL(pj_status_t) pjmedia_vid_stream_send_rtcp_bye(
 						pjmedia_vid_stream *stream);
+
+
+/**
+ * Send RTCP PLI for the video stream.
+ *
+ * @param stream	The video stream.
+ *
+ * @return		PJ_SUCCESS on success.
+ */
+PJ_DECL(pj_status_t) pjmedia_vid_stream_send_rtcp_pli(
+						pjmedia_vid_stream *stream);
+
 
 /**
  * Get the RTP session information of the video media stream. This function 

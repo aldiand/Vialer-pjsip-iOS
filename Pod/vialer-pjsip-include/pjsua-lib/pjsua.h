@@ -286,6 +286,33 @@ typedef struct pjsua_msg_data pjsua_msg_data;
 /** Forward declaration for pj_stun_resolve_result */
 typedef struct pj_stun_resolve_result pj_stun_resolve_result;
 
+/**
+ * Initial memory block for PJSUA.
+ */
+#ifndef PJSUA_POOL_LEN
+#   define PJSUA_POOL_LEN		1000
+#endif
+
+/**
+ * Memory increment for PJSUA.
+ */
+#ifndef PJSUA_POOL_INC
+#   define PJSUA_POOL_INC		1000
+#endif
+
+/**
+ * Initial memory block for PJSUA account.
+ */
+#ifndef PJSUA_POOL_LEN_ACC
+#   define PJSUA_POOL_LEN_ACC	512
+#endif
+
+/**
+ * Memory increment for PJSUA account.
+ */
+#ifndef PJSUA_POOL_INC_ACC
+#   define PJSUA_POOL_INC_ACC	256
+#endif
 
 /**
  * Maximum proxies in account.
@@ -364,6 +391,40 @@ typedef struct pj_stun_resolve_result pj_stun_resolve_result;
  */
 #ifndef PJSUA_SEPARATE_WORKER_FOR_TIMER
 #   define PJSUA_SEPARATE_WORKER_FOR_TIMER	0
+#endif
+
+
+/**
+ * Specify whether pjsua should disable automatically sending initial
+ * answer 100/Trying for incoming calls. If disabled, application can
+ * later send 100/Trying if it wishes using pjsua_call_answer().
+ *
+ * Default: 0 (automatic sending enabled)
+ */
+#ifndef PJSUA_DISABLE_AUTO_SEND_100
+#   define PJSUA_DISABLE_AUTO_SEND_100	0
+#endif
+
+
+/**
+ * Default options that will be passed when creating ice transport.
+ * See #pjmedia_transport_ice_options.
+ */
+#ifndef PJSUA_ICE_TRANSPORT_OPTION
+#   define PJSUA_ICE_TRANSPORT_OPTION	0
+#endif
+
+/**
+ * Interval of checking for any new ICE candidate when trickle ICE is active.
+ * Trickle ICE gathers local ICE candidates, such as STUN and TURN candidates,
+ * in the background, while SDP offer/answer negotiation is being performed.
+ * Later, when any new ICE candidate is found, the endpoint will convey
+ * the candidate to the remote endpoint via SIP INFO.
+ *
+ * Default: 100 ms
+ */
+#ifndef PJSUA_TRICKLE_ICE_NEW_CAND_CHECK_INTERVAL
+#   define PJSUA_TRICKLE_ICE_NEW_CAND_CHECK_INTERVAL	100
 #endif
 
 
@@ -501,6 +562,58 @@ typedef struct pjsua_reg_info
     pj_bool_t			 renew;     /**< Non-zero for registration and 
 						 zero for unregistration. */
 } pjsua_reg_info;
+
+
+/**
+ * Media stream info.
+ */
+typedef struct pjsua_stream_info
+{
+    /** Media type of this stream. */
+    pjmedia_type type;
+
+    /** Stream info (union). */
+    union {
+	/** Audio stream info */
+	pjmedia_stream_info	aud;
+
+	/** Video stream info */
+	pjmedia_vid_stream_info	vid;
+    } info;
+
+} pjsua_stream_info;
+
+
+/**
+ * Media stream statistic.
+ */
+typedef struct pjsua_stream_stat
+{
+    /** RTCP statistic. */
+    pjmedia_rtcp_stat	rtcp;
+
+    /** Jitter buffer statistic. */
+    pjmedia_jb_state	jbuf;
+
+} pjsua_stream_stat;
+
+
+/**
+ * Structure to be passed to on stream precreate callback.
+ * See #on_stream_precreate().
+ */
+typedef struct pjsua_on_stream_precreate_param
+{
+    /**
+     * Stream index in the media session, read-only.
+     */
+    unsigned            stream_idx;
+
+    /**
+     * Parameters that the stream will be created from.
+     */
+    pjsua_stream_info   stream_info;
+} pjsua_on_stream_precreate_param;
 
 
 /**
@@ -827,6 +940,13 @@ typedef enum pjsua_dtmf_method {
 
 
 /**
+ * Constant to specify unknown duration in \a pjsua_dtmf_info and
+ * \a pjsua_dtmf_event.
+ */
+#define PJSUA_UNKNOWN_DTMF_DURATION     ((unsigned)-1)
+
+
+/**
  * This will contain the information of the callback \a on_dtmf_digit2.
  */
 typedef struct pjsua_dtmf_info {
@@ -836,17 +956,66 @@ typedef struct pjsua_dtmf_info {
     pjsua_dtmf_method method;
 
     /**
-     * DTMF ASCII digit
+     * DTMF ASCII digit.
      */    
     unsigned digit;
 
     /**
-     * DTMF signal duration which might be included when sending DTMF using 
-     * SIP INFO.
+     * DTMF signal duration. If the duration is unknown, this value is set to
+     * PJSUA_UNKNOWN_DTMF_DURATION.
      */
     unsigned duration;
 
 } pjsua_dtmf_info;
+
+
+/**
+ * This will contain the information of the callback \a on_dtmf_event.
+ */
+typedef struct pjsua_dtmf_event {
+    /**
+     * The method used to send DTMF.
+     */
+    pjsua_dtmf_method method;
+
+    /**
+     * The timestamp identifying the begin of the event. Timestamp units are
+     * expressed in milliseconds.
+     * Note that this value should only be used to compare multiple events
+     * received via the same method relatively to each other, as the time-base
+     * is randomized.
+     */
+    unsigned timestamp;
+
+    /**
+     * DTMF ASCII digit.
+     */
+    unsigned digit;
+
+    /**
+     * DTMF signal duration in milliseconds. Interpretation of the duration
+     * depends on the flag PJMEDIA_STREAM_DTMF_IS_END.
+     * If PJMEDIA_STREAM_DTMF_IS_END is set, this contains the total duration
+     * of the DTMF signal or PJSUA_UNKNOWN_DTMF_DURATION if the duration is
+     * unknown.
+     * If PJMEDIA_STREAM_DTMF_IS_END is not set, this contains the duration
+     * of the DTMF signal received up to this point in time.
+     * A duration of "0" indicates an infinitely long duration.
+     */
+    unsigned duration;
+
+    /**
+     * Flags indicating additional information about the DTMF event.
+     * If PJMEDIA_STREAM_DTMF_IS_UPDATE is set, the event was already
+     * indicated earlier. The new indication contains an updated event
+     * duration.
+     * If PJMEDIA_STREAM_DTMF_IS_END is set, the event has ended and this
+     * indication contains the final event duration. Note that end
+     * indications might get lost. Hence it is not guaranteed to receive
+     * an event with PJMEDIA_STREAM_DTMF_IS_END for every event.
+     */
+    unsigned flags;
+} pjsua_dtmf_event;
 
 
 /**
@@ -885,6 +1054,29 @@ typedef struct pjsua_call_setting
      * Default: 1 (if video feature is enabled, otherwise it is zero)
      */
     unsigned         vid_cnt;
+
+    /**
+     * Media direction. This setting will only be used if the flag
+     * PJSUA_CALL_SET_MEDIA_DIR is set, and it will persist for subsequent
+     * offers or answers. 
+     * For example, a media that is set as PJMEDIA_DIR_ENCODING can only
+     * mark the stream in the SDP as sendonly or inactive, but will not
+     * become sendrecv in subsequent offers and answers.
+     * Application can update the media direction in any API or callback
+     * that accepts pjsua_call_setting as a parameter, such as via
+     * pjsua_call_reinvite/update() or in on_call_rx_offer/reinvite()
+     * callback.
+     *
+     * The index of the media dir will correspond to the provisional media
+     * in pjsua_call_info.prov_media.
+     * For offers that involve adding new medias (such as initial offer),
+     * the index will correspond to all new audio media first, then video.
+     * For example, for a new call with 2 audios and 1 video, media_dir[0]
+     * and media_dir[1] will be for the audios, and media_dir[2] video.
+     *
+     * Default: PJMEDIA_DIR_ENCODING_DECODING
+     */
+    pjmedia_dir	     media_dir[PJMEDIA_MAX_SDP_MEDIA];
 
 } pjsua_call_setting;
 
@@ -964,6 +1156,19 @@ typedef struct pjsua_callback
 			        pj_pool_t *pool,
 			        const pjmedia_sdp_session *rem_sdp);
 
+    /**
+     * Notify application when an audio media session is about to be created
+     * (as opposed to #on_stream_created() and #on_stream_created2() which are
+     * called *after* the session has been created). The application may change
+     * some stream info parameter values, i.e: jb_init, jb_min_pre, jb_max_pre,
+     * jb_max, use_ka, rtcp_sdes_bye_disabled, jb_discard_algo (audio),
+     * codec_param->enc_fmt (video).
+     *
+     * @param call_id       Call identification.
+     * @param param         The on stream precreate callback parameter.
+     */
+    void (*on_stream_precreate)(pjsua_call_id call_id,
+                                pjsua_on_stream_precreate_param *param);
 
     /**
      * Notify application when audio media session is created and before it is
@@ -1014,7 +1219,7 @@ typedef struct pjsua_callback
     /**
      * Notify application upon incoming DTMF digits using RFC 2833 payload 
      * formats. This callback will not be called if app implements \a
-     * on_dtmf_digit2().
+     * on_dtmf_digit2() or \a on_dtmf_event().
      *
      * @param call_id	The call index.
      * @param digit	DTMF ASCII digit.
@@ -1023,12 +1228,24 @@ typedef struct pjsua_callback
 
     /**
      * Notify application upon incoming DTMF digits using the method specified 
-     * in \a pjsua_dtmf_method.
+     * in \a pjsua_dtmf_method. This callback will not be called if app
+     * implements \a on_dtmf_event().
      *
      * @param call_id	The call index.
      * @param info	The DTMF info.
      */
     void (*on_dtmf_digit2)(pjsua_call_id call_id, const pjsua_dtmf_info *info);
+
+    /**
+     * Notify application upon incoming DTMF digits using the method specified 
+     * in \a pjsua_dtmf_method. Includes additional information about events
+     * received via RTP.
+     *
+     * @param call_id	The call index.
+     * @param event	The DTMF event.
+     */
+    void (*on_dtmf_event)(pjsua_call_id call_id,
+                          const pjsua_dtmf_event *event);
 
     /**
      * Notify application on call being transferred (i.e. REFER is received).
@@ -1825,10 +2042,9 @@ typedef struct pjsua_config
 
     /** 
      * Maximum calls to support (default: 4). The value specified here
-     * must be smaller than the compile time maximum settings 
-     * PJSUA_MAX_CALLS, which by default is 32. To increase this 
-     * limit, the library must be recompiled with new PJSUA_MAX_CALLS
-     * value.
+     * must be smaller than or equal to the compile time maximum settings
+     * PJSUA_MAX_CALLS. To increase this limit, the library must be
+     * recompiled with new PJSUA_MAX_CALLS value.
      */
     unsigned	    max_calls;
 
@@ -2785,6 +3001,11 @@ typedef struct pjsua_transport_config
      * port number specified in \a port. Note that this setting is only
      * applicable when the start port number is non zero.
      *
+     * Example: \a port=5000, \a port_range=4
+     * - Available ports: 5000, 5001, 5002, 5003, 5004 (SIP transport)
+     * 
+     * Available ports are in the range of [\a port, \a port + \a port_range]. 
+     * 
      * Default value is zero.
      */
     unsigned		port_range;
@@ -2962,7 +3183,7 @@ PJ_DECL(pj_status_t) pjsua_transport_register(pjsip_transport *tp,
  *
  * @return		PJ_SUCCESS on success, or the appropriate error code.
  */
-PJ_DEF(pj_status_t) pjsua_tpfactory_register( pjsip_tpfactory *tf,
+PJ_DECL(pj_status_t) pjsua_tpfactory_register( pjsip_tpfactory *tf,
 					      pjsua_transport_id *p_id);
 
 /**
@@ -3009,16 +3230,18 @@ PJ_DECL(pj_status_t) pjsua_transport_set_enable(pjsua_transport_id id,
 
 
 /**
- * Close the transport. If transport is forcefully closed, it will be
- * immediately closed, and any pending transactions that are using the
- * transport may not terminate properly (it may even crash). Otherwise, 
- * the system will wait until all transactions are closed while preventing 
- * new users from using the transport, and will close the transport when 
- * it is safe to do so.
+ * Close the transport. The system will wait until all transactions are
+ * closed while preventing new users from using the transport, and will
+ * close the transport when it is safe to do so.
+ *
+ * NOTE: Forcefully closing transport (force = PJ_TRUE) is deprecated,
+ * since any pending transactions that are using the transport may not
+ * terminate properly and can even crash. Application wishing to immediately
+ * close the transport for the purpose of restarting it should use
+ * #pjsua_handle_ip_change() instead.
  *
  * @param id		Transport ID.
- * @param force		Non-zero to immediately close the transport. This
- *			is not recommended!
+ * @param force		Must be PJ_FALSE. force = PJ_TRUE is deprecated.
  *
  * @return		PJ_SUCCESS on success, or the appropriate error code.
  */
@@ -3162,6 +3385,19 @@ PJ_DECL(pj_status_t) pjsua_transport_lis_start( pjsua_transport_id id,
 #   define PJSUA_REG_RETRY_INTERVAL	300
 #endif
 
+/**
+ * When the registration is successfull, the auto registration refresh will
+ * be sent before it expires. Setting this to 0 will disable it.
+ * This is useful for app that uses Push Notification and doesn't require auto
+ * registration refresh. App can periodically send refresh registration or
+ * send it before making a call.=
+ * See https://github.com/pjsip/pjproject/pull/2652 for more info.
+ *
+ * Default: 1 (enabled)
+ */
+#ifndef PJSUA_REG_AUTO_REG_REFRESH
+#   define PJSUA_REG_AUTO_REG_REFRESH     1
+#endif
 
 /**
  * This macro specifies the default value for \a contact_rewrite_method
@@ -3461,6 +3697,17 @@ typedef struct pjsua_acc_config
      *	 ";my-param=X;another-param=Hi%20there"
      */
     pj_str_t	    reg_contact_params;
+
+    /**
+     * Additional URI parameters that will be appended in the Contact URI
+     * for this account. This will only affect REGISTER requests and
+     * will be appended after \a contact_uri_params;
+     *
+     * The parameters should be preceeded by semicolon, and all strings must
+     * be properly escaped. Example:
+     *	 ";my-param=X;another-param=Hi%20there"
+     */
+    pj_str_t	    reg_contact_uri_params;
 
     /** 
      * The optional custom SIP headers to be put in the presence
@@ -3840,6 +4087,12 @@ typedef struct pjsua_acc_config
 
     /**
      * Media transport config.
+     * 
+     * For \a port and \a port_range settings, RTCP port is selected as 
+     * RTP port+1.
+     * Example: \a port=5000, \a port_range=4
+     * - Available ports: 5000, 5002, 5004 (Media/RTP transport)
+     *                    5001, 5003, 5005 (Media/RTCP transport)
      */
     pjsua_transport_config rtp_cfg;
 
@@ -4023,6 +4276,13 @@ typedef struct pjsua_acc_config
      * Default: PJ_FALSE (disabled)
      */
     pj_bool_t	     use_stream_ka;
+
+    /**
+     * Specify the keepalive configuration for stream.
+     *
+     * Default: see #pjmedia_stream_ka_config
+     */
+    pjmedia_stream_ka_config stream_ka_cfg;
 #endif
 
     /**
@@ -4605,7 +4865,7 @@ PJ_DECL(pj_status_t) pjsua_acc_set_transport(pjsua_acc_id acc_id,
  * Maximum simultaneous calls.
  */
 #ifndef PJSUA_MAX_CALLS
-#   define PJSUA_MAX_CALLS	    32
+#   define PJSUA_MAX_CALLS	    4
 #endif
 
 /**
@@ -4670,7 +4930,6 @@ typedef enum pjsua_vid_req_keyframe_method
 
     /**
      * Requesting keyframe via Picture Loss Indication of RTCP feedback.
-     * This is currently not supported.
      */
     PJSUA_VID_REQ_KEYFRAME_RTCP_PLI	= 2
 
@@ -4917,43 +5176,14 @@ typedef enum pjsua_call_flag
      * useful in IP address change scenario where IP version has been changed
      * and application needs to update target IP address.
      */
-    PJSUA_CALL_UPDATE_TARGET = 64
+    PJSUA_CALL_UPDATE_TARGET = 64,
+
+    /**
+     * Set media direction as specified in pjsua_call_setting.media_dir.
+     */
+    PJSUA_CALL_SET_MEDIA_DIR = 128
 
 } pjsua_call_flag;
-
-
-/**
- * Media stream info.
- */
-typedef struct pjsua_stream_info
-{
-    /** Media type of this stream. */
-    pjmedia_type type;
-
-    /** Stream info (union). */
-    union {
-	/** Audio stream info */
-	pjmedia_stream_info	aud;
-
-	/** Video stream info */
-	pjmedia_vid_stream_info	vid;
-    } info;
-
-} pjsua_stream_info;
-
-
-/**
- * Media stream statistic.
- */
-typedef struct pjsua_stream_stat
-{
-    /** RTCP statistic. */
-    pjmedia_rtcp_stat	rtcp;
-
-    /** Jitter buffer statistic. */
-    pjmedia_jb_state	jbuf;
-
-} pjsua_stream_stat;
 
 /**
  * This enumeration represents video stream operation on a call.
@@ -5137,9 +5367,11 @@ pjsua_call_send_dtmf_param_default(pjsua_call_send_dtmf_param *param);
 PJ_DECL(unsigned) pjsua_call_get_max_count(void);
 
 /**
- * Get number of currently active calls.
+ * Get the number of current calls. The number includes active calls
+ * (pjsua_call_is_active(call_id) == PJ_TRUE), as well as calls that
+ * are no longer active but still in the process of hanging up.
  *
- * @return		Number of currently active calls.
+ * @return		Number of current calls.
  */
 PJ_DECL(unsigned) pjsua_call_get_count(void);
 
@@ -5417,6 +5649,19 @@ pjsua_call_answer_with_sdp(pjsua_call_id call_id,
  * while #pjsua_call_answer() only works with incoming calls on EARLY
  * state.
  *
+ * After calling this function, media will be deinitialized (call media
+ * callbacks, if any, will still be received) and then, on_call_state()
+ * will be immediately called with state DISCONNECTED. No further
+ * call callbacks will be received after this. The call hangup process
+ * itself (sending BYE, waiting for the response, and resource cleanup)
+ * will continue in the background and the call slot can be reused only
+ * after this process is completed. If application has limited call slots
+ * and would like to check if there are any free slots remaining, it can
+ * query the number of free slots using the APIs:
+ * pjsua_call_get_max_count()-pjsua_call_get_count()
+ *
+ * Note that on_call_tsx_state() will not be called when using this API.
+ *
  * @param call_id	Call identification.
  * @param code		Optional status code to be sent when we're rejecting
  *			incoming call. If the value is zero, "603/Decline"
@@ -5664,10 +5909,11 @@ PJ_DECL(pj_status_t) pjsua_call_send_dtmf(pjsua_call_id call_id,
  * @param call_id	Call identification.
  * @param mime_type	Optional MIME type. If NULL, then "text/plain" is 
  *			assumed.
- * @param content	The message content.
+ * @param content	The message content. Can be NULL if msg_data specifies
+ *			body and/or multipart.
  * @param msg_data	Optional list of headers etc to be included in outgoing
  *			request. The body descriptor in the msg_data is 
- *			ignored.
+ *			ignored if parameter 'content' is set.
  * @param user_data	Optional user data, which will be given back when
  *			the IM callback is called.
  *
@@ -5806,7 +6052,7 @@ PJ_DECL(pj_status_t) pjsua_call_get_stream_info(pjsua_call_id call_id,
  *
  * @param call_id	The call identification.
  * @param med_idx	Media stream index.
- * @param psi		To be filled with the stream statistic.
+ * @param stat		To be filled with the stream statistic.
  *
  * @return		PJ_SUCCESS on success or the appropriate error.
  */
@@ -6214,10 +6460,11 @@ extern const pjsip_method pjsip_info_method;
  * @param to		Remote URI.
  * @param mime_type	Optional MIME type. If NULL, then "text/plain" is 
  *			assumed.
- * @param content	The message content.
+ * @param content	The message content. Can be NULL if msg_data specifies
+ *			body and/or multipart.
  * @param msg_data	Optional list of headers etc to be included in outgoing
  *			request. The body descriptor in the msg_data is 
- *			ignored.
+ *			ignored if parameter 'content' is set.
  * @param user_data	Optional user data, which will be given back when
  *			the IM callback is called.
  *
@@ -6606,9 +6853,17 @@ struct pjsua_media_config
     /**
      * Set maximum delay that can be accomodated by the jitter buffer msec.
      *
-     * Default: -1 (to use default stream settings, currently 360 msec)
+     * Default: -1 (to use default stream settings, currently 500 msec)
      */
     int			jb_max;
+
+    /**
+     * Set the algorithm the jitter buffer uses to discard frames in order to
+     * adjust the latency.
+     *
+     * Default: PJMEDIA_JB_DISCARD_PROGRESSIVE
+     */
+    pjmedia_jb_discard_algo jb_discard_algo;
 
     /**
      * Enable ICE
@@ -7157,6 +7412,7 @@ PJ_DECL(pj_status_t) pjsua_conf_get_signal_level(pjsua_conf_port_id slot,
  *			WAV files are supported, and the WAV file MUST be
  *			formatted as 16bit PCM mono/single channel (any
  *			clock rate is supported).
+ *			Filename's length must be smaller than PJ_MAXPATH.
  * @param options	Optional option flag. Application may specify
  *			PJMEDIA_FILE_NO_LOOP to prevent playback loop.
  * @param p_id		Pointer to receive player ID.
@@ -7175,6 +7431,8 @@ PJ_DECL(pj_status_t) pjsua_player_create(const pj_str_t *filename,
  * @param file_names	Array of file names to be added to the play list.
  *			Note that the files must have the same clock rate,
  *			number of channels, and number of bits per sample.
+ *			Each filename's length must be smaller than
+ * 			PJ_MAXPATH.
  * @param file_count	Number of files in the array.
  * @param label		Optional label to be set for the media port.
  * @param options	Optional option flag. Application may specify
@@ -7214,7 +7472,7 @@ PJ_DECL(pj_status_t) pjsua_player_get_port(pjsua_player_id id,
  * Get additional info about the file player. This operation is not valid
  * for playlist.
  *
- * @param port		The file player ID.
+ * @param id		The file player ID.
  * @param info		The info.
  *
  * @return		PJ_SUCCESS on success or the appropriate error code.
@@ -7269,6 +7527,7 @@ PJ_DECL(pj_status_t) pjsua_player_destroy(pjsua_player_id id);
  * @param filename	Output file name. The function will determine the
  *			default format to be used based on the file extension.
  *			Currently ".wav" is supported on all platforms.
+ *			Filename's length must be smaller than PJ_MAXPATH.
  * @param enc_type	Optionally specify the type of encoder to be used to
  *			compress the media, if the file can support different
  *			encodings. This value must be zero for now.
@@ -7373,6 +7632,10 @@ PJ_DECL(pj_status_t) pjsua_get_snd_dev(int *capture_dev,
  * Select or change sound device. Application may call this function at
  * any time to replace current sound device.
  *
+ * Note that this function will always try to open the sound device
+ * immediately. If immediate open is not preferred, use pjsua_set_snd_dev2()
+ * with PJSUA_SND_DEV_NO_IMMEDIATE_OPEN flag.
+ *
  * @param capture_dev   Device ID of the capture device.
  * @param playback_dev	Device ID of the playback device.
  *
@@ -7382,13 +7645,23 @@ PJ_DECL(pj_status_t) pjsua_set_snd_dev(int capture_dev,
 				       int playback_dev);
 
 /**
+ * Get sound device parameters such as playback & capture device IDs and mode.
+ *
+ * @param snd_param	On return, it is set with sound device param.
+ *
+ * @return		PJ_SUCCESS on success, or the appropriate error code.
+ */
+PJ_DECL(pj_status_t) pjsua_get_snd_dev2(pjsua_snd_dev_param *snd_param);
+
+
+/**
  * Select or change sound device according to the specified param.
  *
  * @param snd_param	Sound device param. 
  *
  * @return		PJ_SUCCESS on success, or the appropriate error code.
  */
-PJ_DECL(pj_status_t) pjsua_set_snd_dev2(pjsua_snd_dev_param *snd_param);
+PJ_DECL(pj_status_t) pjsua_set_snd_dev2(const pjsua_snd_dev_param *snd_param);
 
 
 /**
@@ -7551,7 +7824,7 @@ typedef struct pjsua_ext_snd_dev pjsua_ext_snd_dev;
 /**
  * Create an extra sound device and register it to conference bridge.
  *
- * @param snd_param	Sound device port param. Currently this only supports
+ * @param param	Sound device port param. Currently this only supports
  *			mono channel, so channel count must be set to 1.
  * @param p_snd		The extra sound device instance.
  *
@@ -7564,7 +7837,7 @@ PJ_DECL(pj_status_t) pjsua_ext_snd_dev_create(pjmedia_snd_port_param *param,
 /**
  * Destroy an extra sound device and unregister it from conference bridge.
  *
- * @param p_snd		The extra sound device instance.
+ * @param snd		The extra sound device instance.
  *
  * @return		PJ_SUCCESS on success or the appropriate error code.
  */
@@ -7706,6 +7979,31 @@ pjsua_media_transports_attach( pjsua_media_transport tp[],
 /*
  * Video devices API
  */
+
+
+/**
+ * Controls whether PJSUA-LIB should not initialize video device subsystem
+ * in the PJSUA initialization. The video device subsystem initialization
+ * may need to open cameras to enumerates available cameras and their
+ * capabilities, which may not be preferable for some applications because
+ * it may trigger privacy-alert/permission notification on application startup
+ * (e.g: on Android app).
+ *
+ * If this is set, later application should manually initialize video device
+ * subsystem when it needs to use any video devices (camera and renderer),
+ * i.e: by invoking pjmedia_vid_dev_subsys_init() for PJSUA or
+ * VidDevManager::initSubsys() for PJSUA2.
+ *
+ * Note that pjmedia_vid_dev_subsys_init() should not be called multiple
+ * times (unless each has corresponding pjmedia_vid_dev_subsys_shutdown()),
+ * while VidDevManager::initSubsys() is safe to be called multiple times.
+ *
+ * Default: 0 (no)
+ */
+#ifndef PJSUA_DONT_INIT_VID_DEV_SUBSYS
+#   define PJSUA_DONT_INIT_VID_DEV_SUBSYS	0
+#endif
+
 
 /**
  * Get the number of video devices installed in the system.
@@ -7977,7 +8275,7 @@ typedef struct pjsua_vid_win_info
 /**
  * Enumerates all video windows.
  *
- * @param id		Array of window ID to be initialized.
+ * @param wids		Array of window ID to be initialized.
  * @param count		On input, specifies max elements in the array.
  *			On return, it contains actual number of elements
  *			that have been initialized.
@@ -8076,13 +8374,14 @@ PJ_DECL(pj_status_t) pjsua_vid_win_rotate(pjsua_vid_win_id wid,
  * capability. Currently it is only supported on SDL backend.
  *
  * @param wid		The video window ID.
- * @param enabled   	Set to PJ_TRUE if full screen is desired, PJ_FALSE 
- *			otherwise.
+ * @param mode   	Fullscreen mode, see pjmedia_vid_dev_fullscreen_flag.
  *
  * @return		PJ_SUCCESS on success, or the appropriate error code.
  */
-PJ_DECL(pj_status_t) pjsua_vid_win_set_fullscreen(pjsua_vid_win_id wid,
-                                                  pj_bool_t enabled);
+PJ_DECL(pj_status_t) pjsua_vid_win_set_fullscreen(
+					pjsua_vid_win_id wid,
+					pjmedia_vid_dev_fullscreen_flag mode);
+
 
 /*
  * Video codecs API
@@ -8284,6 +8583,20 @@ PJ_DECL(pj_status_t) pjsua_vid_conf_connect(pjsua_conf_port_id source,
 PJ_DECL(pj_status_t) pjsua_vid_conf_disconnect(pjsua_conf_port_id source,
 					       pjsua_conf_port_id sink);
 
+
+/**
+ * Update or refresh port states from video port info. Some port may
+ * change its port info in the middle of a session, for example when
+ * a video stream decoder learns that incoming video size or frame rate
+ * has changed, video conference needs to be informed to update its
+ * internal states.
+ *
+ * @param port_id	The slot id of the port to be updated.
+ *
+ * @return		PJ_SUCCESS on success, or the appropriate error
+ *			code.
+ */
+PJ_DECL(pj_status_t) pjsua_vid_conf_update_port(pjsua_conf_port_id port_id);
 
 
 /* end of VIDEO API */

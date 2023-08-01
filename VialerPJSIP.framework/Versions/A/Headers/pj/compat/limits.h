@@ -25,8 +25,10 @@
  * @brief Provides integer limits normally found in limits.h.
  */
 
+#include <VialerPJSIP/pj/config.h>
+
 #if defined(PJ_HAS_LIMITS_H) && PJ_HAS_LIMITS_H != 0
-#  include <VialerPJSIP/limits.h>
+#  include <limits.h>
 #else
 
 #  ifdef _MSC_VER

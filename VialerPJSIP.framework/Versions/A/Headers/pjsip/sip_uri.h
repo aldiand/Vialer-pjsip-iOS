@@ -27,6 +27,7 @@
 
 #include <VialerPJSIP/pjsip/sip_types.h>
 #include <VialerPJSIP/pjsip/sip_config.h>
+#include <VialerPJSIP/pj/assert.h>
 #include <VialerPJSIP/pj/list.h>
 #include <VialerPJSIP/pjlib-util/scanner.h>
 
@@ -269,6 +270,7 @@ PJ_INLINE(const pj_str_t*) pjsip_uri_get_scheme(const void *uri)
  */
 PJ_INLINE(void*) pjsip_uri_get_uri(const void *uri)
 {
+    PJ_ASSERT_RETURN(uri, NULL);
     return (*((pjsip_uri*)uri)->vptr->p_get_uri)((void*)uri);
 }
 

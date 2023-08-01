@@ -181,6 +181,14 @@ typedef struct pjsip_cfg_t
          */
         pj_bool_t accept_multiple_sdp_answers;
 
+	/**
+	 * Don't disconnect the INVITE session after an outgoing request
+	 * gets timed out or responded with 408 (request timeout).
+	 *
+	 * Default is PJ_FALSE.
+	 */
+	pj_bool_t keep_inv_after_tsx_timeout;
+
     } endpt;
 
     /** Transaction layer settings. */
@@ -208,6 +216,9 @@ typedef struct pjsip_cfg_t
 
 	/** Transaction completed timer for INVITE, in msec. Default value is
 	 *  PJSIP_TD_TIMEOUT.
+	 *
+	 *  This setting is also used for transaction timeout timer for both
+	 *  INVITE and non-INVITE.
 	 */
 	unsigned td;
 
@@ -937,8 +948,19 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
 #   define PJSIP_POOL_RDATA_INC		4000
 #endif
 
-#define PJSIP_POOL_LEN_TRANSPORT	512
-#define PJSIP_POOL_INC_TRANSPORT	512
+/**
+ * Initial memory block for SIP transport.
+ */
+#ifndef PJSIP_POOL_LEN_TRANSPORT
+#   define PJSIP_POOL_LEN_TRANSPORT	512
+#endif
+
+/**
+ * Memory increment for SIP transport.
+ */
+#ifndef PJSIP_POOL_INC_TRANSPORT
+#   define PJSIP_POOL_INC_TRANSPORT	512
+#endif
 
 /**
  * Initial memory block size for tdata.
@@ -967,6 +989,21 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
 #ifndef PJSIP_POOL_INC_UA
 #   define PJSIP_POOL_INC_UA		512
 #endif
+
+/**
+ * Initial memory block for event subscription module.
+ */
+#ifndef PJSIP_POOL_EVSUB_LEN
+#   define PJSIP_POOL_EVSUB_LEN		512
+#endif
+
+/**
+ * Memory increment for event subscription module.
+ */
+#ifndef PJSIP_POOL_EVSUB_INC
+#   define PJSIP_POOL_EVSUB_INC		512
+#endif
+
 
 #define PJSIP_MAX_FORWARDS_VALUE	70
 
@@ -1019,6 +1056,19 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
 #   define PJSIP_TSX_1XX_RETRANS_DELAY	60
 #endif
 
+/**
+ * Setting to determine if certain SIP UAS transaction, such as
+ * INVITE UAS tsx that hasn't been confirmed, is allowed to continue
+ * upon transport error. If disabled, the transaction will always be
+ * terminated, which is the default behavior prior to the introduction
+ * of this setting.
+ *
+ * Default: 1 (transaction will continue)
+ */
+#ifndef PJSIP_TSX_UAS_CONTINUE_ON_TP_ERROR
+#   define PJSIP_TSX_UAS_CONTINUE_ON_TP_ERROR 1
+#endif
+
 #define PJSIP_MAX_TSX_KEY_LEN		(PJSIP_MAX_URL_SIZE*2)
 
 /* User agent. */
@@ -1060,7 +1110,12 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
 #  define PJSIP_T4_TIMEOUT	5000
 #endif
 
-/** Transaction completed timer for INVITE */
+/**
+ * Transaction completed timer for INVITE.
+ *
+ * This setting is also used for transaction timeout timer for both
+ * INVITE and non-INVITE.
+ */
 #if !defined(PJSIP_TD_TIMEOUT)
 #  define PJSIP_TD_TIMEOUT	32000
 #endif
@@ -1186,6 +1241,19 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
 #ifndef PJSIP_REGISTER_CLIENT_ADD_XUID_PARAM
 #   define PJSIP_REGISTER_CLIENT_ADD_XUID_PARAM	0
 #endif
+
+
+/**
+ * Allow client to send refresh registration when the registrar sent a Contact
+ * header with expire parameter 0 in the 200/OK REGISTER response.
+ * Refer to https://github.com/pjsip/pjproject/pull/2809 for more info.
+ *
+ * Default is 1.
+ */
+#ifndef PJSIP_REGISTER_ALLOW_EXP_REFRESH
+#   define PJSIP_REGISTER_ALLOW_EXP_REFRESH	1
+#endif
+
 
 /**
  * Maximum size of pool allowed for auth client session in pjsip_regc.

@@ -42,9 +42,11 @@ struct pjsua_call_media
     pjsua_call		*call;	    /**< Parent call.			    */
     pjmedia_type	 type;	    /**< Media type.			    */
     unsigned		 idx;       /**< This media index in parent call.   */
+    pj_str_t		 rem_mid;   /**< Remote SDP "a=mid" attribute.	    */
     pjsua_call_media_status state;  /**< Media state.			    */
     pjsua_call_media_status prev_state;/**< Previous media state.           */
-    pjmedia_dir		 dir;       /**< Media direction.		    */
+    pjmedia_dir		 def_dir;   /**< Default media direction.	    */
+    pjmedia_dir		 dir;       /**< Current media direction.	    */
 
     /** The stream */
     struct {
@@ -77,6 +79,14 @@ struct pjsua_call_media
 				         and/or timestamp for sender are set.
 					 bit 0/LSB : sequence flag
 					 bit 1     : timestamp flag 	    */
+
+    pjmedia_type	    	prev_type;     /**< Previous media type     */
+    pjmedia_stream_info	    	prev_aud_si;   /**< Prev audio stream info  */
+    pjmedia_vid_stream_info 	prev_vid_si;   /**< Prev video stream info  */
+    pj_bool_t	    	    	prev_srtp_use; /**< Prev SRTP use 	    */
+    pjmedia_srtp_info	    	prev_srtp_info;/**< Prev SRTP transport info*/
+    pj_bool_t	    	    	prev_ice_use;  /**< Prev ICE use            */
+    pjmedia_ice_transport_info 	prev_ice_info; /**< Prev ICE transport info */
 
     pjmedia_transport	*tp;        /**< Current media transport (can be 0) */
     pj_status_t		 tp_ready;  /**< Media transport status.	    */
@@ -116,6 +126,14 @@ typedef struct call_answer
     pjsua_call_setting *opt;	    /**< Answer's call setting.	      */
 } call_answer;
 
+
+/* Generic states */
+typedef enum pjsua_op_state {
+    PJSUA_OP_STATE_NULL,
+    PJSUA_OP_STATE_READY,
+    PJSUA_OP_STATE_RUNNING,
+    PJSUA_OP_STATE_DONE,
+} pjsua_op_state;
 
 /** 
  * Structure to be attached to invite dialog. 
@@ -205,6 +223,22 @@ struct pjsua_call
 					    created yet. This temporary 
 					    variable is used to handle such 
 					    case, see ticket #1916.	    */
+
+    struct {
+	pj_bool_t	 enabled;
+	pj_bool_t	 remote_sup;
+	pj_bool_t	 remote_dlg_est;
+	pjsua_op_state	 trickling;
+	int		 retrans18x_count;
+	pj_bool_t	 pending_info;
+	pj_timer_entry	 timer;
+    } trickle_ice;
+
+    pj_timer_entry	 hangup_timer;	/**< Hangup retry timer.	    */
+    unsigned		 hangup_retry;	/**< Number of hangup retries.	    */
+    unsigned		 hangup_code;	/**< Hangup code.	    	    */
+    pj_str_t		 hangup_reason;	/**< Hangup reason.	    	    */
+    pjsua_msg_data	*hangup_msg_data;/**< Hangup message data.	    */
 };
 
 
@@ -279,6 +313,7 @@ typedef struct pjsua_acc
                                            2: acknowledged by servers   */
     pj_str_t	     rfc5626_instprm;/**< SIP outbound instance param.  */
     pj_str_t         rfc5626_regprm;/**< SIP outbound reg param.        */
+    unsigned         rfc5626_flowtmr;/**< SIP outbound flow timer.      */
 
     unsigned	     cred_cnt;	    /**< Number of credentials.		*/
     pjsip_cred_info  cred[PJSUA_ACC_MAX_PROXIES]; /**< Complete creds.	*/
@@ -425,6 +460,15 @@ typedef struct pjsua_timer_list
 } pjsua_timer_list;
 
 
+typedef struct pjsua_event_list 
+{
+    PJ_DECL_LIST_MEMBER(struct pjsua_event_list);
+    pjmedia_event       event;
+    pjsua_call_id	call_id;
+    unsigned           	med_idx;
+} pjsua_event_list;
+
+
 /**
  * Global pjsua application data.
  */
@@ -434,6 +478,7 @@ struct pjsua_data
     /* Control: */
     pj_caching_pool	 cp;	    /**< Global pool factory.		*/
     pj_pool_t		*pool;	    /**< pjsua's private pool.		*/
+    pj_pool_t		*timer_pool;/**< pjsua's timer pool.		*/
     pj_mutex_t		*mutex;	    /**< Mutex protection for this data	*/
     unsigned		 mutex_nesting_level; /**< Mutex nesting level.	*/
     pj_thread_t		*mutex_owner; /**< Mutex owner.			*/
@@ -536,8 +581,10 @@ struct pjsua_data
     pjsua_vid_win	 win[PJSUA_MAX_VID_WINS]; /**< Array of windows	*/
 #endif
 
-    /* Timer entry list */
+    /* Timer entry and event list */
+    pjsua_timer_list	 active_timer_list;
     pjsua_timer_list	 timer_list;
+    pjsua_event_list	 event_list;
     pj_mutex_t          *timer_mutex;
 };
 
@@ -618,6 +665,24 @@ PJ_INLINE(pj_bool_t) PJSUA_LOCK_IS_LOCKED()
     return pjsua_var.mutex_owner == pj_thread_this();
 }
 
+/* Release all locks currently held by this thread. */
+PJ_INLINE(unsigned) PJSUA_RELEASE_LOCK()
+{
+    unsigned num_locks = 0;
+    while (PJSUA_LOCK_IS_LOCKED()) {
+        num_locks++;
+        PJSUA_UNLOCK();
+    }
+    return num_locks;
+}
+
+/* Re-acquire all the locks released by PJSUA_RELEASE_LOCK(). */
+PJ_INLINE(void) PJSUA_RELOCK(unsigned num_locks)
+{
+    for (; num_locks > 0; num_locks--)
+        PJSUA_LOCK();
+}
+
 #else
 #define PJSUA_LOCK()
 #define PJSUA_TRY_LOCK()	PJ_SUCCESS
@@ -685,6 +750,10 @@ pj_status_t pjsua_media_channel_update(pjsua_call_id call_id,
 				       const pjmedia_sdp_session *remote_sdp);
 pj_status_t pjsua_media_channel_deinit(pjsua_call_id call_id);
 
+void pjsua_ice_check_start_trickling(pjsua_call *call,
+				     pj_bool_t forceful,
+				     pjsip_event *e);
+
 /*
  * Error message when media operation is requested while another is in progress
  */
@@ -702,16 +771,18 @@ void pjsua_call_cleanup_flag(pjsua_call_setting *opt);
 void pjsua_set_media_tp_state(pjsua_call_media *call_med, pjsua_med_tp_st tp_st);
 
 void pjsua_media_prov_clean_up(pjsua_call_id call_id);
+void pjsua_media_prov_revert(pjsua_call_id call_id);
 
 /* Callback to receive media events */
 pj_status_t on_media_event(pjmedia_event *event, void *user_data);
+void call_med_event_cb(void *user_data);
 pj_status_t call_media_on_event(pjmedia_event *event,
                                 void *user_data);
 
 /**
  * Init presence.
  */
-pj_status_t pjsua_pres_init();
+pj_status_t pjsua_pres_init(void);
 
 /*
  * Start presence subsystem.
@@ -860,7 +931,7 @@ pj_status_t pjsua_aud_channel_update(pjsua_call_media *call_med,
                                      pjmedia_stream_info *si,
 				     const pjmedia_sdp_session *local_sdp,
 				     const pjmedia_sdp_session *remote_sdp);
-void pjsua_check_snd_dev_idle();
+void pjsua_check_snd_dev_idle(void);
 
 /*
  * Video

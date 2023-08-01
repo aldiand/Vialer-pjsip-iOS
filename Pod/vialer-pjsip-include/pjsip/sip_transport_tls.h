@@ -61,6 +61,7 @@ typedef enum pjsip_ssl_method
     PJSIP_TLSV1_METHOD		 = 31,	/**< Use TLSv1 method.		*/
     PJSIP_TLSV1_1_METHOD	 = 32,	/**< Use TLSv1_1 method.	*/
     PJSIP_TLSV1_2_METHOD	 = 33,	/**< Use TLSv1_2 method.	*/
+    PJSIP_TLSV1_3_METHOD	 = 34,	/**< Use TLSv1_3 method.	*/
     PJSIP_SSLV23_METHOD		 = 23,	/**< Use SSLv23 method.		*/
 } pjsip_ssl_method;
 
@@ -101,6 +102,38 @@ typedef struct pjsip_tls_on_accept_fail_param {
     pj_status_t last_native_err;
 
 } pjsip_tls_on_accept_fail_param;
+
+
+/**
+ * This structure describe the parameter passed from #on_verify_cb().
+ */
+typedef struct pjsip_tls_on_verify_param {
+    /**
+     * Describes local address.
+     */
+    const pj_sockaddr_t *local_addr;
+
+    /**
+     * Describes remote address.
+     */
+    const pj_sockaddr_t *remote_addr;
+
+    /**
+     * Describes transport direction.
+     */
+    pjsip_transport_dir tp_dir;
+
+    /**
+     * Describes active local certificate info.
+     */
+    pj_ssl_cert_info *local_cert_info;
+   
+    /**
+     * Describes active remote certificate info.
+     */
+    pj_ssl_cert_info *remote_cert_info;
+
+} pjsip_tls_on_verify_param;
 
 
 /**
@@ -342,6 +375,19 @@ typedef struct pjsip_tls_setting
      * @param param         The parameter to the callback.
      */
     void(*on_accept_fail_cb)(const pjsip_tls_on_accept_fail_param *param);
+
+    /**
+     * Callback to be called to verify a new connection.  Currently it's only 
+     * implemented for OpenSSL backend.
+     *
+     * @param param         The parameter to the callback.
+     * 
+     * @return              Return PJ_TRUE if succesfully verified. 
+     *			    If verification failed, connection will be dropped
+     *			    immediately.
+     *
+     */
+    pj_bool_t(*on_verify_cb)(const pjsip_tls_on_verify_param *param);
 
 } pjsip_tls_setting;
 

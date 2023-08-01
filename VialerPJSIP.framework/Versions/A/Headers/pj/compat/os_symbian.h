@@ -152,7 +152,7 @@
 typedef unsigned int socklen_t;
 
 #ifndef __GCCE__
-#include <VialerPJSIP/e32def.h>
+#include <e32def.h>
 #endif
 
 #define PJ_EXPORT_DECL_SPECIFIER	IMPORT_C

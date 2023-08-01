@@ -31,6 +31,7 @@
 #define PJ_OS_NAME "x86_64-apple-darwin_ios"
 
 /* Legacy macros */
+/* #undef PJ_WIN64 */
 /* #undef PJ_WIN32 */
 /* #undef PJ_WIN32_WINNT */
 /* #undef WIN32_LEAN_AND_MEAN */
@@ -192,7 +193,9 @@
 #    if TARGET_OS_IPHONE
 #	include "Availability.h"
 	/* Use CFHost API for pj_getaddrinfo() (see ticket #1246) */
-#	define PJ_GETADDRINFO_USE_CFHOST 1
+#	ifndef PJ_GETADDRINFO_USE_CFHOST
+#	    define PJ_GETADDRINFO_USE_CFHOST 0
+#	endif
 #    	ifdef __IPHONE_4_0
  	    /* Is multitasking support available?  (see ticket #1107) */
 #	    define PJ_IPHONE_OS_HAS_MULTITASKING_SUPPORT 	1
@@ -218,10 +221,10 @@
 
 /* SSL socket availability. */
 #ifndef PJ_HAS_SSL_SOCK
-#define PJ_HAS_SSL_SOCK 1
+/* #undef PJ_HAS_SSL_SOCK */
 #endif
 #ifndef PJ_SSL_SOCK_IMP
-#   define PJ_SSL_SOCK_IMP PJ_SSL_SOCK_IMP_OPENSSL
+/* #undef PJ_SSL_SOCK_IMP */
 #endif
 
 

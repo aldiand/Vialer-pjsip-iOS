@@ -26,15 +26,15 @@
  */
 
 #if defined(PJ_HAS_WINSOCK2_H) && PJ_HAS_WINSOCK2_H != 0
-#  include <VialerPJSIP/winsock2.h>
+#  include <winsock2.h>
 #endif
 
 #if defined(PJ_HAS_WINSOCK_H) && PJ_HAS_WINSOCK_H != 0
-#  include <VialerPJSIP/winsock.h>
+#  include <winsock.h>
 #endif
 
 #if defined(PJ_HAS_WS2TCPIP_H) && PJ_HAS_WS2TCPIP_H != 0
-#   include <VialerPJSIP/ws2tcpip.h>
+#   include <ws2tcpip.h>
 #endif
 
 
@@ -68,83 +68,83 @@
 	/* Need to download and install IPv6Kit for this platform.
 	 * Please see the comments above about Visual Studio 6.
 	 */
-#	include <VialerPJSIP/tpipv6.h>
+#	include <tpipv6.h>
 #   endif
 
 #   define PJ_SOCK_HAS_GETADDRINFO  1
 #endif	/* _MSC_VER */
 
 #if defined(PJ_HAS_SYS_TYPES_H) && PJ_HAS_SYS_TYPES_H != 0
-#  include <VialerPJSIP/sys/types.h>
+#  include <sys/types.h>
 #endif
 
 #if defined(PJ_HAS_SYS_SOCKET_H) && PJ_HAS_SYS_SOCKET_H != 0
-#  include <VialerPJSIP/sys/socket.h>
+#  include <sys/socket.h>
 #endif
 
 #if defined(PJ_HAS_LINUX_SOCKET_H) && PJ_HAS_LINUX_SOCKET_H != 0
-#  include <VialerPJSIP/linux/socket.h>
+#  include <linux/socket.h>
 #endif
 
 #if defined(PJ_HAS_SYS_SELECT_H) && PJ_HAS_SYS_SELECT_H != 0
-#  include <VialerPJSIP/sys/select.h>
+#  include <sys/select.h>
 #endif
 
 #if defined(PJ_HAS_NETINET_IN_H) && PJ_HAS_NETINET_IN_H != 0
-#  include <VialerPJSIP/netinet/in.h>
+#  include <netinet/in.h>
 #endif
 
 #if defined(PJ_HAS_NETINET_IN_SYSTM_H) && PJ_HAS_NETINET_IN_SYSTM_H != 0
 /* Required to include netinet/ip.h in FreeBSD 7.0 */
-#  include <VialerPJSIP/netinet/in_systm.h>
+#  include <netinet/in_systm.h>
 #endif
 
 #if defined(PJ_HAS_NETINET_IP_H) && PJ_HAS_NETINET_IP_H != 0
 /* To pull in IPTOS_* constants */
-#  include <VialerPJSIP/netinet/ip.h>
+#  include <netinet/ip.h>
 #endif
 
 #if defined(PJ_HAS_NETINET_TCP_H) && PJ_HAS_NETINET_TCP_H != 0
 /* To pull in TCP_NODELAY constants */
-#  include <VialerPJSIP/netinet/tcp.h>
+#  include <netinet/tcp.h>
 #endif
 
 #if defined(PJ_HAS_NET_IF_H) && PJ_HAS_NET_IF_H != 0
 /* For interface enumeration in ip_helper */
-#   include <VialerPJSIP/net/if.h>
+#   include <net/if.h>
 #endif
 
 #if defined(PJ_HAS_IFADDRS_H) && PJ_HAS_IFADDRS_H != 0
 /* Interface enum with getifaddrs() which works with IPv6 */
-#   include <VialerPJSIP/ifaddrs.h>
+#   include <ifaddrs.h>
 #endif
 
 #if defined(PJ_HAS_ARPA_INET_H) && PJ_HAS_ARPA_INET_H != 0
-#  include <VialerPJSIP/arpa/inet.h>
+#  include <arpa/inet.h>
 #endif
 
 #if defined(PJ_HAS_SYS_IOCTL_H) && PJ_HAS_SYS_IOCTL_H != 0
-#  include <VialerPJSIP/sys/ioctl.h>	/* FBIONBIO */
+#  include <sys/ioctl.h>	/* FBIONBIO */
 #endif
 
 #if defined(PJ_HAS_ERRNO_H) && PJ_HAS_ERRNO_H != 0
-#  include <VialerPJSIP/errno.h>
+#  include <errno.h>
 #endif
 
 #if defined(PJ_HAS_NETDB_H) && PJ_HAS_NETDB_H != 0
-#  include <VialerPJSIP/netdb.h>
+#  include <netdb.h>
 #endif
 
 #if defined(PJ_HAS_UNISTD_H) && PJ_HAS_UNISTD_H != 0
-#  include <VialerPJSIP/unistd.h>
+#  include <unistd.h>
 #endif
 
 #if defined(PJ_HAS_SYS_FILIO_H) && PJ_HAS_SYS_FILIO_H != 0
-#   include <VialerPJSIP/sys/filio.h>
+#   include <sys/filio.h>
 #endif
 
 #if defined(PJ_HAS_SYS_SOCKIO_H) && PJ_HAS_SYS_SOCKIO_H != 0
-#   include <VialerPJSIP/sys/sockio.h>
+#   include <sys/sockio.h>
 #endif
 
 
@@ -179,10 +179,12 @@
 
 /*
  * And undefine these..
+ * Note (see issue #2311): unfortunately, this may cause build failure
+ * to anyone who uses these standard macros.
  */
-#undef s_addr
-#undef s6_addr
-#undef sin_zero
+//#undef s_addr
+//#undef s6_addr
+//#undef sin_zero
 
 /*
  * This will finally be obsoleted, since it should be declared in

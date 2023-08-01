@@ -46,8 +46,13 @@
 #if defined(_MSC_VER)
 #   define strcasecmp	_stricmp
 #   define strncasecmp	_strnicmp
+
+/* snprintf() and vsnprintf() are available since Visual Studio 2015 */
+#if _MSC_VER < 1900
 #   define snprintf	_snprintf
 #   define vsnprintf	_vsnprintf
+#endif
+
 #   define snwprintf	_snwprintf
 #   define wcsicmp	_wcsicmp
 #   define wcsnicmp	_wcsnicmp
@@ -75,8 +80,8 @@
 #define pj_ansi_sprintf		sprintf
 
 #if defined(PJ_HAS_NO_SNPRINTF) && PJ_HAS_NO_SNPRINTF != 0
-#   include <VialerPJSIP/pj/types.h>
-#   include <VialerPJSIP/pj/compat/stdarg.h>
+#   include <pj/types.h>
+#   include <pj/compat/stdarg.h>
     PJ_BEGIN_DECL
     PJ_DECL(int) snprintf(char*s1, pj_size_t len, const char*s2, ...);
     PJ_DECL(int) vsnprintf(char*s1, pj_size_t len, const char*s2, va_list arg);

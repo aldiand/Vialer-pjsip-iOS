@@ -24,7 +24,8 @@
  * @file pjmedia-codec.h
  * @brief Include all codecs API in PJMEDIA-CODEC
  */
-
+#include <VialerPJSIP/pjmedia-codec/and_aud_mediacodec.h>
+#include <VialerPJSIP/pjmedia-codec/and_vid_mediacodec.h>
 #include <VialerPJSIP/pjmedia-codec/audio_codecs.h>
 #include <VialerPJSIP/pjmedia-codec/bcg729.h>
 #include <VialerPJSIP/pjmedia-codec/ffmpeg_vid_codecs.h>

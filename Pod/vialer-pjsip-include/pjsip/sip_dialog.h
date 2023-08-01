@@ -165,6 +165,7 @@ struct pjsip_dialog
     pjsip_route_hdr	route_set;  /**< Route set.			    */
     pj_bool_t		route_set_frozen; /**< Route set has been set.	    */
     pjsip_auth_clt_sess	auth_sess;  /**< Client authentication session.	    */
+    pj_str_t		initial_dest;/**< Initial destination host.  	    */
 
     /** Session counter. */
     int			sess_count; /**< Number of sessions.		    */
@@ -301,7 +302,7 @@ PJ_DECL(pj_status_t) pjsip_dlg_create_uac( pjsip_user_agent *ua,
  *
  * See \a pjsip_dlg_create_uac() for general info about this function.
  *
- * @param param		    The parameter, refer to
+ * @param create_param		    The parameter, refer to
  *			    \a pjsip_dlg_create_uac_param
  * @param p_dlg		    Pointer to receive the dialog.
  *
