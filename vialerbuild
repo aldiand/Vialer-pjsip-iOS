@@ -6,7 +6,7 @@ AVIALABLE_ARCHS=(
     # "armv7s"
     "arm64"
     # "i386"
-    "x86_64"
+    # "x86_64"
 )
 export BASE_DIR=`pwd -P`
 export MIN_IOS_VERSION="10.0"
@@ -17,7 +17,7 @@ export USE_ARCHS=()
 export DOWNLOAD_PJSIP_SRC=true
 export CLEAN_PJSIP_SRC=true
 export SSL_SUPPORT=false
-export OPUS_SUPPORT=true
+export OPUS_SUPPORT=false
 export H264_SUPPORT=false
 export INDEPENDENT_WEBRTC=false
 export ENABLE_ZRTP=false
@@ -320,7 +320,7 @@ function build_opus () {
 
     rm -rf $OPUS_BUILD_DIR
 
-    opus_version="1.3.1"
+    opus_version="1.4"
     opus_opt_cflags="-Ofast -flto -g"
     opus_opt_ldflags="-flto"
     opus_opt_config_args=""
@@ -646,7 +646,7 @@ function _merge () {
         a_files="${a_files} ${H264_BUILD_DIR}/lib/libopenh264.a"
     fi
 
-    libtool -o Pod/VialerPJSIP.a $a_files
+    libtool -o Pod/VialerPJSIP-device.a $a_files
 }
 
 function clean_pjsip_libs_temp () {
@@ -723,7 +723,7 @@ function create_framework {
     PRODUCT_NAME="VialerPJSIP"
     PUBLIC_HEADERS_FOLDER_PATH="${BASE_DIR}/Pod/vialer-pjsip-include"
     LIBRARY_LOCATION="${BASE_DIR}/Pod/"
-    FRAMEWORK_LOCN="${BASE_DIR}/${PRODUCT_NAME}.framework"
+    FRAMEWORK_LOCN="${BASE_DIR}/iphoneos/${PRODUCT_NAME}.framework"
 
     echo "Creating the $PRODUCT_NAME framework in $FRAMEWORK_LOCN"
     copy_headers
@@ -742,7 +742,7 @@ function create_framework {
 
     # Copy the public headers into the framework
     cp -a "${PUBLIC_HEADERS_FOLDER_PATH}/" "${FRAMEWORK_LOCN}/Versions/A/Headers"
-    cp -a "${LIBRARY_LOCATION}/${PRODUCT_NAME}.a" "${FRAMEWORK_LOCN}/Versions/A/${PRODUCT_NAME}"
+    cp -a "${LIBRARY_LOCATION}/${PRODUCT_NAME}-device.a" "${FRAMEWORK_LOCN}/Versions/A/${PRODUCT_NAME}"
 
     echo "Adapting the framework's header files"
     # Now, replace the include statements of the framework headers
