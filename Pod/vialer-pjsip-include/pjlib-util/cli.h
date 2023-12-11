@@ -389,8 +389,13 @@ PJ_DECL(void) pj_cli_cfg_default(pj_cli_cfg *param);
 /**
  * Register a front end to the CLI application.
  *
+<<<<<<< HEAD
  * @param cli           The CLI application.
  * @param fe            The CLI front end to be registered.
+=======
+ * @param cli		The CLI application.
+ * @param fe		The CLI front end to be registered.
+>>>>>>> xcframework
  */
 PJ_DECL(void) pj_cli_register_front_end(pj_cli_t *cli,
                                         pj_cli_front_end *fe);

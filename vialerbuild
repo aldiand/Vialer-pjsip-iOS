@@ -2,11 +2,11 @@
 set -e
 
 AVIALABLE_ARCHS=(
-    #"armv7"
-    #"armv7s"
+    # "armv7"
+    # "armv7s"
     "arm64"
-    #"i386"
-    "x86_64"
+    # "i386"
+    # "x86_64"
 )
 export BASE_DIR=`pwd -P`
 export MIN_IOS_VERSION="10.0"
@@ -25,7 +25,7 @@ export HAS_BITCODE=true
 export HAS_IPV6=false
 export SHOW_HELP=false
 
-export PJSIP_VERSION="2.13"
+export PJSIP_VERSION="2.12.1"
 export PJSIP_BASE_URL="http://svn.pjsip.org/repos/pjproject"
 export PJSIP_DIR="$BASE_DIR/pjsip"
 export PJSIP_FINAL_LIB_DIR="$BASE_DIR/lib"
@@ -320,7 +320,7 @@ function build_opus () {
 
     rm -rf $OPUS_BUILD_DIR
 
-    opus_version="1.3.1"
+    opus_version="1.4"
     opus_opt_cflags="-Ofast -flto -g"
     opus_opt_ldflags="-flto"
     opus_opt_config_args=""
@@ -646,7 +646,7 @@ function _merge () {
         a_files="${a_files} ${H264_BUILD_DIR}/lib/libopenh264.a"
     fi
 
-    libtool -o Pod/VialerPJSIP.a $a_files
+    libtool -o Pod/VialerPJSIP-device.a $a_files
 }
 
 function clean_pjsip_libs_temp () {
@@ -723,7 +723,7 @@ function create_framework {
     PRODUCT_NAME="VialerPJSIP"
     PUBLIC_HEADERS_FOLDER_PATH="${BASE_DIR}/Pod/vialer-pjsip-include"
     LIBRARY_LOCATION="${BASE_DIR}/Pod/"
-    FRAMEWORK_LOCN="${BASE_DIR}/${PRODUCT_NAME}.framework"
+    FRAMEWORK_LOCN="${BASE_DIR}/iphoneos/${PRODUCT_NAME}.framework"
 
     echo "Creating the $PRODUCT_NAME framework in $FRAMEWORK_LOCN"
     copy_headers
@@ -742,7 +742,7 @@ function create_framework {
 
     # Copy the public headers into the framework
     cp -a "${PUBLIC_HEADERS_FOLDER_PATH}/" "${FRAMEWORK_LOCN}/Versions/A/Headers"
-    cp -a "${LIBRARY_LOCATION}/${PRODUCT_NAME}.a" "${FRAMEWORK_LOCN}/Versions/A/${PRODUCT_NAME}"
+    cp -a "${LIBRARY_LOCATION}/${PRODUCT_NAME}-device.a" "${FRAMEWORK_LOCN}/Versions/A/${PRODUCT_NAME}"
 
     echo "Adapting the framework's header files"
     # Now, replace the include statements of the framework headers
@@ -782,6 +782,8 @@ function create_framework {
     echo "copying from ${PUBLIC_HEADERS_FOLDER_PATH}/pj/compat to ${FRAMEWORK_LOCN}/Versions/A/Headers/pj"
     rm -rf "${FRAMEWORK_LOCN}/Versions/A/Headers/pj/compat"
     cp -rpf "${PUBLIC_HEADERS_FOLDER_PATH}/pj/compat" "${FRAMEWORK_LOCN}/Versions/A/Headers/pj"
+
+    sed -i -e "s/.*pj\/config\.h.*/#include <VialerPJSIP\/pj\/config\.h>/" "${FRAMEWORK_LOCN}/Versions/A/Headers/pj/compat/limits.h"
 
     echo "Done create framework $PRODUCT_NAME"
     echo "============================="

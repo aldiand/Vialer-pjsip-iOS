@@ -85,7 +85,11 @@ PJ_BEGIN_DECL
  * included.
  */
 #ifndef PJMEDIA_AUDIO_DEV_HAS_OBOE
+<<<<<<< HEAD
 #   define PJMEDIA_AUDIO_DEV_HAS_OBOE           0
+=======
+#   define PJMEDIA_AUDIO_DEV_HAS_OBOE		0
+>>>>>>> xcframework
 #endif
 
 /**

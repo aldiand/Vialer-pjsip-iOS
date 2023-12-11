@@ -226,7 +226,11 @@ typedef enum pjmedia_format_id
     PJMEDIA_FORMAT_MPEG2VIDEO = PJMEDIA_FORMAT_PACK('M', 'P', '2', 'V'),
     PJMEDIA_FORMAT_MPEG4    = PJMEDIA_FORMAT_PACK('M', 'P', 'G', '4'),
 
+<<<<<<< HEAD
     PJMEDIA_FORMAT_INVALID  = 0xFFFFFFF
+=======
+    PJMEDIA_FORMAT_INVALID  = 0xFFFFFFFF
+>>>>>>> xcframework
 
 } pjmedia_format_id;
 
@@ -634,12 +638,21 @@ PJ_INLINE(void) pjmedia_format_init_audio(pjmedia_format *fmt,
  * to consult to a format manager in order to fill in detailed
  * information about the format.
  *
+<<<<<<< HEAD
  * @param fmt           The format to be initialised.
  * @param fmt_id        Format ID. See #pjmedia_format_id
  * @param width         Image width.
  * @param height        Image heigth.
  * @param fps_num       FPS numerator.
  * @param fps_denum     FPS denumerator.
+=======
+ * @param fmt		The format to be initialised.
+ * @param fmt_id	Format ID. See #pjmedia_format_id
+ * @param width		Image width.
+ * @param height	Image heigth.
+ * @param fps_num	FPS numerator.
+ * @param fps_denum	FPS denumerator.
+>>>>>>> xcframework
  */
 PJ_DECL(void) pjmedia_format_init_video(pjmedia_format *fmt,
                                         pj_uint32_t fmt_id,
@@ -800,6 +813,7 @@ PJ_DECL(void) pjmedia_video_format_mgr_destroy(pjmedia_video_format_mgr *mgr);
 /**
  * Fill video frame buffer with black color.
  *
+<<<<<<< HEAD
  * @param fmt           The video format.
  * @param buf           The frame buffer.
  * @param buf_size      The frame buffer size.
@@ -809,6 +823,17 @@ PJ_DECL(void) pjmedia_video_format_mgr_destroy(pjmedia_video_format_mgr *mgr);
 PJ_DECL(pj_status_t) pjmedia_video_format_fill_black(const pjmedia_format *fmt,
                                                      void *buf,
                                                      pj_size_t buf_size);
+=======
+ * @param fmt		The video format.
+ * @param buf		The frame buffer.
+ * @param buf_size	The frame buffer size.
+ *
+ * @return		PJ_SUCCESS if successfull.
+ */
+PJ_DECL(pj_status_t) pjmedia_video_format_fill_black(const pjmedia_format *fmt,
+						     void *buf,
+						     pj_size_t buf_size);
+>>>>>>> xcframework
 
 
 PJ_END_DECL

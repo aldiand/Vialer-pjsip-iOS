@@ -217,6 +217,7 @@ typedef struct pj_ice_msg_data
 
     /** The data */
     union data {
+<<<<<<< HEAD
         /** Request data */
         struct request_data {
             pj_ice_sess             *ice;   /**< ICE session    */
@@ -226,6 +227,17 @@ typedef struct pj_ice_msg_data
             pj_ice_sess_cand        *rcand; /**< Remote cand    */
         } req; /**< Request data */
     } data; /**< The data */
+=======
+	/** Request data */
+	struct request_data {
+	    pj_ice_sess		    *ice;   /**< ICE session	*/
+	    pj_ice_sess_checklist   *clist; /**< Checklist	*/
+	    unsigned		     ckid;  /**< Check ID	*/
+	    pj_ice_sess_cand	    *lcand; /**< Local cand	*/
+	    pj_ice_sess_cand	    *rcand; /**< Remote cand	*/
+	} req;
+    } data;
+>>>>>>> xcframework
 
 } pj_ice_msg_data;
 
@@ -243,7 +255,11 @@ struct pj_ice_sess_cand
     /**
      * The candidate ID.
      */
+<<<<<<< HEAD
     unsigned             id;
+=======
+    unsigned		 id;
+>>>>>>> xcframework
 
     /**
      * The candidate type, as described in #pj_ice_cand_type enumeration.
@@ -388,6 +404,11 @@ struct pj_ice_sess_check
     int                  foundation_idx;
 
     /**
+     * Foundation index, referring to foundation array defined in checklist.
+     */
+    int			 foundation_idx;
+
+    /**
      * Check priority.
      */
     pj_timestamp         prio;
@@ -474,6 +495,16 @@ struct pj_ice_sess_checklist
      * Array of foundations, check foundation index refers to this array.
      */
     pj_str_t                 foundation[PJ_ICE_MAX_CHECKS * 2];
+
+    /**
+     * Number of foundations.
+     */
+    unsigned		     foundation_cnt;
+
+    /**
+     * Array of foundations, check foundation index refers to this array.
+     */
+    pj_str_t		     foundation[PJ_ICE_MAX_CHECKS * 2];
 
     /**
      * A timer used to perform periodic check for this checklist.
@@ -672,6 +703,14 @@ typedef struct pj_ice_sess_options
      */
     pj_ice_sess_trickle trickle;
 
+    /**
+     * Trickle ICE mode. Note that, when enabled, aggressive nomination will
+     * be automatically disabled.
+     *
+     * Default value is PJ_ICE_SESS_TRICKLE_DISABLED.
+     */
+    pj_ice_sess_trickle	trickle;
+
 } pj_ice_sess_options;
 
 
@@ -699,12 +738,21 @@ struct pj_ice_sess
     pj_bool_t            is_complete;               /**< Complete?          */
     pj_bool_t            is_destroying;             /**< Destroy is called  */
     pj_bool_t            valid_pair_found;          /**< First pair found   */
+<<<<<<< HEAD
     pj_bool_t            is_trickling;              /**< End-of-candidates ind
                                                          sent/received?     */
     pj_status_t          ice_status;                /**< Error status.      */
     pj_timer_entry       timer;                     /**< ICE timer.         */
     pj_timer_entry       timer_end_of_cand;         /**< End-of-cand timer. */
     pj_ice_sess_cb       cb;                        /**< Callback.          */
+=======
+    pj_bool_t		 is_trickling;		    /**< End-of-candidates ind
+							 sent/received?	    */
+    pj_status_t		 ice_status;		    /**< Error status.	    */
+    pj_timer_entry	 timer;			    /**< ICE timer.	    */
+    pj_timer_entry	 timer_end_of_cand;	    /**< End-of-cand timer. */
+    pj_ice_sess_cb	 cb;			    /**< Callback.	    */
+>>>>>>> xcframework
 
     pj_stun_config       stun_cfg;                  /**< STUN settings.     */
 
@@ -722,6 +770,7 @@ struct pj_ice_sess
     unsigned             comp_ka;                   /**< Next comp for KA   */
 
     /* Local candidates */
+<<<<<<< HEAD
     unsigned             lcand_cnt;                 /**< # of local cand.   */
     pj_ice_sess_cand     lcand[PJ_ICE_MAX_CAND];    /**< Array of cand.     */
     unsigned             lcand_paired;              /**< # of local cand
@@ -732,6 +781,18 @@ struct pj_ice_sess
     pj_ice_sess_cand     rcand[PJ_ICE_MAX_CAND];    /**< Array of cand.     */
     unsigned             rcand_paired;              /**< # of remote cand
                                                          paired (trickling) */
+=======
+    unsigned		 lcand_cnt;		    /**< # of local cand.   */
+    pj_ice_sess_cand	 lcand[PJ_ICE_MAX_CAND];    /**< Array of cand.	    */
+    unsigned		 lcand_paired;		    /**< # of local cand
+							 paired (trickling) */
+
+    /* Remote candidates */
+    unsigned		 rcand_cnt;		    /**< # of remote cand.  */
+    pj_ice_sess_cand	 rcand[PJ_ICE_MAX_CAND];    /**< Array of cand.	    */
+    unsigned		 rcand_paired;		    /**< # of remote cand
+							 paired (trickling) */
+>>>>>>> xcframework
 
     /** Array of transport datas */
     pj_ice_msg_data      tp_data[PJ_ICE_MAX_STUN + PJ_ICE_MAX_TURN];
@@ -879,6 +940,27 @@ PJ_DECL(pj_status_t) pj_ice_sess_set_options(pj_ice_sess *ice,
  */
 PJ_DECL(pj_status_t) pj_ice_sess_detach_grp_lock(pj_ice_sess *ice,
                                                  pj_grp_lock_handler *handler);
+
+
+
+/**
+ * Detach ICE session from group lock. This will delete ICE session group lock
+ * handler.
+ *
+ * This function is useful when application creates an ICE session with
+ * group lock and later it needs to recreate ICE session (e.g: for ICE
+ * restart) so the previous ICE session resources can be released manually
+ * (by calling the group lock handler) without waiting for the group lock
+ * destroy to avoid memory bloat.
+ *
+ * @param ice		ICE session instance.
+ * @param handler	Pointer to receive the group lock handler of
+ *			this ICE session.
+ *
+ * @return		PJ_SUCCESS on success.
+ */
+PJ_DECL(pj_status_t) pj_ice_sess_detach_grp_lock(pj_ice_sess *ice,
+						 pj_grp_lock_handler *handler);
 
 
 /**
@@ -1042,6 +1124,41 @@ pj_ice_sess_update_check_list(pj_ice_sess *ice,
                               unsigned rem_cand_cnt,
                               const pj_ice_sess_cand rem_cand[],
                               pj_bool_t trickle_done);
+
+
+
+/**
+ * Update check list after receiving new remote ICE candidates or after
+ * new local ICE candidates are found and conveyed to remote. This function
+ * can also be called to indicate that trickling has completed, i.e:
+ * local candidates gathering completed and remote has sent end-of-candidate
+ * indication.
+ *
+ * This function is only applicable when trickle ICE is not disabled.
+ *
+ * @param ice		ICE session instance.
+ * @param rem_ufrag	Remote ufrag, as seen in the SDP received from 
+ *			the remote agent.
+ * @param rem_passwd	Remote password, as seen in the SDP received from
+ *			the remote agent.
+ * @param rem_cand_cnt	Number of remote candidates.
+ * @param rem_cand	Remote candidate array. Remote candidates are
+ *			gathered from the SDP received from the remote 
+ *			agent.
+ * @param trickle_done	Flag to indicate end of trickling, set to PJ_TRUE
+ *			after all local candidates have been gathered AND
+ *			after receiving end-of-candidate indication from
+ *			remote.
+ *
+ * @return		PJ_SUCCESS or the appropriate error code.
+ */
+PJ_DECL(pj_status_t) 
+pj_ice_sess_update_check_list(pj_ice_sess *ice,
+			      const pj_str_t *rem_ufrag,
+			      const pj_str_t *rem_passwd,
+			      unsigned rem_cand_cnt,
+			      const pj_ice_sess_cand rem_cand[],
+			      pj_bool_t trickle_done);
 
 
 /**

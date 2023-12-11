@@ -125,6 +125,7 @@
     //
     status = pjsip_replaces_verify_request(rdata, &replaced_dlg, PJ_FALSE, &response);
     if (status != PJ_SUCCESS) {
+<<<<<<< HEAD
         // Something wrong with Replaces request.
         //
         pj_status_t status;
@@ -136,6 +137,19 @@
             status = pjsip_endpt_respond_stateless(endpt, rdata, 500, NULL, NULL, NULL);
             if (status != PJ_SUCCESS) pjsip_tx_data_dec_ref(tdata);
         }
+=======
+	// Something wrong with Replaces request.
+	//
+	pj_status_t status;
+	if (response) {
+	    status = pjsip_endpt_send_response(endpt, rdata, response, NULL, NULL);
+	    if (status != PJ_SUCCESS) pjsip_tx_data_dec_ref(tdata);
+	} else {
+	    // Respond with 500 (Internal Server Error)
+	    status = pjsip_endpt_respond_stateless(endpt, rdata, 500, NULL, NULL, NULL);
+	    if (status != PJ_SUCCESS) pjsip_tx_data_dec_ref(tdata);
+	}
+>>>>>>> xcframework
     }
 
     // Create UAS Invite session as usual.

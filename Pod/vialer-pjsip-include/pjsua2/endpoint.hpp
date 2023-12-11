@@ -447,9 +447,15 @@ struct DigestChallenge
      * */
     std::string realm;
 
+<<<<<<< HEAD
     /**
      * Other parameters.
      */
+=======
+    /*
+     * Other parameters.
+     * */
+>>>>>>> xcframework
     StringToStringMap otherParam;
 
     /**
@@ -571,6 +577,7 @@ struct DigestCredential
  */
 struct OnCredAuthParam
 {
+<<<<<<< HEAD
     /** Digest challenge */
     DigestChallenge digestChallenge;
 
@@ -581,6 +588,14 @@ struct OnCredAuthParam
     std::string method;
 
     /** Digest credential */
+=======
+    DigestChallenge digestChallenge;
+
+    AuthCredInfo credentialInfo;
+
+    std::string method;
+
+>>>>>>> xcframework
     DigestCredential digestCredential;
 };
 
@@ -1033,6 +1048,14 @@ public:
      * Default: -1 (to use default stream settings, currently 500 msec)
      */
     int                 jbMax;
+
+    /**
+     * Set the algorithm the jitter buffer uses to discard frames in order to
+     * adjust the latency.
+     *
+     * Default: PJMEDIA_JB_DISCARD_PROGRESSIVE
+     */
+    pjmedia_jb_discard_algo jbDiscardAlgo;
 
     /**
      * Set the algorithm the jitter buffer uses to discard frames in order to
@@ -1773,7 +1796,11 @@ public:
      *    continue the call by sending re-INVITE
      *    (configurable via \a AccountConfig.ipChangeConfig.reinviteFlags).
      *
+<<<<<<< HEAD
      * @param param     The IP change parameter, have a look at IpChangeParam.
+=======
+     * @param param	The IP change parameter, have a look at #IpChangeParam.
+>>>>>>> xcframework
      */
     void handleIpChange(const IpChangeParam &param) PJSUA2_THROW(Error);
 
@@ -1878,6 +1905,7 @@ public:
      *    \a third_party directory is linked, and this callback returns PJ_ENOTSUP,
      *    then the default digest computation back-end is used.
      *
+<<<<<<< HEAD
      * @param prm.digestChallenge       The authentication challenge sent by server in 401
      *              or 401 response, as either Proxy-Authenticate or
      *              WWW-Authenticate header.
@@ -1892,6 +1920,22 @@ public:
      *
      * @return PJ_ENOTSUP is the default. If you overload this callback,
      *              return PJ_SUCCESS on success. 
+=======
+     * @param prm.digestChallenge	The authentication challenge sent by server in 401
+     *		    or 401 response, as either Proxy-Authenticate or
+     *		    WWW-Authenticate header.
+     * @param prm.credentialInfo	    The credential to be used.
+     * @param method    The request method.
+     * @param prm.digestCredential	    The digest credential where the digest response
+     *		    will be placed to. Upon calling this function, the
+     *		    nonce, nc, cnonce, qop, uri, and realm fields of
+     *		    this structure must have been set by caller. Upon
+     *		    return, the \a response field will be initialized
+     *		    by this function.
+     *
+     * @return PJ_ENOTSUP is the default. If you overload this callback,
+     *		    return PJ_SUCCESS on success. 
+>>>>>>> xcframework
      */
     virtual pj_status_t onCredAuth(OnCredAuthParam &prm);
 
@@ -2003,7 +2047,11 @@ private:
                                     unsigned stream_idx);
     static void on_dtmf_digit(pjsua_call_id call_id, int digit);
     static void on_dtmf_digit2(pjsua_call_id call_id, 
+<<<<<<< HEAD
                                const pjsua_dtmf_info *info);
+=======
+			       const pjsua_dtmf_info *info);
+>>>>>>> xcframework
     static void on_dtmf_event(pjsua_call_id call_id,
                               const pjsua_dtmf_event *event);
     static void on_call_transfer_request(pjsua_call_id call_id,
@@ -2075,6 +2123,15 @@ private:
                                              const pjsip_cred_info *cred,
                                              const pj_str_t *method,
                                              pjsip_digest_credential *auth);
+    friend class Account;
+
+
+    static pj_status_t on_auth_create_aka_response_callback(
+					     pj_pool_t *pool,
+					     const pjsip_digest_challenge*chal,
+					     const pjsip_cred_info *cred,
+					     const pj_str_t *method,
+					     pjsip_digest_credential *auth);
     friend class Account;
 
 

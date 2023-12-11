@@ -376,7 +376,11 @@ enum pjsip_inv_option
      * Session timer extension will always be used even when peer doesn't
      * support/want session timer.
      */
+<<<<<<< HEAD
     PJSIP_INV_ALWAYS_USE_TIMER  = 128,
+=======
+    PJSIP_INV_ALWAYS_USE_TIMER	= 128,
+>>>>>>> xcframework
 
     /**
      * Indicate support for trickle ICE
@@ -496,12 +500,15 @@ typedef struct pjsip_sdp_info
  * are typedef'd to pjsip_sdp_info.
  */
 typedef pjsip_sdp_info pjsip_rdata_sdp_info;
+<<<<<<< HEAD
 
 /**
  * For backwards compatibility and completeness,
  * pjsip_rdata_sdp_info and pjsip_tdata_sdp_info
  * are typedef'd to pjsip_sdp_info.
  */
+=======
+>>>>>>> xcframework
 typedef pjsip_sdp_info pjsip_tdata_sdp_info;
 
 
@@ -1111,6 +1118,44 @@ PJ_DECL(pjsip_sdp_info*) pjsip_get_sdp_info(pj_pool_t *pool,
                                            const pjsip_media_type *search_media_type);
 
 /**
+ * This is a utility function to create a multipart body with the
+ * SIP body as the first part.
+ *
+ * @param pool		Pool to allocate memory.
+ * @param sdp		SDP session to be put in the SIP message body.
+ * @param p_body	Pointer to receive SIP message body containing
+ *			the SDP session.
+ *
+ * @return		PJ_SUCCESS on success.
+ */
+PJ_DECL(pj_status_t) pjsip_create_multipart_sdp_body( pj_pool_t *pool,
+                                           pjmedia_sdp_session *sdp,
+                                           pjsip_msg_body **p_body);
+
+/**
+ * Retrieve SDP information from a message body. Application should
+ * prefer to use this function rather than parsing the SDP manually since
+ * this function supports multipart message body.
+ *
+ * This function will only parse the SDP once, the first time it is called
+ * on the same message. Subsequent call on the same message will just pick
+ * up the already parsed SDP from the message.
+ *
+ * @param pool               Pool to allocate memory.
+ * @param body               The message body.
+ * @param msg_media_type     From the rdata or tdata Content-Type header, if available.
+ *                           If NULL, the content_type from the body will be used.
+ * @param search_media_type  The media type to search for.
+ *                           If NULL, "application/sdp" will be used.
+ *
+ * @return                   The SDP info.
+ */
+PJ_DECL(pjsip_sdp_info*) pjsip_get_sdp_info(pj_pool_t *pool,
+					   pjsip_msg_body *body,
+					   pjsip_media_type *msg_media_type,
+					   const pjsip_media_type *search_media_type);
+
+/**
  * Retrieve SDP information from an incoming message. Application should
  * prefer to use this function rather than parsing the SDP manually since
  * this function supports multipart message body.
@@ -1142,8 +1187,13 @@ PJ_DECL(pjsip_rdata_sdp_info*) pjsip_rdata_get_sdp_info(pjsip_rx_data *rdata);
  * @return                    The SDP info.
  */
 PJ_DECL(pjsip_rdata_sdp_info*) pjsip_rdata_get_sdp_info2(
+<<<<<<< HEAD
                                             pjsip_rx_data *rdata,
                                             const pjsip_media_type *search_media_type);
+=======
+					    pjsip_rx_data *rdata,
+					    const pjsip_media_type *search_media_type);
+>>>>>>> xcframework
 
 /**
  * Retrieve SDP information from an outgoing message. Application should
@@ -1176,8 +1226,13 @@ PJ_DECL(pjsip_tdata_sdp_info*) pjsip_tdata_get_sdp_info(pjsip_tx_data *tdata);
  * @return                    The SDP info.
  */
 PJ_DECL(pjsip_tdata_sdp_info*) pjsip_tdata_get_sdp_info2(
+<<<<<<< HEAD
                                             pjsip_tx_data *tdata,
                                             const pjsip_media_type *search_media_type);
+=======
+					    pjsip_tx_data *tdata,
+					    const pjsip_media_type *search_media_type);
+>>>>>>> xcframework
 
 
 PJ_END_DECL

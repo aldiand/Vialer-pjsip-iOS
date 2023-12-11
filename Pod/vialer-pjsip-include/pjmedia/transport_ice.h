@@ -92,6 +92,25 @@ typedef struct pjmedia_ice_cb
                                 const pj_ice_sess_cand *cand,
                                 pj_bool_t last);
 
+    /**
+     * Callback to report a new ICE local candidate, e.g: after successful
+     * STUN Binding, after a successful TURN allocation. Only new candidates
+     * whose type is server reflexive or relayed will be notified via this
+     * callback. This callback also indicates end-of-candidate via parameter
+     * 'last'.
+     *
+     * Trickle ICE can use this callback to convey the new candidate
+     * to remote agent and monitor end-of-candidate indication.
+     *
+     * @param tp	PJMEDIA ICE transport.
+     * @param cand	The new local candidate, can be NULL when the last
+     *			local candidate initialization failed/timeout.
+     * @param last	PJ_TRUE if this is the last of local candidate.
+     */
+    void    (*on_new_candidate)(pjmedia_transport *tp,
+				const pj_ice_sess_cand *cand,
+				pj_bool_t last);
+
 } pjmedia_ice_cb;
 
 
@@ -117,8 +136,13 @@ typedef struct pjmedia_ice_transport_info
      */
     pj_ice_sess_role role;
 
+<<<<<<< HEAD
     pj_str_t    loc_ufrag;
     pj_str_t    rem_ufrag;
+=======
+    pj_str_t	loc_ufrag;
+    pj_str_t	rem_ufrag;
+>>>>>>> xcframework
 
     /**
      * Number of components in the component array. Before ICE negotiation
@@ -443,6 +467,141 @@ PJ_DECL(pj_status_t) pjmedia_ice_trickle_send_local_cand(
                                             pj_pool_t *sdp_pool,
                                             pjmedia_sdp_session *sdp,
                                             pj_bool_t *p_end_of_cand);
+
+
+/**
+ * Check if trickle support is signalled in the specified SDP. This function
+ * will check trickle indication in the media level first, if not found, it
+ * will check in the session level.
+ *
+ * @param sdp		The SDP.
+ * @param med_idx	The media index to be checked.
+ *
+ * @return		PJ_TRUE if trickle ICE indication is found.
+ */
+PJ_DECL(pj_bool_t) pjmedia_ice_sdp_has_trickle(const pjmedia_sdp_session *sdp,
+					       unsigned med_idx);
+
+
+/**
+ * Update check list after remote ICE candidates list are received or after
+ * or local ICE candidates are conveyed. This function may also be called
+ * after end-of-candidates indication is received or conveyed. ICE
+ * connectivity checks will automatically be started if both sides have
+ * conveyed ICE info (ICE user fragment and/or candidate list).
+ *
+ * To update the check list after conveying any new local candidates,
+ * application can set the remote ICE parameters to NULL or zero. Note that
+ * the checklist should only be updated after any newly found local candidates
+ * are conveyed to remote, instead of immediately after the finding.
+ *
+ * This function is only applicable when trickle ICE is not disabled.
+ *
+ * @param tp		The ICE media transport.
+ * @param rem_ufrag	Remote ufrag, as seen in the SDP received from
+ *			the remote agent.
+ * @param rem_passwd	Remote password, as seen in the SDP received from
+ *			the remote agent.
+ * @param rcand_cnt	Number of new remote candidates in the array.
+ * @param rcand		New remote candidates array.
+ * @param rcand_end	Set to PJ_TRUE if remote has signalled
+ *			end-of-candidate.
+ *
+ * @return		PJ_SUCCESS, or the appropriate error code.
+ */
+PJ_DECL(pj_status_t) pjmedia_ice_trickle_update(
+					    pjmedia_transport *tp,
+					    const pj_str_t *rem_ufrag,
+					    const pj_str_t *rem_passwd,
+					    unsigned rcand_cnt,
+					    const pj_ice_sess_cand rcand[],
+					    pj_bool_t rcand_end);
+
+
+/**
+ * Decode trickle ICE info from the specified SDP.
+ *
+ * @param sdp		The SDP containing trickle ICE info.
+ * @param media_index	The media index.
+ * @param mid		Output, media ID.
+ * @param ufrag		Output, ufrag.
+ * @param passwd	Output, password.
+ * @param cand_cnt	On input, maximum number of candidate array.
+ *			On output, the number of candidates.
+ * @param cand		Output, the candidates.
+ * @param end_of_cand	Output, end of candidate indication.
+ *
+ * @return		PJ_SUCCESS, or the appropriate error code.
+ */
+PJ_DECL(pj_status_t) pjmedia_ice_trickle_decode_sdp(
+					    const pjmedia_sdp_session *sdp,
+					    unsigned media_index,
+					    pj_str_t *mid,
+					    pj_str_t *ufrag,
+					    pj_str_t *passwd,
+					    unsigned *cand_cnt,
+					    pj_ice_sess_cand cand[],
+					    pj_bool_t *end_of_cand);
+
+
+/**
+ * Encode trickle ICE info into the specified SDP. This function may generate
+ * the following SDP attributes:
+ * - Media ID, "a=mid".
+ * - ICE ufrag & password, "a=ice-ufrag" & "a=ice-pwd".
+ * - Trickle ICE support indication, "a=ice-options:trickle".
+ * - ICE candidates, "a=candidate".
+ * - End of candidate indication, "a=end-of-candidates".
+ *
+ * @param sdp_pool	The memory pool for generating SDP attributes.
+ * @param sdp		The SDP to be updated.
+ * @param mid		The media ID.
+ * @param ufrag		The ufrag, optional.
+ * @param passwd	The password, optional.
+ * @param cand_cnt	The number of local candidates, can be zero.
+ * @param cand		The local candidates.
+ * @param end_of_cand	End of candidate indication.
+ *
+ * @return		PJ_SUCCESS, or the appropriate error code.
+ */
+PJ_DECL(pj_status_t) pjmedia_ice_trickle_encode_sdp(
+					    pj_pool_t *sdp_pool,
+					    pjmedia_sdp_session *sdp,
+					    const pj_str_t *mid,
+					    const pj_str_t *ufrag,
+					    const pj_str_t *passwd,
+					    unsigned cand_cnt,
+					    const pj_ice_sess_cand cand[],
+					    pj_bool_t end_of_cand);
+
+
+/**
+ * Check if trickling ICE has found any new local candidates since the last
+ * conveyance (via pjmedia_ice_trickle_send_local_cand()).
+ *
+ * @param tp		The ICE media transport.
+ *
+ * @return		PJ_TRUE if new local canditates are available.
+ */
+PJ_DECL(pj_bool_t) pjmedia_ice_trickle_has_new_cand(pjmedia_transport *tp);
+
+
+/**
+ * Convey all local candidates via the specified SDP.
+ *
+ * @param tp		The ICE media transport.
+ * @param sdp_pool	The memory pool for generating SDP attributes.
+ * @param sdp		The SDP.
+ * @param p_end_of_cand Optional, pointer to receive the indication that
+ *			candidate gathering has been completed.
+ *
+ * @return		PJ_SUCCESS, or the appropriate error code.
+ */
+PJ_DECL(pj_status_t) pjmedia_ice_trickle_send_local_cand(
+					    pjmedia_transport *tp,
+					    pj_pool_t *sdp_pool,
+					    pjmedia_sdp_session *sdp,
+					    pj_bool_t *p_end_of_cand);
 
 
 PJ_END_DECL

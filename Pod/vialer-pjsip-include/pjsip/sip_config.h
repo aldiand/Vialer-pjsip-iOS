@@ -180,6 +180,7 @@ typedef struct pjsip_cfg_t
          */
         pj_bool_t accept_multiple_sdp_answers;
 
+<<<<<<< HEAD
         /**
          * Don't disconnect the INVITE session after an outgoing request
          * gets timed out or responded with 408 (request timeout).
@@ -187,6 +188,15 @@ typedef struct pjsip_cfg_t
          * Default is PJ_FALSE.
          */
         pj_bool_t keep_inv_after_tsx_timeout;
+=======
+	/**
+	 * Don't disconnect the INVITE session after an outgoing request
+	 * gets timed out or responded with 408 (request timeout).
+	 *
+	 * Default is PJ_FALSE.
+	 */
+	pj_bool_t keep_inv_after_tsx_timeout;
+>>>>>>> xcframework
 
     } endpt;
 
@@ -213,6 +223,7 @@ typedef struct pjsip_cfg_t
          */
         unsigned t4;
 
+<<<<<<< HEAD
         /** Transaction completed timer for INVITE, in msec. Default value is
          *  PJSIP_TD_TIMEOUT.
          *
@@ -220,6 +231,15 @@ typedef struct pjsip_cfg_t
          *  INVITE and non-INVITE.
          */
         unsigned td;
+=======
+	/** Transaction completed timer for INVITE, in msec. Default value is
+	 *  PJSIP_TD_TIMEOUT.
+	 *
+	 *  This setting is also used for transaction timeout timer for both
+	 *  INVITE and non-INVITE.
+	 */
+	unsigned td;
+>>>>>>> xcframework
 
     } tsx;
 
@@ -951,14 +971,22 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
  * Initial memory block for SIP transport.
  */
 #ifndef PJSIP_POOL_LEN_TRANSPORT
+<<<<<<< HEAD
 #   define PJSIP_POOL_LEN_TRANSPORT     512
+=======
+#   define PJSIP_POOL_LEN_TRANSPORT	512
+>>>>>>> xcframework
 #endif
 
 /**
  * Memory increment for SIP transport.
  */
 #ifndef PJSIP_POOL_INC_TRANSPORT
+<<<<<<< HEAD
 #   define PJSIP_POOL_INC_TRANSPORT     512
+=======
+#   define PJSIP_POOL_INC_TRANSPORT	512
+>>>>>>> xcframework
 #endif
 
 /**
@@ -993,8 +1021,23 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
  * Initial memory block for event subscription module.
  */
 #ifndef PJSIP_POOL_EVSUB_LEN
+<<<<<<< HEAD
 #   define PJSIP_POOL_EVSUB_LEN         512
 #endif
+=======
+#   define PJSIP_POOL_EVSUB_LEN		512
+#endif
+
+/**
+ * Memory increment for event subscription module.
+ */
+#ifndef PJSIP_POOL_EVSUB_INC
+#   define PJSIP_POOL_EVSUB_INC		512
+#endif
+
+
+#define PJSIP_MAX_FORWARDS_VALUE	70
+>>>>>>> xcframework
 
 /**
  * Memory increment for event subscription module.
@@ -1076,6 +1119,11 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
 #ifndef PJSIP_TSX_UAS_CONTINUE_ON_TP_ERROR
 #   define PJSIP_TSX_UAS_CONTINUE_ON_TP_ERROR 1
 #endif
+<<<<<<< HEAD
+=======
+
+#define PJSIP_MAX_TSX_KEY_LEN		(PJSIP_MAX_URL_SIZE*2)
+>>>>>>> xcframework
 
 #define PJSIP_MAX_TSX_KEY_LEN           (PJSIP_MAX_URL_SIZE*2)
 
@@ -1264,7 +1312,11 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
  * Default is 1.
  */
 #ifndef PJSIP_REGISTER_ALLOW_EXP_REFRESH
+<<<<<<< HEAD
 #   define PJSIP_REGISTER_ALLOW_EXP_REFRESH     1
+=======
+#   define PJSIP_REGISTER_ALLOW_EXP_REFRESH	1
+>>>>>>> xcframework
 #endif
 
 

@@ -185,12 +185,20 @@ typedef struct pjmedia_srtp_roc
     /**
      * The synchronization source.
      */
+<<<<<<< HEAD
     pj_uint32_t     ssrc;
+=======
+    pj_uint32_t	    ssrc;
+>>>>>>> xcframework
 
     /**
      * The rollover counter.
      */
+<<<<<<< HEAD
     pj_uint32_t     roc;
+=======
+    pj_uint32_t	    roc;
+>>>>>>> xcframework
 
 } pjmedia_srtp_roc;
 
@@ -270,6 +278,30 @@ typedef struct pjmedia_srtp_setting
     pjmedia_srtp_roc             tx_roc;
 
     /**
+     * RTP sequence rollover counter initialization value for incoming
+     * direction. This is useful to maintain ROC after media transport
+     * recreation such as in IP change scenario.
+     */
+    pjmedia_srtp_roc		 rx_roc;
+
+    /**
+     * The previous value of RTP sequence rollover counter. This is
+     * useful in situations when we expect the remote to reset/maintain
+     * ROC but for some reason, they don't. Thus, when we encounter
+     * SRTP packet unprotect failure during probation, we will retry to
+     * unprotect with this ROC value as well.
+     * Set prev_rx_roc.ssrc to 0 to disable this feature.
+     */
+    pjmedia_srtp_roc		 prev_rx_roc;
+
+    /**
+     * RTP sequence rollover counter initialization value for outgoing
+     * direction. This is useful to maintain ROC after media transport
+     * recreation such as in IP change scenario.
+     */
+    pjmedia_srtp_roc		 tx_roc;
+
+    /**
      * Specify SRTP callback.
      */
     pjmedia_srtp_cb              cb;
@@ -322,6 +354,16 @@ typedef struct pjmedia_srtp_info
      * RTP sequence rollover counter info for outgoing direction.
      */
     pjmedia_srtp_roc            tx_roc;
+
+    /**
+     * RTP sequence rollover counter info for incoming direction.
+     */
+    pjmedia_srtp_roc		rx_roc;
+
+    /**
+     * RTP sequence rollover counter info for outgoing direction.
+     */
+    pjmedia_srtp_roc		tx_roc;
 
 } pjmedia_srtp_info;
 
@@ -398,9 +440,15 @@ PJ_DECL(pj_status_t) pjmedia_srtp_enum_crypto(unsigned *count,
 /**
  * Enumerate available SRTP keying methods.
  *
+<<<<<<< HEAD
  * @param count     On input, specifies the maximum length of keying method
  *                  array. On output, the number of available keying method
  *                  initialized by this function.
+=======
+ * @param count	    On input, specifies the maximum length of keying method
+ *		    array. On output, the number of available keying method
+ *		    initialized by this function.
+>>>>>>> xcframework
  * @param keying    The SRTP keying method array output.
  *
  * @return          PJ_SUCCESS on success.
@@ -452,6 +500,31 @@ PJ_DECL(pj_status_t) pjmedia_transport_srtp_get_setting(
 PJ_DECL(pj_status_t) pjmedia_transport_srtp_modify_setting(
                                        pjmedia_transport *srtp,
                                        const pjmedia_srtp_setting *opt);
+
+/**
+ * Get current SRTP media transport setting.
+ *
+ * @param srtp	    The SRTP transport.
+ * @param opt	    Structure to receive the SRTP setting
+ *
+ * @return	    PJ_SUCCESS on success.
+ */
+PJ_DECL(pj_status_t) pjmedia_transport_srtp_get_setting(
+				       pjmedia_transport *srtp,
+				       pjmedia_srtp_setting *opt);
+
+
+/**
+ * Modify SRTP media transport setting.
+ *
+ * @param srtp	    The SRTP transport.
+ * @param opt	    New setting
+ *
+ * @return	    PJ_SUCCESS on success.
+ */
+PJ_DECL(pj_status_t) pjmedia_transport_srtp_modify_setting(
+				       pjmedia_transport *srtp,
+				       const pjmedia_srtp_setting *opt);
 
 /**
  * Get fingerprint of local DTLS-SRTP certificate.

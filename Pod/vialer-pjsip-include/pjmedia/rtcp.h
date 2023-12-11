@@ -120,7 +120,11 @@ typedef struct pjmedia_rtcp_common
 typedef struct pjmedia_rtcp_fb_common
 {
     pjmedia_rtcp_common rtcp_common;
+<<<<<<< HEAD
     pj_uint32_t     ssrc_src;   /**< SSRC media source      */
+=======
+    pj_uint32_t	    ssrc_src;	/**< SSRC media source	    */
+>>>>>>> xcframework
 } pjmedia_rtcp_fb_common;
 
 /**
@@ -239,11 +243,19 @@ typedef struct pjmedia_rtcp_stat
  */
 typedef struct pjmedia_rtcp_session
 {
+<<<<<<< HEAD
     char                   *name;       /**< Name identification.           */
     pjmedia_rtcp_sr_pkt     rtcp_sr_pkt;/**< Cached RTCP SR packet.         */
     pjmedia_rtcp_rr_pkt     rtcp_rr_pkt;/**< Cached RTCP RR packet.         */
     pjmedia_rtcp_fb_common  rtcp_fb_com;/**< Cached RTCP feedback common 
                                              header packet.                 */
+=======
+    char		   *name;	/**< Name identification.	    */
+    pjmedia_rtcp_sr_pkt	    rtcp_sr_pkt;/**< Cached RTCP SR packet.	    */
+    pjmedia_rtcp_rr_pkt	    rtcp_rr_pkt;/**< Cached RTCP RR packet.	    */
+    pjmedia_rtcp_fb_common  rtcp_fb_com;/**< Cached RTCP feedback common 
+					     header packet.		    */
+>>>>>>> xcframework
     
     pjmedia_rtp_seq_session seq_ctrl;   /**< RTCP sequence number control.  */
     unsigned                rtp_last_ts;/**< Last timestamp in RX RTP pkt.  */

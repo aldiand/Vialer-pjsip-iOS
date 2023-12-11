@@ -386,11 +386,19 @@ PJ_DECL(pj_status_t) pj_stun_sock_create(pj_stun_config *stun_cfg,
  *                      NULL, the \a domain parameter will be resolved as
  *                      hostname.
  *
+<<<<<<< HEAD
  * @return              PJ_SUCCESS if the operation has been successfully
  *                      queued, or the appropriate error code on failure.
  *                      When this function returns PJ_SUCCESS, the final
  *                      result of the allocation process will be notified
  *                      to application in \a on_status() callback.
+=======
+ * @return		PJ_SUCCESS if the operation has been successfully
+ *			queued, or the appropriate error code on failure.
+ *			When this function returns PJ_SUCCESS, the final
+ *			result of the allocation process will be notified
+ *			to application in \a on_status() callback.
+>>>>>>> xcframework
  */
 PJ_DECL(pj_status_t) pj_stun_sock_start(pj_stun_sock *stun_sock,
                                         const pj_str_t *domain,

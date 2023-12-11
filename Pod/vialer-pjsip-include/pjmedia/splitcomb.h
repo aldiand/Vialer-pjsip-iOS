@@ -105,6 +105,7 @@ PJ_DECL(pj_status_t) pjmedia_splitcomb_set_channel(pjmedia_port *splitcomb,
  * will be returned when application calls get_frame() to the splitter's 
  * media port. So this effectively reverse the phase of the media port.
  *
+<<<<<<< HEAD
  * @param pool              The pool to allocate memory for the port and
  *                          buffers.
  * @param splitcomb         The splitter/combiner.
@@ -118,6 +119,21 @@ PJ_DECL(pj_status_t) pjmedia_splitcomb_set_channel(pjmedia_port *splitcomb,
  *                          #pjmedia_delay_buf_flag for the possible options).
  * @param p_chport          The media port created with reverse phase for
  *                          the specified audio channel.
+=======
+ * @param pool		    The pool to allocate memory for the port and
+ *			    buffers.
+ * @param splitcomb	    The splitter/combiner.
+ * @param ch_num	    Audio channel starting number (zero based).
+ * @param options	    Normally is zero, but the lower 8-bit of the 
+ *			    options can be used to specify the number of 
+ *			    buffers in the circular buffer. If zero, then
+ *			    default number will be used (default: 8). The second
+ *			    lowest 8 bits can be used to specify the options for
+ *			    the underlying delay buffer (see
+ *			    #pjmedia_delay_buf_flag for the possible options).
+ * @param p_chport	    The media port created with reverse phase for
+ *			    the specified audio channel.
+>>>>>>> xcframework
  *
  * @return                  PJ_SUCCESS on success, or the appropriate error
  *                          code.

@@ -98,6 +98,10 @@
 #undef PJMEDIA_HAS_ANDROID_MEDIACODEC
 #endif
 
+<<<<<<< HEAD
 #endif  /* __PJMEDIA_CODEC_CONFIG_AUTO_H_ */
+=======
+#endif	/* __PJMEDIA_CODEC_CONFIG_AUTO_H_ */
+>>>>>>> xcframework
 
 

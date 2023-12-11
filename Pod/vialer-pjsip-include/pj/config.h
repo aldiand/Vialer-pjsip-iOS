@@ -171,11 +171,19 @@
      * Generic i386 processor family, little-endian
      */
 #   undef PJ_M_I386
+<<<<<<< HEAD
 #   define PJ_M_I386            1
 #   define PJ_M_NAME            "i386"
 #   define PJ_HAS_PENTIUM       1
 #   define PJ_IS_LITTLE_ENDIAN  1
 #   define PJ_IS_BIG_ENDIAN     0
+=======
+#   define PJ_M_I386		1
+#   define PJ_M_NAME		"i386"
+#   define PJ_HAS_PENTIUM	1
+#   define PJ_IS_LITTLE_ENDIAN	1
+#   define PJ_IS_BIG_ENDIAN	0
+>>>>>>> xcframework
 
 #elif defined (PJ_M_X86_64) || defined(__amd64__) || defined(__amd64) || \
         defined(__x86_64__) || defined(__x86_64) || \
@@ -254,8 +262,13 @@
 #   define PJ_IS_BIG_ENDIAN     1
 
 #elif defined(ARM) || defined(_ARM_) ||  defined(__arm__) || \
+<<<<<<< HEAD
        defined(_M_ARM) || defined(_M_ARM64) || defined(__aarch64__)
 #   define PJ_HAS_PENTIUM       0
+=======
+       defined(_M_ARM) || defined(_M_ARM64)
+#   define PJ_HAS_PENTIUM	0
+>>>>>>> xcframework
     /*
      * ARM, bi-endian, so raise error if endianness is not configured
      */
@@ -267,6 +280,7 @@
 #       define PJ_M_ARM7                1
 #       define PJ_M_NAME                "armv7"
 #   elif defined (PJ_M_ARMV4) || defined(ARMV4)
+<<<<<<< HEAD
 #       undef PJ_M_ARMV4
 #       define PJ_M_ARMV4               1
 #       define PJ_M_NAME                "armv4"
@@ -274,6 +288,15 @@
 #       undef PJ_M_ARM64
 #       define PJ_M_ARM64               1
 #       define PJ_M_NAME                "arm64"
+=======
+#	undef PJ_M_ARMV4
+#	define PJ_M_ARMV4		1
+#	define PJ_M_NAME		"armv4"
+#   elif defined (PJ_M_ARM64) || defined(ARM64)
+#	undef PJ_M_ARM64
+#	define PJ_M_ARM64		1
+#	define PJ_M_NAME		"arm64"
+>>>>>>> xcframework
 #   endif 
 
 #elif defined (PJ_M_POWERPC) || defined(__powerpc) || defined(__powerpc__) || \
@@ -830,6 +853,19 @@
 #   endif
 #endif
 
+/**
+ * Use dispatch semaphores on Darwin.
+ *
+ * Default: 1 on Darwin, 0 otherwise
+ */
+#ifndef PJ_SEMAPHORE_USE_DISPATCH_SEM
+#   if defined(PJ_DARWINOS) && PJ_DARWINOS != 0
+#	define PJ_SEMAPHORE_USE_DISPATCH_SEM	1
+#   else
+#	define PJ_SEMAPHORE_USE_DISPATCH_SEM	0
+#   endif
+#endif
+
 
 /**
  * Event object (for synchronization, e.g. in Win32)
@@ -994,6 +1030,7 @@
  * Secure socket implementation.
  * Select one of these implementations in PJ_SSL_SOCK_IMP.
  */
+<<<<<<< HEAD
 #define PJ_SSL_SOCK_IMP_NONE        0   /**< Disable SSL socket.    */
 #define PJ_SSL_SOCK_IMP_OPENSSL     1   /**< Using OpenSSL.         */
 #define PJ_SSL_SOCK_IMP_GNUTLS      2   /**< Using GnuTLS.          */
@@ -1002,6 +1039,16 @@
                                              MacOS 10.15 & iOS 13.0)*/
 #define PJ_SSL_SOCK_IMP_APPLE       4   /**< Using Apple's Network 
                                              framework.             */
+=======
+#define PJ_SSL_SOCK_IMP_NONE 	    0	/**< Disable SSL socket.    */
+#define PJ_SSL_SOCK_IMP_OPENSSL	    1	/**< Using OpenSSL.	    */
+#define PJ_SSL_SOCK_IMP_GNUTLS      2	/**< Using GnuTLS.	    */
+#define PJ_SSL_SOCK_IMP_DARWIN      3	/**< Using Apple's Secure
+					     Transport (deprecated in
+					     MacOS 10.15 & iOS 13.0)*/
+#define PJ_SSL_SOCK_IMP_APPLE       4	/**< Using Apple's Network 
+					     framework.	    	    */
+>>>>>>> xcframework
 
 /**
  * Select which SSL socket implementation to use. Currently pjlib supports
@@ -1406,10 +1453,14 @@ PJ_BEGIN_DECL
 #define PJ_VERSION_NUM_MAJOR    2
 
 /** PJLIB version minor number. */
+<<<<<<< HEAD
 #define PJ_VERSION_NUM_MINOR    13
+=======
+#define PJ_VERSION_NUM_MINOR	12
+>>>>>>> xcframework
 
 /** PJLIB version revision number. */
-#define PJ_VERSION_NUM_REV      0
+#define PJ_VERSION_NUM_REV      1
 
 /**
  * Extra suffix for the version (e.g. "-trunk"), or empty for

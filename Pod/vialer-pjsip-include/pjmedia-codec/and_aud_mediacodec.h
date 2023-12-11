@@ -40,7 +40,11 @@
  * MediaCodec AMR supports 16-bit PCM audio signal with sampling rate 8000Hz,
  * 20ms frame length and producing various bitrates that ranges from 4.75kbps
  * to 12.2kbps.
+<<<<<<< HEAD
  * \subsection and_aud_codec_setting Codec Settings
+=======
+ * \subsection codec_setting Codec Settings
+>>>>>>> xcframework
  *
  * General codec settings for this codec such as VAD and PLC can be
  * manipulated through the <tt>setting</tt> field in #pjmedia_codec_param.
@@ -48,7 +52,11 @@
  * Note that MediaCodec doesn't provide internal VAD/PLC feature, they will be
  * provided by PJMEDIA instead.
  *
+<<<<<<< HEAD
  * \subsubsection and_aud_bitrate Bitrate
+=======
+ * \subsubsection bitrate Bitrate
+>>>>>>> xcframework
  *
  * By default, encoding bitrate is 7400bps. This default setting can be
  * modified using #pjmedia_codec_mgr_set_default_param() by specifying
@@ -56,7 +64,11 @@
  * #pjmedia_codec_param. Valid bitrates could be seen in
  * #pjmedia_codec_amrnb_bitrates.
  *
+<<<<<<< HEAD
  * \subsubsection and_aud_payload_format Payload Format
+=======
+ * \subsubsection payload_format Payload Format
+>>>>>>> xcframework
  *
  * There are two AMR payload format types, bandwidth-efficient and
  * octet-aligned. Default setting is using octet-aligned. This default payload
@@ -67,7 +79,11 @@
  * decoding direction. Valid values are "0" (for bandwidth efficient mode)
  * and "1" (for octet-aligned mode).
  *
+<<<<<<< HEAD
  * \subsubsection and_aud_mode_set Mode-Set
+=======
+ * \subsubsection mode_set Mode-Set
+>>>>>>> xcframework
  *
  * Mode-set is used for restricting AMR modes in decoding direction.
  *
@@ -108,9 +124,15 @@ PJ_BEGIN_DECL
  * Initialize and register Android audio MediaCodec factory to pjmedia
  * endpoint.
  *
+<<<<<<< HEAD
  * @param endpt         The pjmedia endpoint.
  *
  * @return              PJ_SUCCESS on success.
+=======
+ * @param endpt		The pjmedia endpoint.
+ *
+ * @return		PJ_SUCCESS on success.
+>>>>>>> xcframework
  */
 PJ_DECL(pj_status_t) pjmedia_codec_and_media_aud_init( pjmedia_endpt *endpt );
 
@@ -118,7 +140,11 @@ PJ_DECL(pj_status_t) pjmedia_codec_and_media_aud_init( pjmedia_endpt *endpt );
  * Unregister Android audio MediaCodec factory from pjmedia endpoint 
  * and deinitialize the codec library.
  *
+<<<<<<< HEAD
  * @return          PJ_SUCCESS on success.
+=======
+ * @return	    PJ_SUCCESS on success.
+>>>>>>> xcframework
  */
 PJ_DECL(pj_status_t) pjmedia_codec_and_media_aud_deinit( void );
 
@@ -128,4 +154,8 @@ PJ_END_DECL
  * @}
  */
 
+<<<<<<< HEAD
 #endif  /* __PJMEDIA_CODEC_AND_AUD_MEDIACODEC_H__ */
+=======
+#endif	/* __PJMEDIA_CODEC_AND_AUD_MEDIACODEC_H__ */
+>>>>>>> xcframework

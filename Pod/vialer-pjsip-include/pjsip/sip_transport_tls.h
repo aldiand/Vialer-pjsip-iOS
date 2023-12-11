@@ -54,6 +54,7 @@ PJ_BEGIN_DECL
 /** SSL protocol method constants. */
 typedef enum pjsip_ssl_method
 {
+<<<<<<< HEAD
     PJSIP_SSL_UNSPECIFIED_METHOD = 0,   /**< Default protocol method.   */    
     PJSIP_SSLV2_METHOD           = 20,  /**< Use SSLv2 method.          */
     PJSIP_SSLV3_METHOD           = 30,  /**< Use SSLv3 method.          */
@@ -62,6 +63,16 @@ typedef enum pjsip_ssl_method
     PJSIP_TLSV1_2_METHOD         = 33,  /**< Use TLSv1_2 method.        */
     PJSIP_TLSV1_3_METHOD         = 34,  /**< Use TLSv1_3 method.        */
     PJSIP_SSLV23_METHOD          = 23,  /**< Use SSLv23 method.         */
+=======
+    PJSIP_SSL_UNSPECIFIED_METHOD = 0,	/**< Default protocol method.	*/    
+    PJSIP_SSLV2_METHOD		 = 20,	/**< Use SSLv2 method.		*/
+    PJSIP_SSLV3_METHOD		 = 30,	/**< Use SSLv3 method.		*/
+    PJSIP_TLSV1_METHOD		 = 31,	/**< Use TLSv1 method.		*/
+    PJSIP_TLSV1_1_METHOD	 = 32,	/**< Use TLSv1_1 method.	*/
+    PJSIP_TLSV1_2_METHOD	 = 33,	/**< Use TLSv1_2 method.	*/
+    PJSIP_TLSV1_3_METHOD	 = 34,	/**< Use TLSv1_3 method.	*/
+    PJSIP_SSLV23_METHOD		 = 23,	/**< Use SSLv23 method.		*/
+>>>>>>> xcframework
 } pjsip_ssl_method;
 
 /**
@@ -104,7 +115,11 @@ typedef struct pjsip_tls_on_accept_fail_param {
 
 
 /**
+<<<<<<< HEAD
  * This structure describe the parameter passed from on_verify_cb().
+=======
+ * This structure describe the parameter passed from #on_verify_cb().
+>>>>>>> xcframework
  */
 typedef struct pjsip_tls_on_verify_param {
     /**
@@ -382,8 +397,13 @@ typedef struct pjsip_tls_setting
      * @param param         The parameter to the callback.
      * 
      * @return              Return PJ_TRUE if succesfully verified. 
+<<<<<<< HEAD
      *                      If verification failed, connection will be dropped
      *                      immediately.
+=======
+     *			    If verification failed, connection will be dropped
+     *			    immediately.
+>>>>>>> xcframework
      *
      */
     pj_bool_t(*on_verify_cb)(const pjsip_tls_on_verify_param *param);

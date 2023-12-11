@@ -376,6 +376,22 @@ typedef struct pj_turn_session_cb
                        const pj_sockaddr_t *peer_addr,
                        unsigned addr_len);
 
+    /**
+     * Notification for Connect request sent using
+     * pj_turn_session_connect().
+     *
+     * @param sess	The TURN session.
+     * @param status	The status code.
+     * @param conn_id	The connection ID.
+     * @param peer_addr	Peer address.
+     * @param addr_len	Length of the peer address.
+     */
+    void (*on_connect_complete)(pj_turn_session *sess,
+		       pj_status_t status,
+		       pj_uint32_t conn_id,
+		       const pj_sockaddr_t *peer_addr,
+		       unsigned addr_len);
+
 } pj_turn_session_cb;
 
 
@@ -907,11 +923,19 @@ PJ_DECL(pj_status_t) pj_turn_session_on_rx_pkt2(
  *                      the operation itself will complete asynchronously.
  */
 PJ_DECL(pj_status_t) pj_turn_session_connection_bind(
+<<<<<<< HEAD
                                             pj_turn_session *sess,
                                             pj_pool_t *pool,
                                             pj_uint32_t conn_id,
                                             const pj_sockaddr_t *peer_addr,
                                             unsigned addr_len);
+=======
+					    pj_turn_session *sess,
+					    pj_pool_t *pool,
+					    pj_uint32_t conn_id,
+					    const pj_sockaddr_t *peer_addr,
+					    unsigned addr_len);
+>>>>>>> xcframework
 /**
  * Initiate connection to the specified peer using Connect request.
  * Application must call this function when it uses RFC 6062 (TURN TCP
@@ -921,6 +945,7 @@ PJ_DECL(pj_status_t) pj_turn_session_connection_bind(
  *
  * According to RFC 6062, a control connection must be a TCP connection,
  * and application must send TCP Allocate request
+<<<<<<< HEAD
  * (with pj_turn_session_alloc(), set TURN allocation parameter peer_conn_type
  * to PJ_TURN_TP_TCP) before calling this function.
  *
@@ -931,6 +956,18 @@ PJ_DECL(pj_status_t) pj_turn_session_connection_bind(
  * @return              PJ_SUCCESS if the operation has been successfully
  *                      issued, or the appropriate error code. Note that
  *                      the operation itself will complete asynchronously.
+=======
+ * (with pj_turn_session_alloc()，set TURN allocation parameter peer_conn_type
+ * to PJ_TURN_TP_TCP) before calling this function.
+ *
+ * @param sess		The TURN client session.
+ * @param peer_addr	Peer address.
+ * @param addr_len	Length of the peer address.
+ *
+ * @return		PJ_SUCCESS if the operation has been successfully
+ *			issued, or the appropriate error code. Note that
+ *			the operation itself will complete asynchronously.
+>>>>>>> xcframework
  */
 PJ_DECL(pj_status_t) pj_turn_session_connect(pj_turn_session *sess,
                         const pj_sockaddr_t *peer_addr,

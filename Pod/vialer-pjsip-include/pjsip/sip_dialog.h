@@ -149,6 +149,7 @@ struct pjsip_dialog
     void               *dlg_set;
 
     /* Dialog's session properties. */
+<<<<<<< HEAD
     pjsip_dialog_state  state;      /**< Dialog state.                      */
     pjsip_uri          *target;     /**< Current target.                    */
     pjsip_target_set    target_set; /**< Target set, for UAC only.          */
@@ -165,6 +166,24 @@ struct pjsip_dialog
     pj_bool_t           route_set_frozen; /**< Route set has been set.      */
     pjsip_auth_clt_sess auth_sess;  /**< Client authentication session.     */
     pj_str_t            initial_dest;/**< Initial destination host.         */
+=======
+    pjsip_dialog_state	state;	    /**< Dialog state.			    */
+    pjsip_uri	       *target;	    /**< Current target.		    */
+    pjsip_target_set	target_set; /**< Target set, for UAC only.	    */
+    pjsip_hdr	        inv_hdr;    /**< Headers from hparam in dest URL    */
+    pjsip_dlg_party     local;	    /**< Local party info.		    */
+    pjsip_dlg_party     remote;	    /**< Remote party info.		    */
+    pjsip_hdr		rem_cap_hdr;/**< List of remote capability header.  */
+    pjsip_role_e	role;	    /**< Initial role.			    */
+    pj_bool_t		uac_has_2xx;/**< UAC has received 2xx response?	    */
+    pj_bool_t		secure;	    /**< Use secure transport?		    */
+    pj_bool_t		add_allow;  /**< Add Allow header in requests?	    */
+    pjsip_cid_hdr      *call_id;    /**< Call-ID header.		    */
+    pjsip_route_hdr	route_set;  /**< Route set.			    */
+    pj_bool_t		route_set_frozen; /**< Route set has been set.	    */
+    pjsip_auth_clt_sess	auth_sess;  /**< Client authentication session.	    */
+    pj_str_t		initial_dest;/**< Initial destination host.  	    */
+>>>>>>> xcframework
 
     /** Session counter. */
     int                 sess_count; /**< Number of sessions.                */
@@ -301,9 +320,15 @@ PJ_DECL(pj_status_t) pjsip_dlg_create_uac( pjsip_user_agent *ua,
  *
  * See \a pjsip_dlg_create_uac() for general info about this function.
  *
+<<<<<<< HEAD
  * @param create_param              The parameter, refer to
  *                          \a pjsip_dlg_create_uac_param
  * @param p_dlg             Pointer to receive the dialog.
+=======
+ * @param create_param		    The parameter, refer to
+ *			    \a pjsip_dlg_create_uac_param
+ * @param p_dlg		    Pointer to receive the dialog.
+>>>>>>> xcframework
  *
  * @return                  PJ_SUCCESS on success.
  */

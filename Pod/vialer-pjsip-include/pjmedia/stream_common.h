@@ -64,18 +64,30 @@ typedef struct pjmedia_stream_ka_config
     /**
      * The number of keepalive to be sent after the stream is created.
      * When this is set to 0, keepalive will be sent once for NAT hole
+<<<<<<< HEAD
      * punching if stream's use_ka is enabled.
      *
      * Default: PJMEDIA_STREAM_START_KA_CNT
      */
     unsigned                        start_count;
+=======
+     * punching if stream's #use_ka is enabled.
+     *
+     * Default: PJMEDIA_STREAM_START_KA_CNT
+     */
+    unsigned			    start_count;
+>>>>>>> xcframework
 
     /**
      * The keepalive sending interval after the stream is created.
      *
      * Default: PJMEDIA_STREAM_START_KA_INTERVAL_MSEC
      */
+<<<<<<< HEAD
     unsigned                        start_interval;
+=======
+    unsigned			    start_interval;
+>>>>>>> xcframework
 
     /**
      * The keepalive sending interval, after #start_count number keepalive 
@@ -83,14 +95,22 @@ typedef struct pjmedia_stream_ka_config
      * 
      * Default: PJMEDIA_STREAM_KA_INTERVAL (seconds)
      */
+<<<<<<< HEAD
     unsigned                        ka_interval;
+=======
+    unsigned			    ka_interval;
+>>>>>>> xcframework
 
 } pjmedia_stream_ka_config;
 
 /**
  * Initialize the stream send keep-alive with default settings.
  *
+<<<<<<< HEAD
  * @param cfg           Stream send keep-alive structure to be initialized.
+=======
+ * @param cfg		Stream send keep-alive structure to be initialized.
+>>>>>>> xcframework
  */
 PJ_DECL(void)
 pjmedia_stream_ka_config_default(pjmedia_stream_ka_config *cfg);

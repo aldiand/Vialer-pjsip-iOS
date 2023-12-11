@@ -73,9 +73,15 @@ PJ_BEGIN_DECL
  * to indicate the truncation.
  * This macro is used to check the result of pj_ansi_snprintf().
  *
+<<<<<<< HEAD
  * @param ret       The return value of pj_ansi_snprintf().
  * @param str       The string.
  * @param len       The length of the string buffer.
+=======
+ * @param ret	    The return value of pj_ansi_snprintf().
+ * @param str	    The string.
+ * @param len	    The length of the string buffer.
+>>>>>>> xcframework
  */
 #define PJ_CHECK_TRUNC_STR(ret, str, len) \
     if ((ret) >= (len) || (ret) < 0) pj_ansi_strcpy((str) + (len) - 3, "..")

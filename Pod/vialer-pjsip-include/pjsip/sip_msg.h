@@ -375,8 +375,13 @@ PJ_DECL(int) pjsip_hdr_print_on( void *hdr, char *buf, pj_size_t len);
  *                  type is found.
  */
 PJ_DECL(void*)  pjsip_hdr_find( const void *hdr_list,
+<<<<<<< HEAD
                                 pjsip_hdr_e type,
                                 const void *start);
+=======
+				pjsip_hdr_e type,
+				const void *start);
+>>>>>>> xcframework
 
 /**
  * Find a header in a header list by its name.
@@ -392,8 +397,13 @@ PJ_DECL(void*)  pjsip_hdr_find( const void *hdr_list,
  *                  type is found.
  */
 PJ_DECL(void*)  pjsip_hdr_find_by_name( const void *hdr_list,
+<<<<<<< HEAD
                                         const pj_str_t *name,
                                         const void *start);
+=======
+					const pj_str_t *name,
+					const void *start);
+>>>>>>> xcframework
 
 /**
  * Find a header in a header list by its name and short name version.
@@ -406,6 +416,7 @@ PJ_DECL(void*)  pjsip_hdr_find_by_name( const void *hdr_list,
  *                  first header, otherwise the search will begin at the
  *                  specified header.
  *
+<<<<<<< HEAD
  * @return          The header field, or NULL if no header with the specified
  *                  type is found.
  */
@@ -413,6 +424,15 @@ PJ_DECL(void*)  pjsip_hdr_find_by_names( const void *hdr_list,
                                          const pj_str_t *name,
                                          const pj_str_t *sname,
                                          const void *start);
+=======
+ * @return	    The header field, or NULL if no header with the specified
+ *		    type is found.
+ */
+PJ_DECL(void*)  pjsip_hdr_find_by_names( const void *hdr_list,
+					 const pj_str_t *name,
+					 const pj_str_t *sname,
+					 const void *start);
+>>>>>>> xcframework
 
 /**
  * @}

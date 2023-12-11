@@ -346,9 +346,15 @@ typedef struct pjmedia_sdp_ssrc_attr
 /**
  * Parse a generic SDP attribute to get SDP ssrc attribute values.
  *
+<<<<<<< HEAD
  * @param attr          Generic attribute to be converted to ssrc, which
  *                      name must be "ssrc".
  * @param rtcp          SDP ssrc attribute to be initialized.
+=======
+ * @param attr		Generic attribute to be converted to ssrc, which
+ *			name must be "ssrc".
+ * @param rtcp		SDP ssrc attribute to be initialized.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS on success.
  */
@@ -407,8 +413,13 @@ PJ_DECL(pjmedia_sdp_conn*) pjmedia_sdp_conn_clone(pj_pool_t *pool,
 /** 
  * Compare connection info. 
  * 
+<<<<<<< HEAD
  * @param conn1     The first connection info to compare.
  * @param conn2     The second connection info to compare.
+=======
+ * @param conn1	    The first connection info to compare.
+ * @param conn2	    The second connection info to compare.
+>>>>>>> xcframework
  * @param option    Comparison option, which should be zero for now.
  *
  * @return          PJ_SUCCESS when both connection info are equal, otherwise
@@ -487,12 +498,21 @@ typedef struct pjmedia_sdp_media pjmedia_sdp_media;
 /**
  * Print media description to a buffer.
  *
+<<<<<<< HEAD
  * @param media     The media description.
  * @param buf       The buffer.
  * @param size      The buffer length.
  *
  * @return          the length printed, or -1 if the buffer is too
  *                  short.
+=======
+ * @param media	    The media description.
+ * @param buf	    The buffer.
+ * @param size	    The buffer length.
+ *
+ * @return	    the length printed, or -1 if the buffer is too
+ *		    short.
+>>>>>>> xcframework
  */
 PJ_DECL(int) pjmedia_sdp_media_print(const pjmedia_sdp_media *media, char *buf, pj_size_t size);
 

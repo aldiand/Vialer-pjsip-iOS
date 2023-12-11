@@ -189,6 +189,14 @@ typedef struct pj_ice_strans_cb
     void (*on_valid_pair)(pj_ice_strans *ice_st);
 
     /**
+     * An optional callback that will be called by the ICE transport when a
+     * valid pair has been found during ICE negotiation.
+     *
+     * @param ice_st	    The ICE stream transport.
+     */
+    void (*on_valid_pair)(pj_ice_strans *ice_st);
+
+    /**
      * Callback to report status of various ICE operations.
      * 
      * @param ice_st        The ICE stream transport.
@@ -217,6 +225,25 @@ typedef struct pj_ice_strans_cb
     void    (*on_new_candidate)(pj_ice_strans *ice_st,
                                 const pj_ice_sess_cand *cand,
                                 pj_bool_t end_of_cand);
+
+    /**
+     * Callback to report a new ICE local candidate, e.g: after successful
+     * STUN Binding, after a successful TURN allocation. Only new candidates
+     * whose type is server reflexive or relayed will be notified via this
+     * callback. This callback also indicates end-of-candidate via parameter
+     * 'last'.
+     *
+     * Trickle ICE can use this callback to convey the new candidate
+     * to remote agent and monitor end-of-candidate indication.
+     *
+     * @param ice_st	    The ICE stream transport.
+     * @param cand	    The new local candidate, can be NULL when the last
+     *			    local candidate initialization failed/timeout.
+     * @param end_of_cand   PJ_TRUE if this is the last of local candidate.
+     */
+    void    (*on_new_candidate)(pj_ice_strans *ice_st,
+				const pj_ice_sess_cand *cand,
+				pj_bool_t end_of_cand);
 
 } pj_ice_strans_cb;
 
@@ -733,6 +760,19 @@ PJ_DECL(pj_status_t) pj_ice_strans_update_comp_cnt(pj_ice_strans *ice_st,
                                                    unsigned comp_cnt);
 
 /**
+ * Update number of components of the ICE stream transport. This can only
+ * reduce the number of components from the initial value specified in
+ * pj_ice_strans_create() and before ICE session is initialized.
+ *
+ * @param ice_st	The ICE stream transport.
+ * @param comp_cnt	Number of components.
+ *
+ * @return		PJ_SUCCESS on success, or the appropriate error.
+ */
+PJ_DECL(pj_status_t) pj_ice_strans_update_comp_cnt(pj_ice_strans *ice_st,
+						   unsigned comp_cnt);
+
+/**
  * Get the group lock for this ICE stream transport.
  *
  * @param ice_st        The ICE stream transport.
@@ -973,6 +1013,36 @@ PJ_DECL(pj_status_t) pj_ice_strans_update_check_list(
                                              unsigned rcand_cnt,
                                              const pj_ice_sess_cand rcand[],
                                              pj_bool_t rcand_end);
+
+
+/**
+ * Update check list after receiving new remote ICE candidates or after
+ * new local ICE candidates are found and conveyed to remote. This function
+ * can also be called after receiving end of candidate indication from
+ * either remote or local agent.
+ *
+ * This function is only applicable when trickle ICE is not disabled and
+ * after ICE session has been created using pj_ice_strans_init_ice().
+ *
+ * @param ice_st	The ICE stream transport.
+ * @param rem_ufrag	Remote ufrag, as seen in the SDP received from
+ *			the remote agent.
+ * @param rem_passwd	Remote password, as seen in the SDP received from
+ *			the remote agent.
+ * @param rcand_cnt	Number of new remote candidates in the array.
+ * @param rcand		New remote candidates array.
+ * @param rcand_end	Set to PJ_TRUE if remote has signalled
+ *			end-of-candidate.
+ *
+ * @return		PJ_SUCCESS, or the appropriate error code.
+ */
+PJ_DECL(pj_status_t) pj_ice_strans_update_check_list(
+					     pj_ice_strans *ice_st,
+					     const pj_str_t *rem_ufrag,
+					     const pj_str_t *rem_passwd,
+					     unsigned rcand_cnt,
+					     const pj_ice_sess_cand rcand[],
+					     pj_bool_t rcand_end);
 
 /**
  * Retrieve the candidate pair that has been nominated and successfully

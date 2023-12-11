@@ -205,8 +205,13 @@ PJ_DECL(pj_status_t) pjsip_target_set_set_current(pjsip_target_set *tset,
  * Set the status code and reason phrase of the specified target.
  *
  * @param target    The target.
+<<<<<<< HEAD
  * @param pool      The memory pool to be used to duplicate the reason phrase.
  * @param status_code       The SIP status code to be set to the target.
+=======
+ * @param pool	    The memory pool to be used to duplicate the reason phrase.
+ * @param status_code	    The SIP status code to be set to the target.
+>>>>>>> xcframework
  * @param reason    The reason phrase  to be set to the target.
  *
  * @return          PJ_SUCCESS on successful operation or the appropriate
@@ -343,6 +348,16 @@ PJ_DECL(pj_status_t) pjsip_endpt_create_response( pjsip_endpoint *endpt,
  * an ACK request to 3xx-6xx final response.
  * The generation of ACK message for 2xx final response is different than
  * this one.
+<<<<<<< HEAD
+=======
+ *
+ * Once a transmit data is created, the reference counter is initialized to 1.
+ * 
+ * @param endpt	    The endpoint.
+ * @param tdata	    This contains the original INVITE request
+ * @param rdata	    The final response.
+ * @param ack	    The ACK request created.
+>>>>>>> xcframework
  *
  * Once a transmit data is created, the reference counter is initialized to 1.
  * 
@@ -364,8 +379,13 @@ PJ_DECL(pj_status_t) pjsip_endpt_create_ack( pjsip_endpoint *endpt,
  *
  * Once a transmit data is created, the reference counter is initialized to 1.
  *
+<<<<<<< HEAD
  * @param endpt     The endpoint.
  * @param tdata     The transmit buffer for the request being cancelled.
+=======
+ * @param endpt	    The endpoint.
+ * @param tdata	    The transmit buffer for the request being cancelled.
+>>>>>>> xcframework
  * @param p_tdata   Pointer to receive the transmit data.
  *
  * @return          PJ_SUCCESS, or the appropriate error code.

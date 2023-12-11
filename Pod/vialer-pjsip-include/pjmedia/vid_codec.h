@@ -607,12 +607,21 @@ pjmedia_vid_codec_mgr_get_default_param(pjmedia_vid_codec_mgr *mgr,
 /**
  * Set default codec param for the specified codec info.
  *
+<<<<<<< HEAD
  * @param mgr       The codec manager instance. If NULL, the default codec
  *                  manager instance will be used.
  * @param info      The codec info, which default parameter's is being
  *                  updated.
  * @param param     The new default codec parameter. Set to NULL to reset
  *                  codec parameter to library default settings.
+=======
+ * @param mgr	    The codec manager instance. If NULL, the default codec
+ *		    manager instance will be used.
+ * @param info	    The codec info, which default parameter's is being
+ *		    updated.
+ * @param param	    The new default codec parameter. Set to NULL to reset
+ *		    codec parameter to library default settings.
+>>>>>>> xcframework
  *
  * @return          PJ_SUCCESS on success.
  */

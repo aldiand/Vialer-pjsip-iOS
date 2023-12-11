@@ -111,7 +111,11 @@ PJ_INLINE(const char*) pjmedia_sig_name(pjmedia_obj_sig sig, char buf[])
 /**
  * Macro to generate signature from four ASCII letters.
  */
+<<<<<<< HEAD
 #define PJMEDIA_SIGNATURE(a,b,c,d)      PJMEDIA_FOURCC(d,c,b,a)
+=======
+#define PJMEDIA_SIGNATURE(a,b,c,d)	PJMEDIA_FOURCC(d,c,b,a)
+>>>>>>> xcframework
 
 /*************************************************************************
  * Codec signature ('Cxxx'). Please keep the constant names sorted.
@@ -142,7 +146,11 @@ PJ_INLINE(const char*) pjmedia_sig_name(pjmedia_obj_sig sig, char buf[])
 /*************************************************************************
  * Audio ports signatures ('PAxx'). Please keep the constant names sorted.
  */
+<<<<<<< HEAD
 #define PJMEDIA_SIG_CLASS_PORT_AUD(c,d) PJMEDIA_SIG_CLASS_PORT('A',c,d)
+=======
+#define PJMEDIA_SIG_CLASS_PORT_AUD(c,d)	PJMEDIA_SIG_CLASS_PORT('A',c,d)
+>>>>>>> xcframework
 #define PJMEDIA_SIG_IS_CLASS_PORT_AUD(s) ((s)>>24=='P' && (((s)>>16)&0xff)=='A')
 
 #define PJMEDIA_SIG_PORT_BIDIR          PJMEDIA_SIG_CLASS_PORT_AUD('B','D')
@@ -167,7 +175,11 @@ PJ_INLINE(const char*) pjmedia_sig_name(pjmedia_obj_sig sig, char buf[])
 /*************************************************************************
  * Video ports signatures ('PVxx'). Please keep the constant names sorted.
  */
+<<<<<<< HEAD
 #define PJMEDIA_SIG_CLASS_PORT_VID(c,d) PJMEDIA_SIG_CLASS_PORT('V',c,d)
+=======
+#define PJMEDIA_SIG_CLASS_PORT_VID(c,d)	PJMEDIA_SIG_CLASS_PORT('V',c,d)
+>>>>>>> xcframework
 #define PJMEDIA_SIG_IS_CLASS_PORT_VID(s) ((s)>>24=='P' && (((s)>>16)&0xff)=='V')
 
 /** AVI player signature. */
@@ -179,7 +191,11 @@ PJ_INLINE(const char*) pjmedia_sig_name(pjmedia_obj_sig sig, char buf[])
 /**************************************************************************
  * Video device signatures ('VDxx'). Please keep the constant names sorted.
  */
+<<<<<<< HEAD
 #define PJMEDIA_SIG_CLASS_VID_DEV(c,d)  PJMEDIA_SIGNATURE('V','D',c,d)
+=======
+#define PJMEDIA_SIG_CLASS_VID_DEV(c,d)	PJMEDIA_SIGNATURE('V','D',c,d)
+>>>>>>> xcframework
 #define PJMEDIA_SIG_IS_CLASS_VID_DEV(s) ((s)>>24=='V' && (((s)>>16)&0xff)=='D')
 
 #define PJMEDIA_SIG_VID_DEV_COLORBAR    PJMEDIA_SIG_CLASS_VID_DEV('C','B')

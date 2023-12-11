@@ -434,7 +434,11 @@ PJ_DECL(pj_status_t) pjsip_tsx_stop_retransmit(pjsip_transaction *tsx);
 PJ_DECL(pj_status_t) pjsip_tsx_set_timeout(pjsip_transaction *tsx,
                                            unsigned millisec);
 
+<<<<<<< HEAD
 /**
+=======
+/*
+>>>>>>> xcframework
  * Change timer values used by transaction layer. Currently scheduled
  * timers will not be changed. Any value set to 0 will be left
  * unchanged.
@@ -446,8 +450,13 @@ PJ_DECL(pj_status_t) pjsip_tsx_set_timeout(pjsip_transaction *tsx,
  */
 PJ_DECL(void) pjsip_tsx_set_timers(unsigned t1, unsigned t2, unsigned t4, unsigned td);
 
+<<<<<<< HEAD
 /**
  * (Re)Initializes timer values from pjsip_cfg().
+=======
+/*
+ * (Re)Initializes timer values from `pjsip_cfg()`.
+>>>>>>> xcframework
  */
 PJ_DECL(void) pjsip_tsx_initialize_timer_values(void);
 

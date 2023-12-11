@@ -285,7 +285,11 @@
 /**
  * Maximum number of ICE components.
  */
+<<<<<<< HEAD
 #define PJ_ICE_MAX_COMP                             (1<<PJ_ICE_COMP_BITS)
+=======
+#define PJ_ICE_MAX_COMP				    (1<<PJ_ICE_COMP_BITS)
+>>>>>>> xcframework
 
 /**
  * Use the priority value according to the ice-draft.
@@ -488,6 +492,41 @@
  */
 #ifndef PJ_TRICKLE_ICE_END_OF_CAND_TIMEOUT
 #   define PJ_TRICKLE_ICE_END_OF_CAND_TIMEOUT       40
+#endif
+
+
+/**
+ * This constant specifies whether ICE stream transport should allow TURN
+ * client session to automatically renew permission for all remote candidates.
+ *
+ * Default: PJ_FALSE
+ */
+#ifndef PJ_ICE_ST_USE_TURN_PERMANENT_PERM
+#   define PJ_ICE_ST_USE_TURN_PERMANENT_PERM	    PJ_FALSE
+#endif
+
+
+/**
+ * For trickle ICE, this macro specifies the maximum time of waiting for
+ * end-of-candidates indication from remote once ICE connectivity checks
+ * is started, in seconds. When the timer expires, ICE will assume that
+ * end-of-candidates indication is received so any further remote candidate
+ * update will be ignored.
+ *
+ * Note that without remote end-of-candidates indication, ICE will not be
+ * able to conclude that the ICE negotiation has failed when all pair checks
+ * are completed but there is no valid pair (on the other hand, the ICE
+ * negotiation may be completed as successful before the end-of-candidates
+ * indication is received when valid pairs are found very quickly).
+ *
+ * Also note that the ICE connectivity checks should only be started after
+ * both agents have started trickling ICE candidates (e.g: both have sent
+ * their SDPs, either via normal SDP offer/answer or SIP INFO).
+ *
+ * Default: 40 seconds.
+ */
+#ifndef PJ_TRICKLE_ICE_END_OF_CAND_TIMEOUT
+#   define PJ_TRICKLE_ICE_END_OF_CAND_TIMEOUT	    40
 #endif
 
 

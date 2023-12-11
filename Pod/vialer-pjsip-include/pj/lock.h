@@ -197,7 +197,11 @@ typedef struct pj_grp_lock_config
  * The group lock destroy handler, a destructor function called when
  * a group lock is about to be destroyed.
  *
+<<<<<<< HEAD
  * @param member        A pointer to be passed to the handler.
+=======
+ * @param member	A pointer to be passed to the handler.
+>>>>>>> xcframework
  */
 typedef void (*pj_grp_lock_handler)(void *member);
 
@@ -241,10 +245,17 @@ PJ_DECL(pj_status_t) pj_grp_lock_create(pj_pool_t *pool,
  * @return              PJ_SUCCESS or the appropriate error code.
  */
 PJ_DECL(pj_status_t) pj_grp_lock_create_w_handler(pj_pool_t *pool,
+<<<<<<< HEAD
                                                   const pj_grp_lock_config *cfg,
                                                   void *member,
                                                   pj_grp_lock_handler handler,
                                                   pj_grp_lock_t **p_grp_lock);
+=======
+                                        	  const pj_grp_lock_config *cfg,
+                                        	  void *member,
+                                                  pj_grp_lock_handler handler,
+                                        	  pj_grp_lock_t **p_grp_lock);
+>>>>>>> xcframework
 
 /**
  * Forcibly destroy the group lock, ignoring the reference counter value.

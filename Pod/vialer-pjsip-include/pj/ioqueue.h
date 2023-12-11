@@ -674,7 +674,11 @@ PJ_DECL(pj_status_t) pj_ioqueue_post_completion( pj_ioqueue_key_t *key,
  *
  * @param key           The key.
  *
+<<<<<<< HEAD
  * @return              PJ_SUCCESS on success or the appropriate error code.
+=======
+ * @return		PJ_SUCCESS on success or the appropriate error code.
+>>>>>>> xcframework
  */
 PJ_DECL(pj_status_t) pj_ioqueue_clear_key( pj_ioqueue_key_t *key );
 

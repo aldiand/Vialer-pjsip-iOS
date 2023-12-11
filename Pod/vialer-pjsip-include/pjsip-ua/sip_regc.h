@@ -170,10 +170,17 @@ PJ_DECL(pj_status_t) pjsip_regc_destroy(pjsip_regc *regc);
  *   pjsip_regc_destroye()).
  * - if force is PJ_FALSE, the function will return PJ_EBUSY
  *
+<<<<<<< HEAD
  * @param regc      The client registration structure.
  * @param force     Specify if the function must destroy the structure.
  *
  * @return          PJ_SUCCESS on success, or PJ_EBUSY.
+=======
+ * @param regc	    The client registration structure.
+ * @param force	    Specify if the function must destroy the structure.
+ *
+ * @return	    PJ_SUCCESS on success, or PJ_EBUSY.
+>>>>>>> xcframework
  */
 PJ_DECL(pj_status_t) pjsip_regc_destroy2(pjsip_regc *regc, pj_bool_t force);
 

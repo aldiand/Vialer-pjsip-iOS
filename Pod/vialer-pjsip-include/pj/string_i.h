@@ -39,8 +39,13 @@ PJ_IDEF(pj_str_t*) pj_strdup(pj_pool_t *pool,
         return dst;
 
     if (src->slen > 0) {
+<<<<<<< HEAD
         dst->ptr = (char*)pj_pool_alloc(pool, src->slen);
         pj_memcpy(dst->ptr, src->ptr, src->slen);
+=======
+	dst->ptr = (char*)pj_pool_alloc(pool, src->slen);
+	pj_memcpy(dst->ptr, src->ptr, src->slen);
+>>>>>>> xcframework
     }
     dst->slen = (src->slen < 0)? 0: src->slen;
     return dst;
@@ -56,11 +61,19 @@ PJ_IDEF(pj_str_t*) pj_strdup_with_null( pj_pool_t *pool,
 
     /* Check if the source's length is invalid */
     if (src_slen < 0)
+<<<<<<< HEAD
         src_slen = 0;
 
     dst->ptr = (char*)pj_pool_alloc(pool, src_slen+1);
     if (src_slen) {
         pj_memcpy(dst->ptr, src->ptr, src_slen);
+=======
+    	src_slen = 0;
+
+    dst->ptr = (char*)pj_pool_alloc(pool, src_slen+1);
+    if (src_slen) {
+	pj_memcpy(dst->ptr, src->ptr, src_slen);
+>>>>>>> xcframework
     }
     dst->slen = src_slen;
     dst->ptr[dst->slen] = '\0';
@@ -134,7 +147,11 @@ PJ_IDEF(pj_str_t*) pj_strncpy( pj_str_t *dst, const pj_str_t *src,
 
     if (max > src->slen) max = src->slen;
     if (max > 0)
+<<<<<<< HEAD
         pj_memcpy(dst->ptr, src->ptr, max);
+=======
+	pj_memcpy(dst->ptr, src->ptr, max);
+>>>>>>> xcframework
     dst->slen = (max < 0)? 0: max;
     return dst;
 }
@@ -146,12 +163,21 @@ PJ_IDEF(pj_str_t*) pj_strncpy_with_null( pj_str_t *dst, const pj_str_t *src,
     pj_assert(max > 0);
 
     if (max <= src->slen)
+<<<<<<< HEAD
         max = (max > 0)? max-1: 0;
     else
         max = (src->slen < 0)? 0: src->slen;
 
     if (max > 0)
         pj_memcpy(dst->ptr, src->ptr, max);
+=======
+	max = (max > 0)? max-1: 0;
+    else
+	max = (src->slen < 0)? 0: src->slen;
+
+    if (max > 0)
+    	pj_memcpy(dst->ptr, src->ptr, max);
+>>>>>>> xcframework
     dst->ptr[max] = '\0';
     dst->slen = max;
     return dst;
@@ -164,9 +190,15 @@ PJ_IDEF(int) pj_strcmp( const pj_str_t *str1, const pj_str_t *str2)
     pj_assert(str2->slen >= 0);
 
     if (str1->slen <= 0) {
+<<<<<<< HEAD
         return str2->slen<=0 ? 0 : -1;
     } else if (str2->slen <= 0) {
         return 1;
+=======
+	return str2->slen<=0 ? 0 : -1;
+    } else if (str2->slen <= 0) {
+	return 1;
+>>>>>>> xcframework
     } else {
         pj_size_t min = (str1->slen < str2->slen)? str1->slen : str2->slen;
         int res = pj_memcmp(str1->ptr, str2->ptr, min);
@@ -188,6 +220,7 @@ PJ_IDEF(int) pj_strncmp( const pj_str_t *str1, const pj_str_t *str2,
     pj_assert(str2->slen >= 0);
 
     if (len < (unsigned)str1->slen && str1->slen > 0) {
+<<<<<<< HEAD
         copy1.ptr = str1->ptr;
         copy1.slen = len;
         str1 = &copy1;
@@ -197,6 +230,17 @@ PJ_IDEF(int) pj_strncmp( const pj_str_t *str1, const pj_str_t *str2,
         copy2.ptr = str2->ptr;
         copy2.slen = len;
         str2 = &copy2;
+=======
+	copy1.ptr = str1->ptr;
+	copy1.slen = len;
+	str1 = &copy1;
+    }
+
+    if (len < (unsigned)str2->slen && str2->slen > 0) {
+	copy2.ptr = str2->ptr;
+	copy2.slen = len;
+	str2 = &copy2;
+>>>>>>> xcframework
     }
 
     return pj_strcmp(str1, str2);
@@ -238,9 +282,15 @@ PJ_IDEF(int) pj_stricmp( const pj_str_t *str1, const pj_str_t *str2)
     pj_assert(str2->slen >= 0);
 
     if (str1->slen <= 0) {
+<<<<<<< HEAD
         return str2->slen<=0 ? 0 : -1;
     } else if (str2->slen <= 0) {
         return 1;
+=======
+	return str2->slen<=0 ? 0 : -1;
+    } else if (str2->slen <= 0) {
+	return 1;
+>>>>>>> xcframework
     } else {
         pj_size_t min = (str1->slen < str2->slen)? str1->slen : str2->slen;
         int res = pj_ansi_strnicmp(str1->ptr, str2->ptr, min);
@@ -345,6 +395,7 @@ PJ_IDEF(int) pj_strnicmp( const pj_str_t *str1, const pj_str_t *str2,
     pj_str_t copy1, copy2;
 
     if (len < (unsigned)str1->slen && str1->slen > 0) {
+<<<<<<< HEAD
         copy1.ptr = str1->ptr;
         copy1.slen = len;
         str1 = &copy1;
@@ -354,6 +405,17 @@ PJ_IDEF(int) pj_strnicmp( const pj_str_t *str1, const pj_str_t *str2,
         copy2.ptr = str2->ptr;
         copy2.slen = len;
         str2 = &copy2;
+=======
+	copy1.ptr = str1->ptr;
+	copy1.slen = len;
+	str1 = &copy1;
+    }
+
+    if (len < (unsigned)str2->slen && str2->slen > 0) {
+	copy2.ptr = str2->ptr;
+	copy2.slen = len;
+	str2 = &copy2;
+>>>>>>> xcframework
     }
 
     return pj_stricmp(str1, str2);
@@ -380,8 +442,13 @@ PJ_IDEF(void) pj_strcat(pj_str_t *dst, const pj_str_t *src)
     pj_assert(dst->slen >= 0);
 
     if (src->slen > 0 && dst->slen >= 0) {
+<<<<<<< HEAD
         pj_memcpy(dst->ptr + dst->slen, src->ptr, src->slen);
         dst->slen += src->slen;
+=======
+	pj_memcpy(dst->ptr + dst->slen, src->ptr, src->slen);
+	dst->slen += src->slen;
+>>>>>>> xcframework
     }
 }
 
@@ -392,8 +459,13 @@ PJ_IDEF(void) pj_strcat2(pj_str_t *dst, const char *str)
     pj_assert(dst->slen >= 0);
 
     if (len && dst->slen >= 0) {
+<<<<<<< HEAD
         pj_memcpy(dst->ptr + dst->slen, str, len);
         dst->slen += len;
+=======
+	pj_memcpy(dst->ptr + dst->slen, str, len);
+	dst->slen += len;
+>>>>>>> xcframework
     }
 }
 

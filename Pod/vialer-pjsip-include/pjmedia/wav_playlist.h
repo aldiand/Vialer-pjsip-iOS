@@ -45,6 +45,7 @@ PJ_BEGIN_DECL
  * files must have the same clock rate, number of channels, and bits
  * per sample, or otherwise this function will return error.
  *
+<<<<<<< HEAD
  * @param pool          Pool to create memory buffers for this port.
  * @param port_label    Optional label to set as the port name.
  * @param file_list     Array of WAV file names.
@@ -60,6 +61,23 @@ PJ_BEGIN_DECL
  *                      negative, the port will use default buffer size (which
  *                      is about 4KB).
  * @param p_port        Pointer to receive the file port instance.
+=======
+ * @param pool		Pool to create memory buffers for this port.
+ * @param port_label	Optional label to set as the port name.
+ * @param file_list	Array of WAV file names.
+ *			Each filename's length must be smaller than
+ * 			PJ_MAXPATH.
+ * @param file_count	Number of files in the array.
+ * @param ptime		The duration (in miliseconds) of each frame read
+ *			from this port. If the value is zero, the default
+ *			duration (20ms) will be used.
+ * @param options	Optional options. Application may specify 
+ *			PJMEDIA_FILE_NO_LOOP to prevent play back loop.
+ * @param buff_size	Buffer size to be allocated. If the value is zero or
+ *			negative, the port will use default buffer size (which
+ *			is about 4KB).
+ * @param p_port	Pointer to receive the file port instance.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS on success, or the appropriate error code.
  */

@@ -120,10 +120,17 @@ typedef pj_status_t (*pjmedia_snd_play_cb)(/* in */   void *user_data,
  * This callback is called by recorder stream when it has captured the whole
  * packet worth of audio samples.
  *
+<<<<<<< HEAD
  * @param user_data     User data associated with the stream.
  * @param timestamp     Timestamp, in samples.
  * @param input Buffer containing the captured audio samples.
  * @param size          The size of the data in the buffer, in bytes.
+=======
+ * @param user_data	User data associated with the stream.
+ * @param timestamp	Timestamp, in samples.
+ * @param input	Buffer containing the captured audio samples.
+ * @param size		The size of the data in the buffer, in bytes.
+>>>>>>> xcframework
  *
  * @return              Non-zero to stop the stream.
  */

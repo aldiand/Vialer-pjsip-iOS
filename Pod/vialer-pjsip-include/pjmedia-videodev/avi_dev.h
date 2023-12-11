@@ -112,8 +112,13 @@ PJ_DECL(pj_status_t) pjmedia_avi_dev_alloc(pjmedia_vid_dev_factory *f,
 /**
  * Retrieve the parameters set for the virtual device.
  *
+<<<<<<< HEAD
  * @param id            Device ID.
  * @param param         Structure to receive the settings.
+=======
+ * @param id		Device ID.
+ * @param param		Structure to receive the settings.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS or the appropriate error code.
  */

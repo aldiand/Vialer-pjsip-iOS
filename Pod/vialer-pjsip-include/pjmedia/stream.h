@@ -91,6 +91,7 @@ typedef struct pjmedia_channel pjmedia_channel;
  */
 typedef struct pjmedia_stream_info
 {
+<<<<<<< HEAD
     pjmedia_type        type;       /**< Media type (audio, video)          */
     pjmedia_tp_proto    proto;      /**< Transport protocol (RTP/AVP, etc.) */
     pjmedia_dir         dir;        /**< Media direction.                   */
@@ -100,6 +101,17 @@ typedef struct pjmedia_stream_info
                                          sin_family is zero, the RTP address
                                          will be calculated from RTP.       */
     pj_bool_t           rtcp_mux;   /**< Use RTP and RTCP multiplexing.     */
+=======
+    pjmedia_type	type;	    /**< Media type (audio, video)	    */
+    pjmedia_tp_proto	proto;	    /**< Transport protocol (RTP/AVP, etc.) */
+    pjmedia_dir		dir;	    /**< Media direction.		    */
+    pj_sockaddr		local_addr; /**< Local RTP address		    */
+    pj_sockaddr		rem_addr;   /**< Remote RTP address		    */
+    pj_sockaddr		rem_rtcp;   /**< Optional remote RTCP address. If
+					 sin_family is zero, the RTP address
+					 will be calculated from RTP.	    */
+    pj_bool_t		rtcp_mux;   /**< Use RTP and RTCP multiplexing.     */
+>>>>>>> xcframework
 #if defined(PJMEDIA_HAS_RTCP_XR) && (PJMEDIA_HAS_RTCP_XR != 0)
     pj_bool_t           rtcp_xr_enabled;
                                     /**< Specify whether RTCP XR is enabled.*/
@@ -110,6 +122,7 @@ typedef struct pjmedia_stream_info
                                          stream. If sin_family is zero, 
                                          this will be ignored.              */
 #endif
+<<<<<<< HEAD
     pjmedia_rtcp_fb_info loc_rtcp_fb; /**< Local RTCP-FB info.              */
     pjmedia_rtcp_fb_info rem_rtcp_fb; /**< Remote RTCP-FB info.             */
     pjmedia_codec_info  fmt;        /**< Incoming codec format info.        */
@@ -138,13 +151,49 @@ typedef struct pjmedia_stream_info
     int                 jb_max_pre; /**< Jitter buffer maximum prefetch
                                          delay in msec (-1 for default).    */
     int                 jb_max;     /**< Jitter buffer max delay in msec.   */
+=======
+    pjmedia_rtcp_fb_info loc_rtcp_fb; /**< Local RTCP-FB info.		    */
+    pjmedia_rtcp_fb_info rem_rtcp_fb; /**< Remote RTCP-FB info.		    */
+    pjmedia_codec_info	fmt;	    /**< Incoming codec format info.	    */
+    pjmedia_codec_param *param;	    /**< Optional codec param.		    */
+    unsigned		tx_pt;	    /**< Outgoing codec paylaod type.	    */
+    unsigned		rx_pt;	    /**< Incoming codec paylaod type.	    */
+    unsigned		tx_maxptime;/**< Outgoing codec max ptime.	    */
+    int		        tx_event_pt;/**< Outgoing pt for telephone-events.  */
+    int			rx_event_pt;/**< Incoming pt for telephone-events.  */
+    pj_uint32_t		ssrc;	    /**< RTP SSRC.			    */
+    pj_str_t		cname; 	    /**< RTCP CNAME.			    */
+    pj_bool_t		has_rem_ssrc;/**<Has remote RTP SSRC?		    */
+    pj_uint32_t		rem_ssrc;   /**< Remote RTP SSRC.		    */
+    pj_str_t		rem_cname;  /**< Remote RTCP CNAME.		    */
+    pj_uint32_t		rtp_ts;	    /**< Initial RTP timestamp.		    */
+    pj_uint16_t		rtp_seq;    /**< Initial RTP sequence number.	    */
+    pj_uint8_t		rtp_seq_ts_set;
+				    /**< Bitmask flags if initial RTP sequence 
+				         and/or timestamp for sender are set.
+					 bit 0/LSB : sequence flag 
+					 bit 1     : timestamp flag 	    */
+    int			jb_init;    /**< Jitter buffer init delay in msec.  
+					 (-1 for default).		    */
+    int			jb_min_pre; /**< Jitter buffer minimum prefetch
+					 delay in msec (-1 for default).    */
+    int			jb_max_pre; /**< Jitter buffer maximum prefetch
+					 delay in msec (-1 for default).    */
+    int			jb_max;	    /**< Jitter buffer max delay in msec.   */
+>>>>>>> xcframework
     pjmedia_jb_discard_algo jb_discard_algo;
                                     /**< Jitter buffer discard algorithm.   */
 
 #if defined(PJMEDIA_STREAM_ENABLE_KA) && PJMEDIA_STREAM_ENABLE_KA!=0
+<<<<<<< HEAD
     pj_bool_t           use_ka;     /**< Stream keep-alive and NAT hole punch
                                          (see #PJMEDIA_STREAM_ENABLE_KA)
                                          is enabled?                        */
+=======
+    pj_bool_t		use_ka;	    /**< Stream keep-alive and NAT hole punch
+					 (see #PJMEDIA_STREAM_ENABLE_KA)
+					 is enabled?			    */
+>>>>>>> xcframework
     pjmedia_stream_ka_config ka_cfg;
                                     /**< Stream send kep-alive settings.    */
 #endif
@@ -483,6 +532,26 @@ pjmedia_stream_set_dtmf_callback(pjmedia_stream *stream,
  *                      is called.
  *
  * @return              PJ_SUCCESS on success.
+ */
+PJ_DECL(pj_status_t)
+pjmedia_stream_set_dtmf_event_callback(pjmedia_stream *stream,
+                                       void (*cb)(pjmedia_stream*,
+                                                  void *user_data,
+                                                  const pjmedia_stream_dtmf_event *event),
+                                       void *user_data);
+
+/**
+ * Set callback to be called upon receiving DTMF digits. If callback is
+ * registered, the stream will not buffer incoming DTMF but rather call
+ * the callback as soon as DTMF digit is received.
+ *
+ * @param stream	The media stream.
+ * @param cb		Callback to be called upon receiving DTMF digits.
+ *			See #pjmedia_stream_dtmf_event.
+ * @param user_data	User data to be returned back when the callback
+ *			is called.
+ *
+ * @return		PJ_SUCCESS on success.
  */
 PJ_DECL(pj_status_t)
 pjmedia_stream_set_dtmf_event_callback(pjmedia_stream *stream,

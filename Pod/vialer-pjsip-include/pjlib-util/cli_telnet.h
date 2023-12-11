@@ -150,7 +150,10 @@ PJ_DECL(pj_status_t) pj_cli_telnet_create(pj_cli_t *cli,
 /**
  * Retrieve cli telnet info.
  *
+<<<<<<< HEAD
  * @param fe     The front end.
+=======
+>>>>>>> xcframework
  * @param info   The telnet runtime information.
  *
  * @return              PJ_SUCCESS on success.

@@ -193,6 +193,7 @@
 
 #    include "TargetConditionals.h"
 #    if TARGET_OS_IPHONE
+<<<<<<< HEAD
 #       include "Availability.h"
         /* Use CFHost API for pj_getaddrinfo() (see ticket #1246) */
 #       ifndef PJ_GETADDRINFO_USE_CFHOST
@@ -207,6 +208,19 @@
              */
 #           define PJ_ACTIVESOCK_TCP_IPHONE_OS_BG               0
 #       endif
+=======
+#	include "Availability.h"
+	/* Use CFHost API for pj_getaddrinfo() (see ticket #1246) */
+#	ifndef PJ_GETADDRINFO_USE_CFHOST
+#	    define PJ_GETADDRINFO_USE_CFHOST 0
+#	endif
+#    	ifdef __IPHONE_4_0
+ 	    /* Is multitasking support available?  (see ticket #1107) */
+#	    define PJ_IPHONE_OS_HAS_MULTITASKING_SUPPORT 	1
+	    /* Enable activesock TCP background mode support */
+#	    define PJ_ACTIVESOCK_TCP_IPHONE_OS_BG		1
+#	endif
+>>>>>>> xcframework
 #    endif
 #endif
 

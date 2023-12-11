@@ -354,9 +354,15 @@ PJ_DECL(void) pj_http_req_param_default(pj_http_req_param *param);
  * Add a header element/field. Application MUST make sure that 
  * name and val pointer remains valid until the HTTP request is sent.
  *
+<<<<<<< HEAD
  * @param headers       The headers.
  * @param name          The header field name.
  * @param val           The header field value.
+=======
+ * @param headers	The headers.
+ * @param name	        The header field name.
+ * @param val	        The header field value.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS if the operation has been successful,
  *                      or the appropriate error code on failure.
@@ -370,9 +376,15 @@ PJ_DECL(pj_status_t) pj_http_headers_add_elmt(pj_http_headers *headers,
  * its parameters. Application MUST make sure that name and val pointer 
  * remains valid until the HTTP request is sent.
  *
+<<<<<<< HEAD
  * @param headers       The headers.
  * @param name          The header field name.
  * @param val           The header field value.
+=======
+ * @param headers	The headers.
+ * @param name	        The header field name.
+ * @param val	        The header field value.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS if the operation has been successful,
  *                      or the appropriate error code on failure.

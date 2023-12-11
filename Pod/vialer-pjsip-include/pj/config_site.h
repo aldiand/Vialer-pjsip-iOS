@@ -1,2 +1,10 @@
 #define PJ_CONFIG_IPHONE 1
+<<<<<<< HEAD
+=======
+#define PJ_IPHONE_OS_HAS_MULTITASKING_SUPPORT 1
+#define PJSIP_AUTH_HEADER_CACHING 1
+#define PJSIP_AUTH_AUTO_SEND_NEXT 1
+#define PJSUA_DISABLE_AUTO_SEND_100 1
+#define PJSUA_HAS_VIDEO 0
+>>>>>>> xcframework
 #include <pj/config_site_sample.h>

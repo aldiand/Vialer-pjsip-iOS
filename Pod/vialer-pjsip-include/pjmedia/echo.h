@@ -178,19 +178,31 @@ typedef struct pjmedia_echo_stat
      * Echo delay value (in ms).
      * PJMEDIA_ECHO_STAT_NOT_SPECIFIED if unavailable.
      */
+<<<<<<< HEAD
     int         delay;
+=======
+    int 	delay;
+>>>>>>> xcframework
 
     /**
      * Echo return loss.
      * PJMEDIA_ECHO_STAT_NOT_SPECIFIED if unavailable.
      */
+<<<<<<< HEAD
     double      return_loss;
+=======
+    double 	return_loss;
+>>>>>>> xcframework
 
     /**
      * Echo return loss enhancement.
      * PJMEDIA_ECHO_STAT_NOT_SPECIFIED if unavailable.
      */
+<<<<<<< HEAD
     double      return_loss_enh;
+=======
+    double 	return_loss_enh;
+>>>>>>> xcframework
 
     /**
      * Echo delay standard deviation (in ms).

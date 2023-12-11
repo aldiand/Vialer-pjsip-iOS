@@ -70,6 +70,7 @@ PJ_DECL(int) pj_NO_MEMORY_EXCEPTION(void);
 #define pj_pool_create(fc,nm,init,inc,cb)   \
         pj_pool_create_imp(__FILE__, __LINE__, fc, nm, init, inc, cb)
 
+<<<<<<< HEAD
 #define pj_pool_release(pool)               pj_pool_release_imp(pool)
 #define pj_pool_safe_release(pool)          pj_pool_safe_release_imp(pool)
 #define pj_pool_secure_release(pool)        pj_pool_secure_release_imp(pool)
@@ -79,6 +80,17 @@ PJ_DECL(int) pj_NO_MEMORY_EXCEPTION(void);
 #define pj_pool_get_used_size(pool)         pj_pool_get_used_size_imp(pool)
 #define pj_pool_alloc(pool,sz)              \
         pj_pool_alloc_imp(__FILE__, __LINE__, pool, sz)
+=======
+#define pj_pool_release(pool)		    pj_pool_release_imp(pool)
+#define pj_pool_safe_release(pool)	    pj_pool_safe_release_imp(pool)
+#define pj_pool_secure_release(pool)	    pj_pool_secure_release_imp(pool)
+#define pj_pool_getobjname(pool)	    pj_pool_getobjname_imp(pool)
+#define pj_pool_reset(pool)		    pj_pool_reset_imp(pool)
+#define pj_pool_get_capacity(pool)	    pj_pool_get_capacity_imp(pool)
+#define pj_pool_get_used_size(pool)	    pj_pool_get_used_size_imp(pool)
+#define pj_pool_alloc(pool,sz)		    \
+	pj_pool_alloc_imp(__FILE__, __LINE__, pool, sz)
+>>>>>>> xcframework
 
 #define pj_pool_calloc(pool,cnt,elem)       \
         pj_pool_calloc_imp(__FILE__, __LINE__, pool, cnt, elem)

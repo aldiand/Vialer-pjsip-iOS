@@ -1244,9 +1244,15 @@ PJ_DECL(void) pjsip_tpmgr_fla2_param_default(pjsip_tpmgr_fla2_param *prm);
  *
  * @see pjsip_tpmgr_find_local_addr()
  *
+<<<<<<< HEAD
  * @param tpmgr     The transport manager.
  * @param pool      Pool to allocate memory for the IP address.
  * @param prm       Function input and output parameters.
+=======
+ * @param tpmgr	    The transport manager.
+ * @param pool	    Pool to allocate memory for the IP address.
+ * @param prm	    Function input and output parameters.
+>>>>>>> xcframework
  *
  * @return          PJ_SUCCESS, or the appropriate error code.
  */

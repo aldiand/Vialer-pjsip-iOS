@@ -251,7 +251,11 @@ public:
     /**
      * Get PJSUA-LIB buddy ID or index associated with this buddy.
      *
+<<<<<<< HEAD
      * @return                  Integer greater than or equal to zero.
+=======
+     * @return			Integer greater than or equal to zero.
+>>>>>>> xcframework
      */
     int getId() const;
 

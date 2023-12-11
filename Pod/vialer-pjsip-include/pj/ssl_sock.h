@@ -257,12 +257,20 @@ PJ_DECL(pj_status_t) pj_ssl_cert_load_from_files2(
  * Create credential from data buffer. The certificate expected is in 
  * PEM format.
  *
+<<<<<<< HEAD
  * @param pool          The pool.
  * @param CA_buf        The buffer of trusted CA list.
  * @param cert_buf      The buffer of certificate.
  * @param privkey_buf   The buffer of private key.
  * @param privkey_pass  The password of private key, if any.
  * @param p_cert        Pointer to credential instance to be created.
+=======
+ * @param CA_buf	The buffer of trusted CA list.
+ * @param cert_buf	The buffer of certificate.
+ * @param privkey_buf	The buffer of private key.
+ * @param privkey_pass	The password of private key, if any.
+ * @param p_cert	Pointer to credential instance to be created.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS when successful.
  */
@@ -486,8 +494,13 @@ typedef enum pj_ssl_curve
 /**
  * Get curve list supported by SSL/TLS backend.
  *
+<<<<<<< HEAD
  * @param curves        The curves buffer to receive curve list.
  * @param curve_num     Maximum number of curves to be received.
+=======
+ * @param curves	The curves buffer to receive curve list.
+ * @param curve_num	Maximum number of curves to be received.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS when successful.
  */
@@ -675,19 +688,32 @@ typedef struct pj_ssl_sock_cb
      *                  callback and return PJ_FALSE here. 
      */
     pj_bool_t (*on_connect_complete)(pj_ssl_sock_t *ssock,
+<<<<<<< HEAD
                                      pj_status_t status);
+=======
+				     pj_status_t status);
+>>>>>>> xcframework
     
     /**
      * This callback is called when certificate verification is being done.
      * Certification info can be obtained from #pj_ssl_sock_info. Currently
      * it's only implemented for OpenSSL backend.
      *
+<<<<<<< HEAD
      * @param ssock     The secure socket.
      * @param is_server PJ_TRUE to indicate an incoming connection.
      *
      * @return          Return PJ_TRUE if verification is successful. 
      *                  If verification failed, then the connection will be 
      *                  dropped immediately.
+=======
+     * @param ssock	The secure socket.
+     * @param is_server	PJ_TRUE to indicate an incoming connection.
+     *
+     * @return		Return PJ_TRUE if verification is successful. 
+     *                  If verification failed, then the connection will be 
+     *			dropped immediately.
+>>>>>>> xcframework
      * 
      */
     pj_bool_t (*on_verify_cb)(pj_ssl_sock_t *ssock, pj_bool_t is_server);
@@ -1376,11 +1402,19 @@ PJ_DECL(pj_status_t) pj_ssl_sock_sendto(pj_ssl_sock_t *ssock,
  * operations. Further accept() operations will be done automatically by 
  * the secure socket when \a on_accept_complete() callback returns non-zero.
  *
+<<<<<<< HEAD
  * @param ssock         The secure socket.
  * @param pool          Pool used to allocate some internal data for the
  *                      operation.
  * @param local_addr    Local address to bind on.
  * @param addr_len      Length of buffer containing local address.
+=======
+ * @param ssock		The secure socket.
+ * @param pool		Pool used to allocate some internal data for the
+ *			operation.
+ * @param local_addr	Local address to bind on.
+ * @param addr_len	Length of buffer containing local address.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS if the operation has been successful,
  *                      or the appropriate error code on failure.
@@ -1397,12 +1431,21 @@ PJ_DECL(pj_status_t) pj_ssl_sock_start_accept(pj_ssl_sock_t *ssock,
  * socket reported in \a on_accept_complete() callback when there is
  * an incoming connection.
  *
+<<<<<<< HEAD
  * @param ssock         The secure socket.
  * @param pool          Pool used to allocate some internal data for the
  *                      operation.
  * @param local_addr    Local address to bind on.
  * @param addr_len      Length of buffer containing local address.
  * @param newsock_param Secure socket parameter for new accepted sockets.
+=======
+ * @param ssock		The secure socket.
+ * @param pool		Pool used to allocate some internal data for the
+ *			operation.
+ * @param local_addr	Local address to bind on.
+ * @param addr_len	Length of buffer containing local address.
+ * @param newsock_param	Secure socket parameter for new accepted sockets.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS if the operation has been successful,
  *                      or the appropriate error code on failure.

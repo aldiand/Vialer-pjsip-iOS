@@ -38,6 +38,7 @@ typedef struct pjsua_call_media pjsua_call_media;
  */
 struct pjsua_call_media
 {
+<<<<<<< HEAD
     pjsua_call          *call;      /**< Parent call.                       */
     pjmedia_type         type;      /**< Media type.                        */
     unsigned             idx;       /**< This media index in parent call.   */
@@ -46,6 +47,16 @@ struct pjsua_call_media
     pjsua_call_media_status prev_state;/**< Previous media state.           */
     pjmedia_dir          def_dir;   /**< Default media direction.           */
     pjmedia_dir          dir;       /**< Current media direction.           */
+=======
+    pjsua_call		*call;	    /**< Parent call.			    */
+    pjmedia_type	 type;	    /**< Media type.			    */
+    unsigned		 idx;       /**< This media index in parent call.   */
+    pj_str_t		 rem_mid;   /**< Remote SDP "a=mid" attribute.	    */
+    pjsua_call_media_status state;  /**< Media state.			    */
+    pjsua_call_media_status prev_state;/**< Previous media state.           */
+    pjmedia_dir		 def_dir;   /**< Default media direction.	    */
+    pjmedia_dir		 dir;       /**< Current media direction.	    */
+>>>>>>> xcframework
 
     /** The stream */
     struct {
@@ -79,6 +90,7 @@ struct pjsua_call_media
                                          bit 0/LSB : sequence flag
                                          bit 1     : timestamp flag         */
 
+<<<<<<< HEAD
     pjmedia_type                prev_type;     /**< Previous media type     */
     pjmedia_stream_info         prev_aud_si;   /**< Prev audio stream info  */
     pjmedia_vid_stream_info     prev_vid_si;   /**< Prev video stream info  */
@@ -93,6 +105,22 @@ struct pjsua_call_media
     pjmedia_transport   *tp_orig;   /**< Original media transport           */
     pj_bool_t            tp_auto_del; /**< May delete media transport       */
     pjsua_med_tp_st      tp_st;     /**< Media transport state              */
+=======
+    pjmedia_type	    	prev_type;     /**< Previous media type     */
+    pjmedia_stream_info	    	prev_aud_si;   /**< Prev audio stream info  */
+    pjmedia_vid_stream_info 	prev_vid_si;   /**< Prev video stream info  */
+    pj_bool_t	    	    	prev_srtp_use; /**< Prev SRTP use 	    */
+    pjmedia_srtp_info	    	prev_srtp_info;/**< Prev SRTP transport info*/
+    pj_bool_t	    	    	prev_ice_use;  /**< Prev ICE use            */
+    pjmedia_ice_transport_info 	prev_ice_info; /**< Prev ICE transport info */
+
+    pjmedia_transport	*tp;        /**< Current media transport (can be 0) */
+    pj_status_t		 tp_ready;  /**< Media transport status.	    */
+    pj_status_t		 tp_result; /**< Media transport creation result.   */
+    pjmedia_transport	*tp_orig;   /**< Original media transport	    */
+    pj_bool_t		 tp_auto_del; /**< May delete media transport       */
+    pjsua_med_tp_st	 tp_st;     /**< Media transport state		    */
+>>>>>>> xcframework
     pj_bool_t            use_custom_med_tp;/**< Use custom media transport? */
     pj_bool_t            enable_rtcp_mux;/**< Enable RTP& RTCP multiplexing?*/
     pj_sockaddr          rtp_addr;  /**< Current RTP source address
@@ -214,6 +242,7 @@ struct pjsua_call
     unsigned             rem_vid_cnt;  /**< No of active video in last remote
                                             offer.                          */
     
+<<<<<<< HEAD
     pj_bool_t            rx_reinv_async;/**< on_call_rx_reinvite() async.   */
     pj_timer_entry       reinv_timer;  /**< Reinvite retry timer.           */
     pj_bool_t            reinv_pending;/**< Pending until CONFIRMED state.  */
@@ -241,6 +270,35 @@ struct pjsua_call
     unsigned             hangup_code;   /**< Hangup code.                   */
     pj_str_t             hangup_reason; /**< Hangup reason.                 */
     pjsua_msg_data      *hangup_msg_data;/**< Hangup message data.          */
+=======
+    pj_bool_t		 rx_reinv_async;/**< on_call_rx_reinvite() async.   */
+    pj_timer_entry	 reinv_timer;  /**< Reinvite retry timer.	    */
+    pj_bool_t	 	 reinv_pending;/**< Pending until CONFIRMED state.  */
+    pj_bool_t	 	 reinv_ice_sent;/**< Has reinvite for ICE upd sent? */
+    pjsip_rx_data	*incoming_data;/**< Cloned incoming call rdata.
+				            On pjsua2, when handling incoming 
+					    call, onCreateMediaTransport() will
+					    not be called since the call isn't
+					    created yet. This temporary 
+					    variable is used to handle such 
+					    case, see ticket #1916.	    */
+
+    struct {
+	pj_bool_t	 enabled;
+	pj_bool_t	 remote_sup;
+	pj_bool_t	 remote_dlg_est;
+	pjsua_op_state	 trickling;
+	int		 retrans18x_count;
+	pj_bool_t	 pending_info;
+	pj_timer_entry	 timer;
+    } trickle_ice;
+
+    pj_timer_entry	 hangup_timer;	/**< Hangup retry timer.	    */
+    unsigned		 hangup_retry;	/**< Number of hangup retries.	    */
+    unsigned		 hangup_code;	/**< Hangup code.	    	    */
+    pj_str_t		 hangup_reason;	/**< Hangup reason.	    	    */
+    pjsua_msg_data	*hangup_msg_data;/**< Hangup message data.	    */
+>>>>>>> xcframework
 };
 
 
@@ -467,8 +525,13 @@ typedef struct pjsua_event_list
 {
     PJ_DECL_LIST_MEMBER(struct pjsua_event_list);
     pjmedia_event       event;
+<<<<<<< HEAD
     pjsua_call_id       call_id;
     unsigned            med_idx;
+=======
+    pjsua_call_id	call_id;
+    unsigned           	med_idx;
+>>>>>>> xcframework
 } pjsua_event_list;
 
 
@@ -479,6 +542,7 @@ struct pjsua_data
 {
 
     /* Control: */
+<<<<<<< HEAD
     pj_caching_pool      cp;        /**< Global pool factory.           */
     pj_pool_t           *pool;      /**< pjsua's private pool.          */
     pj_pool_t           *timer_pool;/**< pjsua's timer pool.            */
@@ -486,6 +550,15 @@ struct pjsua_data
     unsigned             mutex_nesting_level; /**< Mutex nesting level. */
     pj_thread_t         *mutex_owner; /**< Mutex owner.                 */
     pjsua_state          state;     /**< Library state.                 */
+=======
+    pj_caching_pool	 cp;	    /**< Global pool factory.		*/
+    pj_pool_t		*pool;	    /**< pjsua's private pool.		*/
+    pj_pool_t		*timer_pool;/**< pjsua's timer pool.		*/
+    pj_mutex_t		*mutex;	    /**< Mutex protection for this data	*/
+    unsigned		 mutex_nesting_level; /**< Mutex nesting level.	*/
+    pj_thread_t		*mutex_owner; /**< Mutex owner.			*/
+    pjsua_state		 state;	    /**< Library state.			*/
+>>>>>>> xcframework
 
     /* Logging: */
     pjsua_logging_config log_cfg;   /**< Current logging config.        */
@@ -588,9 +661,15 @@ struct pjsua_data
 #endif
 
     /* Timer entry and event list */
+<<<<<<< HEAD
     pjsua_timer_list     active_timer_list;
     pjsua_timer_list     timer_list;
     pjsua_event_list     event_list;
+=======
+    pjsua_timer_list	 active_timer_list;
+    pjsua_timer_list	 timer_list;
+    pjsua_event_list	 event_list;
+>>>>>>> xcframework
     pj_mutex_t          *timer_mutex;
 };
 
@@ -761,8 +840,13 @@ pj_status_t pjsua_media_channel_update(pjsua_call_id call_id,
 pj_status_t pjsua_media_channel_deinit(pjsua_call_id call_id);
 
 void pjsua_ice_check_start_trickling(pjsua_call *call,
+<<<<<<< HEAD
                                      pj_bool_t forceful,
                                      pjsip_event *e);
+=======
+				     pj_bool_t forceful,
+				     pjsip_event *e);
+>>>>>>> xcframework
 
 /*
  * Error message when media operation is requested while another is in progress
@@ -939,8 +1023,13 @@ void pjsua_aud_stop_stream(pjsua_call_media *call_med);
 pj_status_t pjsua_aud_channel_update(pjsua_call_media *call_med,
                                      pj_pool_t *tmp_pool,
                                      pjmedia_stream_info *si,
+<<<<<<< HEAD
                                      const pjmedia_sdp_session *local_sdp,
                                      const pjmedia_sdp_session *remote_sdp);
+=======
+				     const pjmedia_sdp_session *local_sdp,
+				     const pjmedia_sdp_session *remote_sdp);
+>>>>>>> xcframework
 void pjsua_check_snd_dev_idle(void);
 
 /*

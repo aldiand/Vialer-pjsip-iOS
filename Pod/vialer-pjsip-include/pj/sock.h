@@ -501,6 +501,15 @@ typedef struct pj_in_addr
 /**
  * This structure describes Internet address.
  */
+<<<<<<< HEAD
+=======
+typedef struct pj_in_addr
+{
+    pj_uint32_t	s_addr;		/**< The 32bit IP address.	    */
+} pj_in_addr;
+
+#else
+>>>>>>> xcframework
 typedef struct in_addr pj_in_addr;
 #endif
 
@@ -538,9 +547,15 @@ struct pj_sockaddr_in
 #else
     pj_uint16_t sin_family;     /**< Address family.                */
 #endif
+<<<<<<< HEAD
     pj_uint16_t sin_port;       /**< Transport layer port number.   */
     pj_in_addr  sin_addr;       /**< IP address.                    */
     char        sin_zero_pad[PJ_SOCKADDR_IN_SIN_ZERO_LEN]; /**< Padding.*/
+=======
+    pj_uint16_t	sin_port;	/**< Transport layer port number.   */
+    pj_in_addr	sin_addr;	/**< IP address.		    */
+    char	sin_zero_pad[PJ_SOCKADDR_IN_SIN_ZERO_LEN]; /**< Padding.*/
+>>>>>>> xcframework
 };
 
 
@@ -571,9 +586,12 @@ typedef union pj_in6_addr
 
 } pj_in6_addr;
 #else
+<<<<<<< HEAD
 /**
  * This structure describes IPv6 address.
  */
+=======
+>>>>>>> xcframework
 typedef struct in6_addr pj_in6_addr;
 #endif
 
@@ -1515,11 +1533,19 @@ PJ_DECL(pj_status_t) pj_sock_shutdown( pj_sock_t sockfd,
  * with square bracket if it's IPv6 address.
  *
  * @param host_str  The host address string.
+<<<<<<< HEAD
  * @param port      The port address.
  * @param buf       Text buffer.
  * @param size      Size of buffer.
  * @param flag      Bitmask combination of these value:
  *                  - 1: port number is included. 
+=======
+ * @param port	    The port address.
+ * @param buf	    Text buffer.
+ * @param size	    Size of buffer.
+ * @param flag	    Bitmask combination of these value:
+ *		    - 1: port number is included. 
+>>>>>>> xcframework
  *
  * @return      The address string.
  */

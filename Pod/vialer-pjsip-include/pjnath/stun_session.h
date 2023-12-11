@@ -337,10 +337,17 @@ struct pj_stun_tx_data
     /** PJLIB list interface */
     PJ_DECL_LIST_MEMBER(struct pj_stun_tx_data);
 
+<<<<<<< HEAD
     pj_pool_t           *pool;          /**< Pool.                          */
     pj_stun_session     *sess;          /**< The STUN session.              */
     pj_stun_msg         *msg;           /**< The STUN message.              */
     pj_bool_t            is_destroying; /**< Is destroying?                 */
+=======
+    pj_pool_t		*pool;		/**< Pool.			    */
+    pj_stun_session	*sess;		/**< The STUN session.		    */
+    pj_stun_msg		*msg;		/**< The STUN message.		    */
+    pj_bool_t		 is_destroying; /**< Is destroying?		    */
+>>>>>>> xcframework
 
     void                *token;         /**< The token.                     */
 

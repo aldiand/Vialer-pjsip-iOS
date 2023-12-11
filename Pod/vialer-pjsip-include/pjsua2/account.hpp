@@ -91,6 +91,17 @@ struct AccountRegConfig : public PersistentObject
     string              contactUriParams;
 
     /**
+     * Additional parameters that will be appended in the Contact URI
+     * of the registration requests. This will be appended after
+     * \a AccountSipConfig.contactUriParams;
+     *
+     * The parameters should be preceeded by semicolon, and all strings must
+     * be properly escaped. Example:
+     *	 ";my-param=X;another-param=Hi%20there"
+     */
+    string	    	contactUriParams;
+
+    /**
      * Optional interval for registration, in seconds. If the value is zero,
      * default interval will be used (PJSUA_REG_INTERVAL, 300 seconds).
      */
@@ -522,6 +533,13 @@ struct AccountNatConfig : public PersistentObject
     pj_ice_sess_trickle iceTrickle;
 
     /**
+     * Set trickle ICE mode for ICE media transport.
+     *
+     * Default: PJ_ICE_SESS_TRICKLE_DISABLED
+     */
+    pj_ice_sess_trickle	iceTrickle;
+
+    /**
      * Set the maximum number of ICE host candidates.
      *
      * Default: -1 (maximum not set)
@@ -731,8 +749,11 @@ public:
      */
     AccountNatConfig() : sipStunUse(PJSUA_STUN_USE_DEFAULT),
       mediaStunUse(PJSUA_STUN_USE_DEFAULT),
+<<<<<<< HEAD
       sipUpnpUse(PJSUA_UPNP_USE_DEFAULT),
       mediaUpnpUse(PJSUA_UPNP_USE_DEFAULT),
+=======
+>>>>>>> xcframework
       nat64Opt(PJSUA_NAT64_DISABLED),
       iceEnabled(false),
       iceTrickle(PJ_ICE_SESS_TRICKLE_DISABLED),
@@ -1061,6 +1082,24 @@ struct AccountMediaConfig : public PersistentObject
      * Default: false
      */
     bool                enableLoopback;
+
+    /**
+     * Use loopback media transport. This may be useful if application
+     * doesn't want PJSUA2 to create real media transports/sockets, such as
+     * when using third party media.
+     *
+     * Default: false
+     */
+    bool		useLoopMedTp;
+
+    /**
+     * Enable local loopback when useLoopMedTp is set to TRUE.
+     * If enabled, packets sent to the transport will be sent back to
+     * the streams attached to the transport.
+     *
+     * Default: false
+     */
+    bool		enableLoopback;
 
 public:
     /**

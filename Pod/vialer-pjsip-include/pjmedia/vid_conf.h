@@ -221,11 +221,19 @@ PJ_DECL(unsigned) pjmedia_vid_conf_get_port_count(pjmedia_vid_conf *vid_conf);
 /**
  * Enumerate occupied slots in the video conference bridge.
  *
+<<<<<<< HEAD
  * @param vid_conf              The video conference bridge.
  * @param slots         Array of slot to be filled in.
  * @param count         On input, specifies the maximum number of slot
  *                      in the array. On return, it will be filled with
  *                      the actual number of slot.
+=======
+ * @param vid_conf		The video conference bridge.
+ * @param slots		Array of slot to be filled in.
+ * @param count		On input, specifies the maximum number of slot
+ *			in the array. On return, it will be filled with
+ *			the actual number of slot.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS on success.
  */
@@ -253,11 +261,19 @@ PJ_DECL(pj_status_t) pjmedia_vid_conf_get_port_info(
  * Enable unidirectional video flow from the specified source slot to
  * the specified sink slot.
  *
+<<<<<<< HEAD
  * @param vid_conf              The video conference bridge.
  * @param src_slot      Source slot.
  * @param sink_slot     Sink slot.
  * @param opt           The option, for future use, currently this must
  *                      be NULL.
+=======
+ * @param vid_conf		The video conference bridge.
+ * @param src_slot	Source slot.
+ * @param sink_slot	Sink slot.
+ * @param opt		The option, for future use, currently this must
+ *			be NULL.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCES on success.
  */
@@ -272,9 +288,15 @@ PJ_DECL(pj_status_t) pjmedia_vid_conf_connect_port(
  * Disconnect unidirectional video flow from the specified source to
  * the specified sink slot.
  *
+<<<<<<< HEAD
  * @param vid_conf              The video conference bridge.
  * @param src_slot      Source slot.
  * @param sink_slot     Sink slot.
+=======
+ * @param vid_conf		The video conference bridge.
+ * @param src_slot	Source slot.
+ * @param sink_slot	Sink slot.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS on success.
  */
@@ -299,6 +321,23 @@ PJ_DECL(pj_status_t) pjmedia_vid_conf_disconnect_port(
  */
 PJ_DECL(pj_status_t) pjmedia_vid_conf_update_port(pjmedia_vid_conf *vid_conf,
                                                   unsigned slot);
+
+
+/**
+ * Update or refresh port states from video port info. Some port may
+ * change its port info in the middle of a session, for example when
+ * a video stream decoder learns that incoming video size or frame rate
+ * has changed, video conference needs to be informed to update its
+ * internal states.
+ *
+ * @param vid_conf	The video conference bridge.
+ * @param slot		The media port's slot index to be updated.
+ *
+ * @return		PJ_SUCCESS on success, or the appropriate error
+ *			code.
+ */
+PJ_DECL(pj_status_t) pjmedia_vid_conf_update_port(pjmedia_vid_conf *vid_conf,
+						  unsigned slot);
 
 
 PJ_END_DECL

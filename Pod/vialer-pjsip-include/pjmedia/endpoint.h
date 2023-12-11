@@ -84,7 +84,11 @@ typedef void (*pjmedia_endpt_exit_callback)(pjmedia_endpt *endpt);
  * Call this function to initialize \a pjmedia_endpt_create_sdp_param with default 
  * values.
  *
+<<<<<<< HEAD
  * @param param     The param to be initialized.
+=======
+ * @param param	    The param to be initialized.
+>>>>>>> xcframework
  */
 PJ_DECL(void)
 pjmedia_endpt_create_sdp_param_default(pjmedia_endpt_create_sdp_param *param);
@@ -315,12 +319,21 @@ PJ_DECL(pj_status_t) pjmedia_endpt_create_base_sdp(pjmedia_endpt *endpt,
 /**
  * Create SDP media line for audio media.
  *
+<<<<<<< HEAD
  * @param endpt         The media endpoint.
  * @param pool          Pool to allocate memory from.
  * @param si            Socket information.
  * @param options       Options parameter, can be NULL. If set to NULL,
  *                      default values will be used.
  * @param p_m           Pointer to receive the created SDP media.
+=======
+ * @param endpt		The media endpoint.
+ * @param pool		Pool to allocate memory from.
+ * @param si		Socket information.
+ * @param options	Options parameter, can be NULL. If set to NULL,
+ *			default values will be used.
+ * @param p_m		Pointer to receive the created SDP media.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS on success, or the appropriate error code.
  */
@@ -334,12 +347,21 @@ pjmedia_endpt_create_audio_sdp(pjmedia_endpt *endpt,
 /**
  * Create SDP media line for video media.
  *
+<<<<<<< HEAD
  * @param endpt         The media endpoint.
  * @param pool          Pool to allocate memory from.
  * @param si            Socket information.
  * @param options       Options parameter, can be NULL. If set to NULL,
  *                      default values will be used.
  * @param p_m           Pointer to receive the created SDP media.
+=======
+ * @param endpt		The media endpoint.
+ * @param pool		Pool to allocate memory from.
+ * @param si		Socket information.
+ * @param options	Options parameter, can be NULL. If set to NULL,
+ *			default values will be used.
+ * @param p_m		Pointer to receive the created SDP media.
+>>>>>>> xcframework
  *
  * @return              PJ_SUCCESS on success, or the appropriate error code.
  */

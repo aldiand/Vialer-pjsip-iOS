@@ -86,7 +86,7 @@
 
 /* OPUS codec */
 #ifndef PJMEDIA_HAS_OPUS_CODEC
-#define PJMEDIA_HAS_OPUS_CODEC 1
+#define PJMEDIA_HAS_OPUS_CODEC 0
 #endif
 
 /* G.729 codec with BCG729 backend */
@@ -99,6 +99,10 @@
 /* #undef PJMEDIA_HAS_ANDROID_MEDIACODEC */
 #endif
 
+<<<<<<< HEAD
 #endif  /* __PJMEDIA_CODEC_CONFIG_AUTO_H_ */
+=======
+#endif	/* __PJMEDIA_CODEC_CONFIG_AUTO_H_ */
+>>>>>>> xcframework
 
 
