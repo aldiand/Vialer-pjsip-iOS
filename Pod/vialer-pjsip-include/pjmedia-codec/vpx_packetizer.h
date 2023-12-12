@@ -42,11 +42,7 @@ typedef struct pjmedia_vpx_packetizer_cfg
      * VPX format id.
      * Default: PJMEDIA_FORMAT_VP8
      */
-<<<<<<< HEAD
-    pj_uint32_t fmt_id;
-=======
     pj_uint32_t	fmt_id;
->>>>>>> xcframework
 
     /**
      * MTU size.
@@ -59,35 +55,15 @@ pjmedia_vpx_packetizer_cfg;
 /**
  * Use this function to initialize VPX packetizer config.
  *
-<<<<<<< HEAD
- * @param cfg   The VPX packetizer config to be initialized.
- */
-PJ_DECL(void) pjmedia_vpx_packetizer_cfg_default(
-                                            pjmedia_vpx_packetizer_cfg *cfg);
-=======
  * @param cfg	The VPX packetizer config to be initialized.
  */
 PJ_DECL(void) pjmedia_vpx_packetizer_cfg_default(
 					    pjmedia_vpx_packetizer_cfg *cfg);
->>>>>>> xcframework
 
 
 /**
  * Create VPX packetizer.
  *
-<<<<<<< HEAD
- * @param pool          The memory pool.
- * @param cfg           Packetizer settings, if NULL, default setting
- *                      will be used.
- * @param p_pktz        Pointer to receive the packetizer.
- *
- * @return              PJ_SUCCESS on success.
- */
-PJ_DECL(pj_status_t) pjmedia_vpx_packetizer_create(
-                                    pj_pool_t *pool,
-                                    const pjmedia_vpx_packetizer_cfg *cfg,
-                                    pjmedia_vpx_packetizer **p_pktz);
-=======
  * @param pool		The memory pool.
  * @param cfg		Packetizer settings, if NULL, default setting
  *			will be used.
@@ -99,7 +75,6 @@ PJ_DECL(pj_status_t) pjmedia_vpx_packetizer_create(
 				    pj_pool_t *pool,
 				    const pjmedia_vpx_packetizer_cfg *cfg,
 				    pjmedia_vpx_packetizer **p_pktz);
->>>>>>> xcframework
 
 
 /**
@@ -107,20 +82,6 @@ PJ_DECL(pj_status_t) pjmedia_vpx_packetizer_create(
  * function will apply in-place processing, so the bitstream may be modified
  * during the packetization.
  *
-<<<<<<< HEAD
- * @param pktz          The packetizer.
- * @param bits_len      The length of the bitstream.
- * @param bits_pos      The bitstream offset to be packetized.
- * @param is_keyframe   The frame is keyframe.
- * @param payload       The output payload.
- * @param payload_len   The output payload length, on input it represents max
- *                      payload length.
- *
- * @return              PJ_SUCCESS on success.
- */
-PJ_DECL(pj_status_t) pjmedia_vpx_packetize(const pjmedia_vpx_packetizer *pktz,
-                                           pj_size_t bits_len,
-=======
  * @param pktz		The packetizer.
  * @param bits_len	The length of the bitstream.
  * @param bits_pos	The bitstream offset to be packetized.
@@ -133,7 +94,6 @@ PJ_DECL(pj_status_t) pjmedia_vpx_packetize(const pjmedia_vpx_packetizer *pktz,
  */
 PJ_DECL(pj_status_t) pjmedia_vpx_packetize(const pjmedia_vpx_packetizer *pktz,
 					   pj_size_t bits_len,
->>>>>>> xcframework
                                            unsigned *bits_pos,
                                            pj_bool_t is_keyframe,
                                            pj_uint8_t **payload,
@@ -146,23 +106,6 @@ PJ_DECL(pj_status_t) pjmedia_vpx_packetize(const pjmedia_vpx_packetizer *pktz,
  * payload pointer set to NULL, as the packetizer need to update its internal
  * state.
  *
-<<<<<<< HEAD
- * @param pktz              The packetizer.
- * @param payload           The payload to be unpacketized.
- * @param payload_len       The payload length.
- * @param payload_desc_len  The payload description length.
- *
- * @return                  PJ_SUCCESS on success.
- */
-PJ_DECL(pj_status_t) pjmedia_vpx_unpacketize(pjmedia_vpx_packetizer *pktz,
-                                             const pj_uint8_t *payload,
-                                             pj_size_t payload_len,
-                                             unsigned  *payload_desc_len);
-
-PJ_END_DECL
-
-#endif  /* __PJMEDIA_VPX_PACKETIZER_H__ */
-=======
  * @param pktz		    The packetizer.
  * @param payload	    The payload to be unpacketized.
  * @param payload_len	    The payload length.
@@ -178,4 +121,3 @@ PJ_DECL(pj_status_t) pjmedia_vpx_unpacketize(pjmedia_vpx_packetizer *pktz,
 PJ_END_DECL
 
 #endif	/* __PJMEDIA_VPX_PACKETIZER_H__ */
->>>>>>> xcframework

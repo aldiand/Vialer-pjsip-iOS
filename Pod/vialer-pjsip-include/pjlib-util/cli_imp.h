@@ -1,3 +1,4 @@
+/* $Id$ */
 /* 
  * Copyright (C) 2010 Teluu Inc. (http://www.teluu.com)
  *
@@ -39,21 +40,21 @@ PJ_BEGIN_DECL
  * Default log level for console sessions.
  */
 #ifndef PJ_CLI_CONSOLE_LOG_LEVEL
-#   define PJ_CLI_CONSOLE_LOG_LEVEL     PJ_LOG_MAX_LEVEL
+#   define PJ_CLI_CONSOLE_LOG_LEVEL	PJ_LOG_MAX_LEVEL
 #endif
 
 /**
  * Default log level for telnet sessions.
  */
 #ifndef PJ_CLI_TELNET_LOG_LEVEL
-#   define PJ_CLI_TELNET_LOG_LEVEL      4
+#   define PJ_CLI_TELNET_LOG_LEVEL	4
 #endif
 
 /**
  * Default port number for telnet daemon.
  */
 #ifndef PJ_CLI_TELNET_PORT
-#   define PJ_CLI_TELNET_PORT           0
+#   define PJ_CLI_TELNET_PORT		0
 #endif
 
 /**
@@ -61,10 +62,10 @@ PJ_BEGIN_DECL
  */
 typedef enum pj_cli_front_end_type
 {
-    PJ_CLI_CONSOLE_FRONT_END,   /**< Console front end. */
-    PJ_CLI_TELNET_FRONT_END,    /**< Telnet front end.  */
-    PJ_CLI_HTTP_FRONT_END,      /**< HTTP front end.    */
-    PJ_CLI_GUI_FRONT_END        /**< GUI front end.     */
+    PJ_CLI_CONSOLE_FRONT_END,	/**< Console front end.	*/
+    PJ_CLI_TELNET_FRONT_END,	/**< Telnet front end.	*/
+    PJ_CLI_HTTP_FRONT_END,	/**< HTTP front end.	*/
+    PJ_CLI_GUI_FRONT_END	/**< GUI front end.	*/
 } pj_cli_front_end_type;
 
 
@@ -80,21 +81,21 @@ typedef struct pj_cli_front_end_op
      * the session if the session's log verbosity level is greater than the
      * level of this log message.
      *
-     * @param fe        The front end.
-     * @param level     Verbosity level of this message message.
-     * @param data      The message itself.
-     * @param len       Length of this message.
+     * @param fe	The front end.
+     * @param level	Verbosity level of this message message.
+     * @param data	The message itself.
+     * @param len 	Length of this message.
      */
     void (*on_write_log)(pj_cli_front_end *fe, int level,
-                         const char *data, pj_size_t len);
+		         const char *data, pj_size_t len);
 
     /**
      * Callback to be called when the application is quitting, to signal the
      * front-end to end its main loop or any currently blocking functions,
      * if any.
      *
-     * @param fe        The front end.
-     * @param req       The session which requested the application quit.
+     * @param fe	The front end.
+     * @param req	The session which requested the application quit.
      */
     void (*on_quit)(pj_cli_front_end *fe, pj_cli_sess *req);
 
@@ -102,7 +103,7 @@ typedef struct pj_cli_front_end_op
      * Callback to be called to close and self destroy the front-end. This
      * must also close any active sessions created by this front-ends.
      *
-     * @param fe        The front end.
+     * @param fe	The front end.
      */
     void (*on_destroy)(pj_cli_front_end *fe);
 
@@ -151,7 +152,7 @@ typedef struct pj_cli_sess_op
     /**
      * Callback to be called to close and self destroy the session.
      *
-     * @param sess      The session to destroy.
+     * @param sess	The session to destroy.
      */
     void (*destroy)(pj_cli_sess *sess);
 
@@ -204,4 +205,4 @@ struct pj_cli_sess
 
 PJ_END_DECL
 
-#endif  /* __PJLIB_UTIL_CLI_IMP_H__ */
+#endif	/* __PJLIB_UTIL_CLI_IMP_H__ */

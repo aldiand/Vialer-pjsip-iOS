@@ -1,3 +1,4 @@
+/* $Id$ */
 /*
  * Copyright (C) 2017 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2017 George Joseph <gjoseph@digium.com>
@@ -32,8 +33,8 @@
 
 #  ifdef _MSC_VER
 #  pragma message("limits.h is not found or not supported. LONG_MIN and "\
-                 "LONG_MAX will be defined by the library in "\
-                 "pj/compats/limits.h and overridable in config_site.h")
+		 "LONG_MAX will be defined by the library in "\
+		 "pj/compats/limits.h and overridable in config_site.h")
 #  else
 #  warning "limits.h is not found or not supported. LONG_MIN and LONG_MAX " \
            "will be defined by the library in pj/compats/limits.h and "\

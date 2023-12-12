@@ -1,3 +1,4 @@
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2009 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -34,8 +35,8 @@ public:
     //
     Pj_String() 
     { 
-        pj_assert(sizeof(Pj_String) == sizeof(pj_str_t));
-        ptr=NULL; 
+	pj_assert(sizeof(Pj_String) == sizeof(pj_str_t));
+	ptr=NULL; 
         slen=0; 
     }
 
@@ -44,7 +45,7 @@ public:
     //
     Pj_String(char *str) 
     { 
-        set(str);
+	set(str);
     }
 
     //
@@ -52,7 +53,7 @@ public:
     //
     Pj_String(Pj_Pool &pool, const char *src)
     {
-        set(pool, src);
+	set(pool, src);
     }
 
     //
@@ -60,8 +61,8 @@ public:
     //
     explicit Pj_String(pj_str_t &s)
     {
-        ptr = s.ptr;
-        slen = s.slen;
+	ptr = s.ptr;
+	slen = s.slen;
     }
 
     //
@@ -69,8 +70,8 @@ public:
     //
     explicit Pj_String(const pj_str_t &s)
     {
-        ptr = (char*)s.ptr;
-        slen = s.slen;
+	ptr = (char*)s.ptr;
+	slen = s.slen;
     }
 
     //
@@ -78,7 +79,7 @@ public:
     //
     Pj_String(Pj_Pool &pool, const pj_str_t *s)
     {
-        set(pool, s);
+	set(pool, s);
     }
 
     //
@@ -86,7 +87,7 @@ public:
     //
     Pj_String(Pj_Pool &pool, const Pj_String &rhs)
     {
-        set(pool, rhs);
+	set(pool, rhs);
     }
 
     //
@@ -94,8 +95,8 @@ public:
     //
     explicit Pj_String(const Pj_String &rhs)
     {
-        ptr = rhs.ptr;
-        slen = rhs.slen;
+	ptr = rhs.ptr;
+	slen = rhs.slen;
     }
 
     //
@@ -103,7 +104,7 @@ public:
     //
     Pj_String(char *str, pj_size_t len)
     {
-        set(str, len);
+	set(str, len);
     }
 
     //
@@ -111,7 +112,7 @@ public:
     //
     Pj_String(char *begin, char *end)
     {
-        pj_strset3(this, begin, end);
+	pj_strset3(this, begin, end);
     }
 
     //
@@ -119,7 +120,7 @@ public:
     //
     operator pj_str_t*()
     {
-        return this;
+	return this;
     }
 
     //
@@ -127,7 +128,7 @@ public:
     //
     operator const pj_str_t*() const
     {
-        return this;
+	return this;
     }
 
     //
@@ -135,7 +136,7 @@ public:
     //
     pj_size_t length() const
     {
-        return pj_strlen(this);
+	return pj_strlen(this);
     }
 
     //
@@ -143,7 +144,7 @@ public:
     //
     pj_size_t size() const
     {
-        return length();
+	return length();
     }
 
     //
@@ -151,7 +152,7 @@ public:
     //
     const char *buf() const
     {
-        return ptr;
+	return ptr;
     }
 
     //
@@ -159,7 +160,7 @@ public:
     //
     void set(char *str)
     {
-        pj_strset2(this, str);
+	pj_strset2(this, str);
     }
 
     //
@@ -167,7 +168,7 @@ public:
     //
     void set(Pj_Pool &pool, const char *s)
     {
-        pj_strdup2(pool, this, s);
+	pj_strdup2(pool, this, s);
     }
 
     //
@@ -175,7 +176,7 @@ public:
     //
     void set(pj_str_t *s)
     {
-        pj_strassign(this, s);
+	pj_strassign(this, s);
     }
 
     //
@@ -183,7 +184,7 @@ public:
     //
     void set(Pj_Pool &pool, const pj_str_t *s)
     {
-        pj_strdup(pool, this, s);
+	pj_strdup(pool, this, s);
     }
 
     //
@@ -191,7 +192,7 @@ public:
     //
     void set(char *str, pj_size_t len)
     {
-        pj_strset(this, str, len);
+	pj_strset(this, str, len);
     }
 
     //
@@ -199,7 +200,7 @@ public:
     //
     void set(char *begin, char *end)
     {
-        pj_strset3(this, begin, end);
+	pj_strset3(this, begin, end);
     }
 
     //
@@ -207,7 +208,7 @@ public:
     //
     void set(Pj_String &rhs)
     {
-        pj_strassign(this, &rhs);
+	pj_strassign(this, &rhs);
     }
 
     //
@@ -215,7 +216,7 @@ public:
     //
     void set(Pj_Pool &pool, const Pj_String *s)
     {
-        pj_strdup(pool, this, s);
+	pj_strdup(pool, this, s);
     }
 
     //
@@ -223,7 +224,7 @@ public:
     //
     void set(Pj_Pool &pool, const Pj_String &s)
     {
-        pj_strdup(pool, this, &s);
+	pj_strdup(pool, this, &s);
     }
 
     //
@@ -231,7 +232,7 @@ public:
     //
     void strcpy(const pj_str_t *s)
     {
-        pj_strcpy(this, s);
+	pj_strcpy(this, s);
     }
 
     //
@@ -239,7 +240,7 @@ public:
     //
     void strcpy(const Pj_String &rhs)
     {
-        pj_strcpy(this, &rhs);
+	pj_strcpy(this, &rhs);
     }
 
     //
@@ -247,7 +248,7 @@ public:
     //
     void strcpy(const char *s)
     {
-        pj_strcpy2(this, s);
+	pj_strcpy2(this, s);
     }
 
     //
@@ -255,7 +256,7 @@ public:
     //
     int strcmp(const char *s) const
     {
-        return pj_strcmp2(this, s);
+	return pj_strcmp2(this, s);
     }
 
     //
@@ -263,7 +264,7 @@ public:
     //
     int strcmp(const pj_str_t *s) const
     {
-        return pj_strcmp(this, s);
+	return pj_strcmp(this, s);
     }
 
     //
@@ -271,7 +272,7 @@ public:
     //
     int strcmp(const Pj_String &rhs) const
     {
-        return pj_strcmp(this, &rhs);
+	return pj_strcmp(this, &rhs);
     }
 
     //
@@ -279,7 +280,7 @@ public:
     //
     int strncmp(const char *s, pj_size_t len) const
     {
-        return pj_strncmp2(this, s, len);
+	return pj_strncmp2(this, s, len);
     }
 
     //
@@ -287,7 +288,7 @@ public:
     //
     int strncmp(const pj_str_t *s, pj_size_t len) const
     {
-        return pj_strncmp(this, s, len);
+	return pj_strncmp(this, s, len);
     }
 
     //
@@ -295,7 +296,7 @@ public:
     //
     int strncmp(const Pj_String &rhs, pj_size_t len) const
     {
-        return pj_strncmp(this, &rhs, len);
+	return pj_strncmp(this, &rhs, len);
     }
 
     //
@@ -303,7 +304,7 @@ public:
     //
     int stricmp(const char *s) const
     {
-        return pj_stricmp2(this, s);
+	return pj_stricmp2(this, s);
     }
 
     //
@@ -311,7 +312,7 @@ public:
     //
     int stricmp(const pj_str_t *s) const
     {
-        return pj_stricmp(this, s);
+	return pj_stricmp(this, s);
     }
 
     //
@@ -319,7 +320,7 @@ public:
     //
     int stricmp(const Pj_String &rhs) const
     {
-        return stricmp(&rhs);
+	return stricmp(&rhs);
     }
 
     //
@@ -327,7 +328,7 @@ public:
     //
     int strnicmp(const char *s, pj_size_t len) const
     {
-        return pj_strnicmp2(this, s, len);
+	return pj_strnicmp2(this, s, len);
     }
 
     //
@@ -335,7 +336,7 @@ public:
     //
     int strnicmp(const pj_str_t *s, pj_size_t len) const
     {
-        return pj_strnicmp(this, s, len);
+	return pj_strnicmp(this, s, len);
     }
 
     //
@@ -343,7 +344,7 @@ public:
     //
     int strnicmp(const Pj_String &rhs, pj_size_t len) const
     {
-        return strnicmp(&rhs, len);
+	return strnicmp(&rhs, len);
     }
 
     //
@@ -351,7 +352,7 @@ public:
     //
     bool operator==(const char *s) const
     {
-        return strcmp(s) == 0;
+	return strcmp(s) == 0;
     }
 
     //
@@ -359,7 +360,7 @@ public:
     //
     bool operator==(const pj_str_t *s) const
     {
-        return strcmp(s) == 0;
+	return strcmp(s) == 0;
     }
 
     //
@@ -367,7 +368,7 @@ public:
     //
     bool operator==(const Pj_String &rhs) const
     {
-        return pj_strcmp(this, &rhs) == 0;
+	return pj_strcmp(this, &rhs) == 0;
     }
 
     //
@@ -375,8 +376,8 @@ public:
     //
     Pj_String& operator=(char *s)
     {
-        set(s);
-        return *this;
+	set(s);
+	return *this;
     }
 
     ///
@@ -384,9 +385,9 @@ public:
     //
     Pj_String& operator=(const Pj_String &rhs)
     {
-        ptr = rhs.ptr;
-        slen = rhs.slen;
-        return *this;
+	ptr = rhs.ptr;
+	slen = rhs.slen;
+	return *this;
     }
 
     //
@@ -394,7 +395,7 @@ public:
     //
     char *strchr(int chr)
     {
-        return pj_strchr(this, chr);
+	return pj_strchr(this, chr);
     }
 
     //
@@ -402,7 +403,7 @@ public:
     //
     char *find(int chr)
     {
-        return strchr(chr);
+	return strchr(chr);
     }
 
     //
@@ -410,7 +411,7 @@ public:
     //
     void strcat(const Pj_String &rhs)
     {
-        pj_strcat(this, &rhs);
+	pj_strcat(this, &rhs);
     }
 
     //
@@ -418,7 +419,7 @@ public:
     //
     void ltrim()
     {
-        pj_strltrim(this);
+	pj_strltrim(this);
     }
 
     //
@@ -426,7 +427,7 @@ public:
     //
     void rtrim()
     {
-        pj_strrtrim(this);
+	pj_strrtrim(this);
     }
 
     //
@@ -434,7 +435,7 @@ public:
     //
     void trim()
     {
-        pj_strtrim(this);
+	pj_strtrim(this);
     }
 
     //
@@ -442,7 +443,7 @@ public:
     //
     unsigned long to_ulong() const
     {
-        return pj_strtoul(this);
+	return pj_strtoul(this);
     }
 
     //
@@ -463,5 +464,5 @@ public:
 
 };
 
-#endif  /* __PJPP_STRING_HPP__ */
+#endif	/* __PJPP_STRING_HPP__ */
 

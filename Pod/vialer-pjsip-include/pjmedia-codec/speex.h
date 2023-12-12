@@ -1,3 +1,4 @@
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -46,19 +47,19 @@
  * specifying #pjmedia_speex_options flags during initialization.
  *
  *
- * \section speex_codec_setting Codec Settings
+ * \section codec_setting Codec Settings
  *
- * \subsection speex_general_setting General Settings
+ * \subsection general_setting General Settings
  *
  * General codec settings for this codec such as VAD and PLC can be 
  * manipulated through the <tt>setting</tt> field in #pjmedia_codec_param. 
  * Please see the documentation of #pjmedia_codec_param for more info.
  *
- * \subsection speex_specific_setting Codec Specific Settings
+ * \subsection specific_setting Codec Specific Settings
  *
  * The following settings are applicable for this codec.
  *
- * \subsubsection speex_quality_vs_complexity Quality vs Complexity
+ * \subsubsection quality_vs_complexity Quality vs Complexity
  *
  * The Speex codec quality versus computational complexity and bandwidth
  * requirement can be adjusted by modifying the quality and complexity
@@ -79,37 +80,37 @@ PJ_BEGIN_DECL
  */
 enum pjmedia_speex_options
 {
-    PJMEDIA_SPEEX_NO_NB     = 1,    /**< Disable narrowband mode.       */
-    PJMEDIA_SPEEX_NO_WB     = 2,    /**< Disable wideband mode.         */
-    PJMEDIA_SPEEX_NO_UWB    = 4,    /**< Disable ultra-wideband mode.   */
+    PJMEDIA_SPEEX_NO_NB	    = 1,    /**< Disable narrowband mode.	*/
+    PJMEDIA_SPEEX_NO_WB	    = 2,    /**< Disable wideband mode.		*/
+    PJMEDIA_SPEEX_NO_UWB    = 4,    /**< Disable ultra-wideband mode.	*/
 };
 
 
 /**
  * Initialize and register Speex codec factory to pjmedia endpoint.
  *
- * @param endpt         The pjmedia endpoint.
- * @param options       Bitmask of pjmedia_speex_options (default=0).
- * @param quality       Specify encoding quality, or use -1 for default 
- *                      (@see PJMEDIA_CODEC_SPEEX_DEFAULT_QUALITY).
- * @param complexity    Specify encoding complexity , or use -1 for default 
- *                      (@see PJMEDIA_CODEC_SPEEX_DEFAULT_COMPLEXITY).
+ * @param endpt		The pjmedia endpoint.
+ * @param options	Bitmask of pjmedia_speex_options (default=0).
+ * @param quality	Specify encoding quality, or use -1 for default 
+ *			(@see PJMEDIA_CODEC_SPEEX_DEFAULT_QUALITY).
+ * @param complexity	Specify encoding complexity , or use -1 for default 
+ *			(@see PJMEDIA_CODEC_SPEEX_DEFAULT_COMPLEXITY).
  *
- * @return              PJ_SUCCESS on success.
+ * @return		PJ_SUCCESS on success.
  */
 PJ_DECL(pj_status_t) pjmedia_codec_speex_init( pjmedia_endpt *endpt,
-                                               unsigned options,
-                                               int quality,
-                                               int complexity );
+					       unsigned options,
+					       int quality,
+					       int complexity );
 
 
 /**
  * Initialize Speex codec factory using default settings and register to 
  * pjmedia endpoint.
  *
- * @param endpt         The pjmedia endpoint.
+ * @param endpt		The pjmedia endpoint.
  *
- * @return              PJ_SUCCESS on success.
+ * @return		PJ_SUCCESS on success.
  */
 PJ_DECL(pj_status_t) pjmedia_codec_speex_init_default(pjmedia_endpt *endpt);
 
@@ -117,24 +118,24 @@ PJ_DECL(pj_status_t) pjmedia_codec_speex_init_default(pjmedia_endpt *endpt);
 /**
  * Change the settings of Speex codec.
  *
- * @param clock_rate    Clock rate of Speex mode to be set.
- * @param quality       Specify encoding quality, or use -1 for default 
- *                      (@see PJMEDIA_CODEC_SPEEX_DEFAULT_QUALITY).
- * @param complexity    Specify encoding complexity , or use -1 for default 
- *                      (@see PJMEDIA_CODEC_SPEEX_DEFAULT_COMPLEXITY).
+ * @param clock_rate	Clock rate of Speex mode to be set.
+ * @param quality	Specify encoding quality, or use -1 for default 
+ *			(@see PJMEDIA_CODEC_SPEEX_DEFAULT_QUALITY).
+ * @param complexity	Specify encoding complexity , or use -1 for default 
+ *			(@see PJMEDIA_CODEC_SPEEX_DEFAULT_COMPLEXITY).
  *
- * @return              PJ_SUCCESS on success.
+ * @return		PJ_SUCCESS on success.
  */
 PJ_DECL(pj_status_t) pjmedia_codec_speex_set_param(unsigned clock_rate,
-                                                   int quality,
-                                                   int complexity);
+						   int quality,
+						   int complexity);
 
 
 /**
  * Unregister Speex codec factory from pjmedia endpoint and deinitialize
  * the Speex codec library.
  *
- * @return          PJ_SUCCESS on success.
+ * @return	    PJ_SUCCESS on success.
  */
 PJ_DECL(pj_status_t) pjmedia_codec_speex_deinit(void);
 
@@ -145,5 +146,5 @@ PJ_END_DECL
  * @}
  */
 
-#endif  /* __PJMEDIA_CODEC_SPEEX_H__ */
+#endif	/* __PJMEDIA_CODEC_SPEEX_H__ */
 

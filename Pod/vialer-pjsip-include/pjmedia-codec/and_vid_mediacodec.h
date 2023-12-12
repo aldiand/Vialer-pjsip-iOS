@@ -46,18 +46,6 @@ PJ_BEGIN_DECL
 /**
  * Initialize and register Android Mediacodec video codec factory.
  *
-<<<<<<< HEAD
- * @param mgr       The video codec manager instance where this codec will
- *                  be registered to. Specify NULL to use default instance
- *                  (in that case, an instance of video codec manager must
- *                  have been created beforehand).
- * @param pf        Pool factory.
- *
- * @return          PJ_SUCCESS on success.
- */
-PJ_DECL(pj_status_t) pjmedia_codec_and_media_vid_init(
-                                    pjmedia_vid_codec_mgr *mgr,
-=======
  * @param mgr	    The video codec manager instance where this codec will
  * 		    be registered to. Specify NULL to use default instance
  * 		    (in that case, an instance of video codec manager must
@@ -68,18 +56,13 @@ PJ_DECL(pj_status_t) pjmedia_codec_and_media_vid_init(
  */
 PJ_DECL(pj_status_t) pjmedia_codec_and_media_vid_init(
 				    pjmedia_vid_codec_mgr *mgr,
->>>>>>> xcframework
                                     pj_pool_factory *pf);
 
 /**
  * Unregister Android Mediacodec video codecs factory from the video codec
  * manager and deinitialize the codec library.
  *
-<<<<<<< HEAD
- * @return          PJ_SUCCESS on success.
-=======
  * @return	    PJ_SUCCESS on success.
->>>>>>> xcframework
  */
 PJ_DECL(pj_status_t) pjmedia_codec_and_media_vid_deinit(void);
 
@@ -91,8 +74,4 @@ PJ_DECL(pj_status_t) pjmedia_codec_and_media_vid_deinit(void);
 
 PJ_END_DECL
 
-<<<<<<< HEAD
-#endif  /* __PJMEDIA_CODEC_AND_VID_MEDIACODEC_H__ */
-=======
 #endif	/* __PJMEDIA_CODEC_AND_VID_MEDIACODEC_H__ */
->>>>>>> xcframework

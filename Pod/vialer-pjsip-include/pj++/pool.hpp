@@ -1,3 +1,4 @@
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2009 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -111,7 +112,7 @@ public:
     ~Pj_Pool()
     {
         if (p_)
-            pj_pool_release(p_);
+	    pj_pool_release(p_);
     }
 
     //
@@ -119,7 +120,7 @@ public:
     //
     const char *getobjname() const
     {
-        return pj_pool_getobjname(p_);
+	return pj_pool_getobjname(p_);
     }
 
     //
@@ -127,7 +128,7 @@ public:
     //
     operator pj_pool_t*()
     {
-        return p_;
+	return p_;
     }
 
     //
@@ -135,7 +136,7 @@ public:
     //
     pj_pool_t *pool_()
     {
-        return p_;
+	return p_;
     }
 
     //
@@ -143,7 +144,7 @@ public:
     //
     const pj_pool_t *pool_() const
     {
-        return p_;
+	return p_;
     }
 
     //
@@ -151,7 +152,7 @@ public:
     //
     pj_pool_t *pj_pool_t_()
     {
-        return p_;
+	return p_;
     }
 
     //
@@ -159,7 +160,7 @@ public:
     //
     void reset()
     {
-        pj_pool_reset(p_);
+	pj_pool_reset(p_);
     }
 
     //
@@ -167,7 +168,7 @@ public:
     //
     pj_size_t get_capacity()
     {
-        pj_pool_get_capacity(p_);
+	pj_pool_get_capacity(p_);
     }
 
     //
@@ -175,7 +176,7 @@ public:
     //
     pj_size_t get_used_size()
     {
-        pj_pool_get_used_size(p_);
+	pj_pool_get_used_size(p_);
     }
 
     //
@@ -183,7 +184,7 @@ public:
     //
     void *alloc(pj_size_t size)
     {
-        return pj_pool_alloc(p_, size);
+	return pj_pool_alloc(p_, size);
     }
 
     //
@@ -191,7 +192,7 @@ public:
     //
     void *calloc(pj_size_t count, pj_size_t elem)
     {
-        return pj_pool_calloc(p_, count, elem);
+	return pj_pool_calloc(p_, count, elem);
     }
 
     //
@@ -217,9 +218,9 @@ public:
     // Construct caching pool.
     //
     Pj_Caching_Pool( pj_size_t cache_capacity = 0,
-                     const pj_pool_factory_policy *pol=&pj_pool_factory_default_policy)
+	             const pj_pool_factory_policy *pol=&pj_pool_factory_default_policy)
     {
-        pj_caching_pool_init(&cp_, pol, cache_capacity);
+	pj_caching_pool_init(&cp_, pol, cache_capacity);
     }
 
     //
@@ -227,7 +228,7 @@ public:
     //
     ~Pj_Caching_Pool()
     {
-        pj_caching_pool_destroy(&cp_);
+	pj_caching_pool_destroy(&cp_);
     }
 
     //
@@ -238,7 +239,7 @@ public:
                             const char *name = NULL, 
                             pj_pool_callback *callback = NULL)
     {
-        return (pj_pool_t*)(*cp_.factory.create_pool)(&cp_.factory, name, 
+	return (pj_pool_t*)(*cp_.factory.create_pool)(&cp_.factory, name, 
                                                      initial_size, 
                                                      increment_size, 
                                                      callback);
@@ -274,5 +275,5 @@ inline Pj_Pool::Pj_Pool( Pj_Caching_Pool &caching_pool,
 }
 
 
-#endif  /* __PJPP_POOL_HPP__ */
+#endif	/* __PJPP_POOL_HPP__ */
 

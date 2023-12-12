@@ -1,3 +1,4 @@
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -50,7 +51,7 @@
  * frame length 10ms, and resulting in bitrate 8000bps (annexes D and E
  * introduce bitrates 6400bps and 11800bps).
  *
- * \subsection ipp_g729_codec_setting Codec Settings
+ * \subsection codec_setting Codec Settings
  *
  * General codec settings for this codec such as VAD and PLC can be 
  * manipulated through the <tt>setting</tt> field in #pjmedia_codec_param. 
@@ -59,7 +60,7 @@
  * Note that G.729 VAD status should be signalled in SDP, see more
  * description below.
  *
- * \subsubsection ipp_g729_annexb Annex B
+ * \subsubsection annexb Annex B
  *
  * The capability of VAD/DTX is specified in Annex B.
  *
@@ -105,7 +106,7 @@
  * By default, pjmedia implementation uses encoding bitrate of 6300bps.
  * The bitrate is signalled in-band in G.723.1 frames and interoperable.
  *
- * \subsection ipp_g723_codec_setting Codec Settings
+ * \subsection codec_setting Codec Settings
  *
  * General codec settings for this codec such as VAD and PLC can be 
  * manipulated through the <tt>setting</tt> field in #pjmedia_codec_param. 
@@ -121,7 +122,7 @@
  * The bitrate is specified explicitly in its encoding name, i.e: G726-16,
  * G726-24, G726-32, G726-48.
  *
- * \subsection ipp_g726_codec_setting Codec Settings
+ * \subsection codec_setting Codec Settings
  *
  * General codec settings for this codec such as VAD and PLC can be 
  * manipulated through the <tt>setting</tt> field in #pjmedia_codec_param. 
@@ -138,7 +139,7 @@
  *
  * The pjmedia implementation currently uses 16kbps bitrate only.
  *
- * \subsection ipp_g728_codec_setting Codec Settings
+ * \subsection codec_setting Codec Settings
  *
  * General codec settings for this codec such as VAD and PLC can be 
  * manipulated through the <tt>setting</tt> field in #pjmedia_codec_param. 
@@ -151,13 +152,13 @@
  * signal with sampling rate 16000Hz, 20ms frame length and producing 
  * 16kbps, 24kbps, and 32kbps bitrates.
  *
- * \subsection ipp_g7221_codec_setting Codec Settings
+ * \subsection codec_setting Codec Settings
  *
  * General codec settings for this codec such as VAD and PLC can be 
  * manipulated through the <tt>setting</tt> field in #pjmedia_codec_param. 
  * Please see the documentation of #pjmedia_codec_param for more info.
  *
- * \subsubsection ipp_g7221_bitrate Bitrate
+ * \subsubsection bitrate Bitrate
  *
  * The codec implementation supports only standard bitrates, i.e:
  * 24kbps and 32kbps. Both are enabled by default.
@@ -181,13 +182,13 @@
  * 20ms frame length and producing various bitrates that ranges from 4.75kbps
  * to 12.2kbps.
  *
- * \subsection ipp_amr_codec_setting Codec Settings
+ * \subsection codec_setting Codec Settings
  *
  * General codec settings for this codec such as VAD and PLC can be 
  * manipulated through the <tt>setting</tt> field in #pjmedia_codec_param. 
  * Please see the documentation of #pjmedia_codec_param for more info.
  *
- * \subsubsection ipp_amr_bitrate Bitrate
+ * \subsubsection bitrate Bitrate
  *
  * By default, encoding bitrate is 7400bps. This default setting can be 
  * modified using #pjmedia_codec_mgr_set_default_param() by specifying 
@@ -195,7 +196,7 @@
  * #pjmedia_codec_param. Valid bitrates could be seen in 
  * #pjmedia_codec_amrnb_bitrates.
  *
- * \subsubsection ipp_amr_payload_format Payload Format
+ * \subsubsection payload_format Payload Format
  *
  * There are two AMR payload format types, bandwidth-efficient and
  * octet-aligned. Default setting is using octet-aligned. This default payload
@@ -206,7 +207,7 @@
  * decoding direction. Valid values are "0" (for bandwidth efficient mode)
  * and "1" (for octet-aligned mode).
  *
- * \subsubsection ipp_amr_mode_set Mode-Set
+ * \subsubsection mode_set Mode-Set
  * 
  * Mode-set is used for restricting AMR modes in decoding direction.
  *
@@ -251,20 +252,20 @@
  * seen in #pjmedia_codec_amrwb_bitrates. The pjmedia implementation default
  * bitrate is 15850bps.
  *
- * \subsection ipp_amrwb_codec_setting Codec Settings
+ * \subsection codec_setting Codec Settings
  *
  * General codec settings for this codec such as VAD and PLC can be 
  * manipulated through the <tt>setting</tt> field in #pjmedia_codec_param. 
  * Please see the documentation of #pjmedia_codec_param for more info.
  *
- * \subsubsection ipp_amrwb_bitrate Bitrate
+ * \subsubsection bitrate Bitrate
  *
  * By default, encoding bitrate is 15850bps. This default setting can be 
  * modified using #pjmedia_codec_mgr_set_default_param() by specifying 
  * prefered AMR bitrate in field <tt>info::avg_bps</tt> of 
  * #pjmedia_codec_param.
  *
- * \subsubsection ipp_amrwb_payload_format Payload Format
+ * \subsubsection payload_format Payload Format
  *
  * There are two AMR payload format types, bandwidth-efficient and
  * octet-aligned. Default setting is using octet-aligned. This default payload
@@ -275,7 +276,7 @@
  * decoding direction. Valid values are "0" (for bandwidth efficient mode)
  * and "1" (for octet-aligned mode).
  *
- * \subsubsection ipp_amrwb_mode_set Mode-Set
+ * \subsubsection mode_set Mode-Set
  * 
  * Mode-set is used for restricting AMR modes in decoding direction.
  *
@@ -294,9 +295,9 @@ PJ_BEGIN_DECL
 /**
  * Initialize and register IPP codecs factory to pjmedia endpoint.
  *
- * @param endpt     The pjmedia endpoint.
+ * @param endpt	    The pjmedia endpoint.
  *
- * @return          PJ_SUCCESS on success.
+ * @return	    PJ_SUCCESS on success.
  */
 PJ_DECL(pj_status_t) pjmedia_codec_ipp_init( pjmedia_endpt *endpt );
 
@@ -305,7 +306,7 @@ PJ_DECL(pj_status_t) pjmedia_codec_ipp_init( pjmedia_endpt *endpt );
  * Unregister IPP codecs factory from pjmedia endpoint and deinitialize
  * the IPP codecs library.
  *
- * @return          PJ_SUCCESS on success.
+ * @return	    PJ_SUCCESS on success.
  */
 PJ_DECL(pj_status_t) pjmedia_codec_ipp_deinit(void);
 
@@ -317,5 +318,5 @@ PJ_END_DECL
  * @}
  */
 
-#endif  /* __PJMEDIA_CODECS_IPP_H__ */
+#endif	/* __PJMEDIA_CODECS_IPP_H__ */
 

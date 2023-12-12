@@ -1,3 +1,4 @@
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  *
@@ -20,11 +21,11 @@
 
 /**
  * @file pjmedia_videodev.h
- * @brief PJMEDIA-VIDEODEV main header file.
+ * @brief PJMEDIA main header file.
  */
 
 #include <pjmedia-videodev/videodev.h>
 #include <pjmedia-videodev/videodev_imp.h>
 #include <pjmedia-videodev/avi_dev.h>
 
-#endif  /* __PJMEDIA_VIDEODEV_H__ */
+#endif	/* __PJMEDIA_VIDEODEV_H__ */
