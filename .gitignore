@@ -215,3 +215,6 @@ xcuserdata/
 /pjsip/
 .vscode/*
 /lib/
+iphoneos
+iphonesimulator
+Pod
