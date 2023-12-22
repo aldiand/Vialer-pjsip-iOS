@@ -4,5 +4,5 @@
 #define PJSIP_AUTH_AUTO_SEND_NEXT 1
 #define PJSUA_DISABLE_AUTO_SEND_100 1
 #define PJSUA_HAS_VIDEO 0
-#define  PJ_ACTIVESOCK_TCP_IPHONE_OS_BG 0
+#define PJ_ACTIVESOCK_TCP_IPHONE_OS_BG 0
 #include <VialerPJSIP/pj/config_site_sample.h>
