@@ -218,3 +218,5 @@ xcuserdata/
 iphoneos
 iphonesimulator
 Pod
+release.tar.gz
+dist
